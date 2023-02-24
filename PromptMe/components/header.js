@@ -4,7 +4,7 @@ import {useFonts} from 'expo-font';
 
 const header = () =>  {
   const [fontsLoaded] = useFonts({
-    'Stay-Classy': require('../assets/fonts/Stay-Classy-SLDT.otf'),
+    'Stay-Classy': require('../assets/fonts/Stay-Classy-SLDT.otf'), // Stay Classy Font by Solid Type, Free for personal and commercial use https://www.behance.net/gallery/62208651/Stay-Classy-Free-Font
 });
 
 if(!fontsLoaded) {
