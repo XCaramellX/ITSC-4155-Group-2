@@ -11,25 +11,22 @@ if(!fontsLoaded) {
     return null
 }
   return (
-      <View style={styles.headerContainer}>
-        <StatusBar style="auto" />
-        <Text style={styles.textStyle}>Prompt Me</Text>
+    <View style={styles.backgroundContainer}>
+      <Text style={styles.textStyle}>Prompt Me</Text>
       </View>
-      
   );
   
 }
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    backgroundColor: '#b042ff',
-    width: '100%',
-    height: '10%',
-  },
+  backgroundContainer: {
+    backgroundColor: '#ca8dfd',
+    flexGrow: '0.5',
+    alignItems:'center',
+  }, 
   textStyle: {
     color: 'black',
-    top: '35%',
-    left: '38%',
+    top: '25%',
     fontFamily: 'Stay-Classy',
     fontSize: '35'
   }
