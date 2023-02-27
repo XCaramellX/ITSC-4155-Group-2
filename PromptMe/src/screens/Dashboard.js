@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import Prompt from '../components/prompt';
 import Header from '../components/header';
-import Background from '../components/Background'
+import Background from '../components/Background-prompt'
 import { Children } from 'react/cjs/react.production.min';
 
 
