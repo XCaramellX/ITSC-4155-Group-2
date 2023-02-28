@@ -13,6 +13,9 @@ export default function Background({children}) {
 const styles = StyleSheet.create({
   scrollContainer: {
     backgroundColor: theme.colors.background,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    flexGrow: 1,
+    flexDirection: 'column',
+   
   },
 })

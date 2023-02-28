@@ -8,6 +8,7 @@ import Background from '../components/Background_Prompt'
 
 
 export default function Dashboard() {
+  
   return (
     <Background>
       <StatusBar style="auto" />
@@ -17,7 +18,9 @@ export default function Dashboard() {
       </View>
     </Background>
   );
+  
 }
+
 
 const styles = StyleSheet.create({
   backgroundContainer: {
