@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { FlatList, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { useState } from 'react';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
@@ -18,8 +19,7 @@ const prompt = () =>  {
     {data: 'Dummy Data 10', key: 10},
   ])
   return (
-    
-      <View style={styles.promptHolder}>
+    <ScrollView contentContainerStyle={styles.scrollViewHolder}>
       {text_list.map(item => (
       <View style={styles.promptOutterContainer} key={item.key}>
         <StatusBar style="auto" />
@@ -27,12 +27,19 @@ const prompt = () =>  {
         <Text>{item.data}</Text>
       </View>
       ))}
-      </View>
+  </ScrollView>
   );
-  S
+  
 }
 
 const styles = StyleSheet.create({
+  scrollViewHolder: {
+    backgroundColor: 'white',
+    width: '70%',
+    flexGrow: 1,
+    top: '10%',
+  },
+
   promptHolder: {
     backgroundColor: 'white',
     width: '70%',

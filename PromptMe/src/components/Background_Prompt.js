@@ -4,18 +4,17 @@ import { theme } from '../themes/sign-in-theme'
 
 export default function Background({children}) {
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <ScrollView>
         {children}
       </ScrollView>
   )
 }
 
-const styles = StyleSheet.create({
-  scrollContainer: {
+/*const styles = StyleSheet.create({
+  backgroundContainer: {
     backgroundColor: theme.colors.background,
-    justifyContent: 'flex-start',
-    flexGrow: 1,
-    flexDirection: 'column',
-   
+    alignContent: 'center',
+    flexGrow: 1
   },
 })
+*/
