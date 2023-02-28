@@ -1,30 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { FlatList,StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { useState } from 'react';
 import Prompt from '../components/prompt';
 import Header from '../components/header';
-import Background from '../components/Background-prompt'
-import { Children } from 'react/cjs/react.production.min';
+import Background from '../components/Background_Prompt'
 
 
 export default function Dashboard() {
   return (
     <Background>
       <StatusBar style="auto" />
-      <ScrollView contentContainerStyle={styles.backgroundContainer}>
+      <View style={styles.backgroundContainer}>
         <Header />
-        <Prompt />
-      </ScrollView>
+        <Prompt/>
+      </View>
     </Background>
   );
 }
 
 const styles = StyleSheet.create({
   backgroundContainer: {
-    backgroundColor: '#ca8dfd',
+    backgroundColor: 'white',
     alignItems: 'center',
     flexGrow: 1,
-    
   },
 });
