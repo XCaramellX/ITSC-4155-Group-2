@@ -21,12 +21,12 @@ if(!fontsLoaded) {
 const styles = StyleSheet.create({
   backgroundContainer: {
     backgroundColor: 'white',
-    flexGrow: '0.5',
     alignItems:'center',
   }, 
   textStyle: {
     color: 'black',
-    top: '100%',
+    top: '70%',
+    marginBottom: '20%',
     fontFamily: 'Stay-Classy',
     fontSize: '35'
   }

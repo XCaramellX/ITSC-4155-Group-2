@@ -10,9 +10,7 @@ import {
 } from "react-native";
 import { theme } from '../themes/sign-in-theme'
 import { useState } from "react";
-import Prompt from "../components/prompt";
 import Header from "../components/header";
-import Background from "../components/Background_Prompt";
 
 export default function Dashboard() {
   const [data, setData] = useState([
@@ -29,20 +27,21 @@ export default function Dashboard() {
   ]);
 
   return (
-      <View style={styles.container}>
+    <View>
         <ScrollView>
         <Header />
-          <View>
+          <View style={styles.promptHolder}>
             {data.map((item) => {
               return (
-                <View key={item.key}>
+                <View style={styles.promptOutterContainer} key={item.key}>
+                  <View style={styles.promptInnerContainer}/>
                   <Text style={styles.item}>{item.data}</Text>
                 </View>
               );
             })}
           </View>
         </ScrollView>
-      </View>
+        </View>
   );
 }
 
@@ -60,20 +59,22 @@ const styles = StyleSheet.create({
     marginTop: 24,
     padding: 30,
     width: "100%",
-    backgroundColor: "#9300ff",
     fontSize: 24,
   },
 
   promptHolder: {
     backgroundColor: "white",
-    width: "70%",
     flexGrow: 1,
-    top: "10%",
+    paddingTop: 50,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    flex: 1,
   },
   promptOutterContainer: {
     backgroundColor: "white",
     borderRadius: "20",
-    height: "15%",
+    width: "70%",
+    height: "25%",
     shadowColor: "grey",
     marginBottom: "5%",
     shadowOpacity: "0.7",
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
   },
   promptInnerContainer: {
     backgroundColor: "#9300ff",
-    height: "20%",
+    height: "15%",
     borderTopLeftRadius: "20",
     borderTopRightRadius: "20",
   },
