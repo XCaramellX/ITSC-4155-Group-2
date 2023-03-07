@@ -7,6 +7,7 @@ import {
   View,
   SafeAreaView,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import { theme } from '../themes/sign-in-theme'
 import { useState } from "react";
@@ -25,10 +26,14 @@ export default function Dashboard() {
     { data: "Dummy Data 9", key: 9 },
     { data: "Dummy Data 10", key: 10 },
   ]);
+ 
+
+   
 
   return (
-    <View>
-        <ScrollView>
+    <View >
+       <StatusBar></StatusBar>
+        <ScrollView contentContainerStyle={styles.scrollView} >
         <Header />
           <View style={styles.promptHolder}>
             {data.map((item) => {
@@ -40,15 +45,19 @@ export default function Dashboard() {
               );
             })}
           </View>
-        </ScrollView>
+        </ScrollView> 
         </View>
   );
+          
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+   layoutMesasurement: {}
+   
+  },
   container: {
     backgroundColor: theme.colors.background,
-    flex: 1,
     paddingTop: 40,
     paddingHorizontal: 20,
     top: "5%",
@@ -58,23 +67,21 @@ const styles = StyleSheet.create({
   item: {
     marginTop: 24,
     padding: 30,
-    width: "100%",
     fontSize: 24,
   },
 
   promptHolder: {
     backgroundColor: "white",
-    flexGrow: 1,
     paddingTop: 50,
     paddingHorizontal: 20,
     alignItems: 'center',
-    flex: 1,
+
   },
   promptOutterContainer: {
     backgroundColor: "white",
     borderRadius: "20",
     width: "70%",
-    height: "25%",
+    height: "10%",
     shadowColor: "grey",
     marginBottom: "5%",
     shadowOpacity: "0.7",
