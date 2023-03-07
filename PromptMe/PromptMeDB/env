@@ -1,2 +1,0 @@
-DB_URI=mongodb+srv://PromptMeAdmin:k5X3KCgw4jLfNoZU@promptmedb.qjaddr8.mongodb.net/?retryWrites=true&w=majority
-JWT_SECRET=this_is_a_secret

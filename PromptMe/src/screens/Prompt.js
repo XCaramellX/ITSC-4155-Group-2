@@ -31,7 +31,7 @@ export default function Dashboard() {
    
 
   return (
-    <View >
+    <View>
        <StatusBar></StatusBar>
         <ScrollView contentContainerStyle={styles.scrollView} >
         <Header />
