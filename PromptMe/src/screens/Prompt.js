@@ -31,9 +31,10 @@ export default function Dashboard() {
    
 
   return (
-    <View>
-       <StatusBar></StatusBar>
+   
+       
         <ScrollView contentContainerStyle={styles.scrollView} >
+          <StatusBar></StatusBar>
         <Header />
           <View style={styles.promptHolder}>
             {data.map((item) => {
@@ -46,7 +47,7 @@ export default function Dashboard() {
             })}
           </View>
         </ScrollView> 
-        </View>
+        
   );
           
 }
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
   promptInnerContainer: {
     backgroundColor: "#9300ff",
     height: "15%",
-    borderTopLeftRadius: "20",
+    
     
   },
 });
