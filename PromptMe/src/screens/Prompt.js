@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import * as React from "react";
+import * as React from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -8,12 +8,13 @@ import {
   SafeAreaView,
   ScrollView,
   Dimensions,
+  TouchableOpacity
 } from "react-native";
 import { theme } from '../themes/sign-in-theme'
 import { useState } from "react";
 import Header from "../components/header";
 
-export default function Dashboard() {
+export default function Prompt({navigation}) {
   const [data, setData] = useState([
     { data: "Dummy Data 1", key: 1 },
     { data: "Dummy Data 2", key: 2 },
@@ -28,41 +29,39 @@ export default function Dashboard() {
   ]);
  
 
-   
-
   return (
-   
+
        
-        <ScrollView contentContainerStyle={styles.scrollView} >
-          <StatusBar></StatusBar>
+        <View>
+          
+        <ScrollView contentContainerStyle={styles.scrollView}>
         <Header />
+          <StatusBar></StatusBar>
+          
           <View style={styles.promptHolder}>
             {data.map((item) => {
               return (
-                <View style={styles.promptOutterContainer} key={item.key}>
-                  <View style={styles.promptInnerContainer}/>
+                <TouchableOpacity style={styles.promptOutterContainer} onPress={() => navigation.replace('MainFeed')} key={item.key}>
+                <View style={styles.promptInnerContainer1}>
+                  <View style={styles.promptInnerContainer2}/>
                   <Text style={styles.item}>{item.data}</Text>
                 </View>
+                </TouchableOpacity>
               );
             })}
           </View>
         </ScrollView> 
+        </View>
+      
         
   );
           
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
-   layoutMesasurement: {}
-   
-  },
   container: {
-    backgroundColor: theme.colors.background,
-    paddingTop: 40,
-    paddingHorizontal: 20,
-    top: "5%",
-    alignItems: "center",
+   backgroundColor: 'white'
+   
   },
 
   item: {
@@ -88,10 +87,21 @@ const styles = StyleSheet.create({
     shadowOpacity: "0.7",
     shadowOffset: { width: -2, height: 4 },
   },
-  promptInnerContainer: {
+
+  promptInnerContainer1: {
+    backgroundColor: "white",
+    borderRadius: "20",
+    height: "100%",
+    shadowColor: "grey",
+    marginBottom: "5%",
+    shadowOpacity: "0.7",
+    shadowOffset: { width: -2, height: 4 },
+  },
+
+  promptInnerContainer2: {
     backgroundColor: "#9300ff",
     height: "15%",
-    
-    
+    borderTopLeftRadius: '20%',
+    borderTopRightRadius: '20%'
   },
 });

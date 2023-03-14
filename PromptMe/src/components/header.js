@@ -11,7 +11,7 @@ if(!fontsLoaded) {
     return null
 }
   return (
-    <View style={styles.backgroundContainer}>
+   <View style={styles.backgroundContainer}>
       <Text style={styles.textStyle}>Prompt Me</Text>
       </View>
   );
@@ -21,12 +21,13 @@ if(!fontsLoaded) {
 const styles = StyleSheet.create({
   backgroundContainer: {
     backgroundColor: 'white',
-    alignItems:'center',
+   
   }, 
   textStyle: {
     color: 'black',
-    top: '70%',
-    marginBottom: '20%',
+    top: "50%",
+    marginBottom: '10%',
+    alignSelf: 'center',
     fontFamily: 'Stay-Classy',
     fontSize: '35'
   }

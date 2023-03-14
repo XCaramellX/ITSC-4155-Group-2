@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, KeyboardAvoidingView } from 'react-native'
 import { theme } from '../themes/sign-in-theme'
 
-export default function Background({ children}) {
+export default function Background({children}) {
   
   return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
