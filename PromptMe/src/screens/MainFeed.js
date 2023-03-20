@@ -22,25 +22,48 @@ import {
         index: 0,
         routes: [{ name: 'Prompt'}]
     })
+
+    const [otherUserData] = useState([
+        {data: "dummy data", key: 1},
+        {data: "dummy data", key: 2},
+        {data: "dummy data", key: 3},
+        {data: "dummy data", key: 4},
+        
+    ])
+
+    const[newPostData] = useState([
+        {newPostData: "dummy data", newPostKey: 1}
+    ])
+
     return (
     <View>
         <StatusBar></StatusBar>
         <ScrollView contentContainerStyle={styles.scrollView}>
-        <Header/> 
-        <BackButton goBack={onGoBack}/>  
-        <Text style={styles.homeText}>Home</Text>
-        <Text style={styles.homeTextUser}>Your Newest Post:</Text>
+            <Header/> 
+            <BackButton goBack={onGoBack}/>  
+            <Text style={styles.homeText}>Home</Text>
+            <Text style={styles.homeTextUser}>Your Newest Post:</Text>
+            
         <View style={styles.homeOutterContainer}>
-            <View style={styles.homeInnerContainer}>
+        {newPostData.map((postItem) => {
+                return(
+            <View style={styles.homeInnerContainer} key={postItem.newPostKey}>
                 
                 
             </View>
-            <View style={styles.homeInnerContainer1}>
-                
+           
+           )
+        })}
+            <Text style={styles. homeTextOtherUser}>Other Posts:</Text>
+            {otherUserData.map((userItem) => {
+                return(
+            
+            <View style={styles.homeInnerContainer1} key={userItem.key}>
                 
             </View>
+                )
+             })}
         </View>
-        <Text style={styles. homeTextOtherUser}>Other Posts:</Text>
         </ScrollView>  
     </View>
     )
@@ -48,12 +71,10 @@ import {
   
   const styles = StyleSheet.create ({
     scrollView: {
-        minHeight: "100%"
+        height: "100%"
     },
     homeOutterContainer: {
         backgroundColor: 'white',
-        width: "100%",
-        height: "100%",
         paddingTop: "10%",
         alignItems: "center"
     },
@@ -61,7 +82,7 @@ import {
        backgroundColor: 'white',
        borderRadius: "20",
        width: "90%",
-       height: "35%",
+       height: "20%",
        shadowColor: "grey",
        marginBottom: "5%",
        shadowOpacity: "0.7",
@@ -71,9 +92,8 @@ import {
     homeInnerContainer1: {
        backgroundColor: 'white',
        borderRadius: "20",
-       top: "13%",
        width: "90%",
-       height: "35%",
+       height: "20%",
        shadowColor: "grey",
        marginBottom: "5%",
        shadowOpacity: "0.7",
@@ -96,8 +116,10 @@ import {
     },
 
     homeTextOtherUser: {
-        bottom: "55%",
+        backgroundColor: 'white',
         paddingLeft: "5%",
+        marginBottom: "10%",
+        alignSelf: "flex-start",
         fontWeight: 'bold',
         fontSize: "15%"
     }
