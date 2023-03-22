@@ -36,18 +36,19 @@ import {
     ])
 
     return (
-    <View>
-        <StatusBar></StatusBar>
+   
+        
         <ScrollView contentContainerStyle={styles.scrollView}>
             <Header/> 
+            <StatusBar></StatusBar>
             <BackButton goBack={onGoBack}/>  
             <Text style={styles.homeText}>Home</Text>
             <Text style={styles.homeTextUser}>Your Newest Post:</Text>
             
-        <View style={styles.homeOutterContainer}>
+        
         {newPostData.map((postItem) => {
                 return(
-            <View style={styles.homeInnerContainer} key={postItem.newPostKey}>
+            <View style={styles.homeInnerContainer1} key={postItem.newPostKey}>
                 
                 
             </View>
@@ -58,44 +59,45 @@ import {
             {otherUserData.map((userItem) => {
                 return(
             
-            <View style={styles.homeInnerContainer1} key={userItem.key}>
+            <View style={styles.homeInnerContainer2} key={userItem.key}>
                 
             </View>
                 )
              })}
-        </View>
+   
         </ScrollView>  
-    </View>
+  
     )
   }  
   
   const styles = StyleSheet.create ({
     scrollView: {
-        height: "100%"
+        backgroundColor: "white",
+        
+        
     },
-    homeOutterContainer: {
-        backgroundColor: 'white',
-        paddingTop: "10%",
-        alignItems: "center"
-    },
-    homeInnerContainer: {
+    homeInnerContainer1: {
        backgroundColor: 'white',
        borderRadius: "20",
        width: "90%",
-       height: "20%",
+       padding: "30%",
        shadowColor: "grey",
+       marginTop: "5%",
+       marginLeft: "5%",
        marginBottom: "5%",
        shadowOpacity: "0.7",
        shadowOffset: { width: -2, height: 2 },
     },  
 
-    homeInnerContainer1: {
+    homeInnerContainer2: {
        backgroundColor: 'white',
        borderRadius: "20",
        width: "90%",
-       height: "20%",
-       shadowColor: "grey",
+       padding: "30%",
+       marginTop: "5%",
+       marginLeft: "5%",
        marginBottom: "5%",
+       shadowColor: "grey",
        shadowOpacity: "0.7",
        shadowOffset: { width: -2, height: 2 },
     },  
@@ -118,7 +120,7 @@ import {
     homeTextOtherUser: {
         backgroundColor: 'white',
         paddingLeft: "5%",
-        marginBottom: "10%",
+      
         alignSelf: "flex-start",
         fontWeight: 'bold',
         fontSize: "15%"

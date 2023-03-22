@@ -14,6 +14,7 @@ import { theme } from '../themes/sign-in-theme'
 import { useState } from "react";
 import Header from "../components/header";
 
+
 export default function Prompt({navigation}) {
   const [data, setData] = useState([
     { data: "Dummy Data 1", key: 1 },
@@ -26,6 +27,8 @@ export default function Prompt({navigation}) {
     { data: "Dummy Data 8", key: 8 },
     { data: "Dummy Data 9", key: 9 },
     { data: "Dummy Data 10", key: 10 },
+    { data: "Dummy Data 11", key: 11 },
+    { data: "Dummy Data 12", key: 12 },
   ]);
  
 
@@ -34,22 +37,19 @@ export default function Prompt({navigation}) {
        
         <View>
           
-        <ScrollView contentContainerStyle={styles.scrollView}>
+        <ScrollView contentContainerStyle={styles.promptHolder}>
         <Header />
           <StatusBar></StatusBar>
-          
-          <View style={styles.promptHolder}>
             {data.map((item) => {
               return (
                 <TouchableOpacity style={styles.promptOutterContainer} onPress={() => navigation.replace('MainFeed')} key={item.key}>
-                <View style={styles.promptInnerContainer1}>
-                  <View style={styles.promptInnerContainer2}/>
+                
+                 <View style={styles.promptDesign}></View>
                   <Text style={styles.item}>{item.data}</Text>
-                </View>
+                
                 </TouchableOpacity>
               );
             })}
-          </View>
         </ScrollView> 
         </View>
       
@@ -59,10 +59,7 @@ export default function Prompt({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-   backgroundColor: 'white'
-   
-  },
+
 
   item: {
     marginTop: 24,
@@ -72,36 +69,29 @@ const styles = StyleSheet.create({
 
   promptHolder: {
     backgroundColor: "white",
-    paddingTop: 50,
+   
     paddingHorizontal: 20,
     alignItems: 'center',
 
   },
+
+  promptDesign: {
+    backgroundColor: "#9300ff",
+    paddingBottom: 30,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20
+  }, 
   promptOutterContainer: {
     backgroundColor: "white",
     borderRadius: "20",
     width: "70%",
-    height: "10%",
+    paddingBottom: "20%",
     shadowColor: "grey",
+    marginTop: "10%",
     marginBottom: "5%",
     shadowOpacity: "0.7",
     shadowOffset: { width: -2, height: 4 },
   },
 
-  promptInnerContainer1: {
-    backgroundColor: "white",
-    borderRadius: "20",
-    height: "100%",
-    shadowColor: "grey",
-    marginBottom: "5%",
-    shadowOpacity: "0.7",
-    shadowOffset: { width: -2, height: 4 },
-  },
 
-  promptInnerContainer2: {
-    backgroundColor: "#9300ff",
-    height: "15%",
-    borderTopLeftRadius: '20%',
-    borderTopRightRadius: '20%'
-  },
 });
