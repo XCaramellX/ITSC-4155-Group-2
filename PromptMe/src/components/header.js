@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import {useFonts} from 'expo-font';
 
-const header = () =>  {
+const header2 = () =>  {
   const [fontsLoaded] = useFonts({
     'Stay-Classy': require('../assets/fonts/Stay-Classy-SLDT.otf'), // Stay Classy Font by Solid Type, Free for personal and commercial use https://www.behance.net/gallery/62208651/Stay-Classy-Free-Font
 });
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   }, 
   textStyle: {
     color: 'black',
-    top: "50%",
+    top: "25%",
     marginBottom: '10%',
     alignSelf: 'center',
     fontFamily: 'Stay-Classy',
@@ -33,4 +33,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default header;
+export default header2;

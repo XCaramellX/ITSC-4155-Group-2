@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { Text } from 'react-native-paper'
+import SelectDropdown from 'react-native-select-dropdown'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import axios from 'axios'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Background from '../components/Background'
 import Header from '../components/Sign-In-Header'
 import Button from '../components/Button'
@@ -11,21 +15,27 @@ import { emailValidator } from '../validators/emailValidator'
 import { passwordValidator } from '../validators/passwordValidator'
 import { nameValidator } from '../validators/nameValidator'
 
+const {width} = Dimensions.get('window');
+
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' })
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
+  const category = ["Art", "Music", "Writing"]
+  const experience = ["Beginner", "Intermediate", "Expert"]
 
-  const onSignUpPressed = () => {
+  const onSignUpPressed = async () => {
     const nameError = nameValidator(name.value)
     const emailError = emailValidator(email.value)
     const passwordError = passwordValidator(password.value)
     if (emailError || passwordError || nameError) {
-      setName({ ...name, error: nameError })
-      setEmail({ ...email, error: emailError })
-      setPassword({ ...password, error: passwordError })
+      alert("All fields must be filled out")
       return
     }
+
+   /* const resp = await axios.post("http://localhost:8000/api/signup", {name, email, password, category, experience});
+    console.log(resp.data);*/
+
     navigation.reset({
       index: 0,
       routes: [{ name: 'Prompt' }],
@@ -65,6 +75,50 @@ export default function RegisterScreen({ navigation }) {
         errorText={password.error}
         secureTextEntry
       />
+      <SelectDropdown
+        defaultButtonText='Please select a category'
+        data={category}
+        onSelect={(selectedItem, index) =>{
+          console.log(selectedItem, index)
+        }}
+        buttonTextAfterSelection={(selectedItem, index) => {
+          return selectedItem
+        }}
+        rowTextForSelection={(item, index) => {
+          return item
+        }}
+        buttonStyle = {styles.dropDown}
+        buttonTextStyle={styles.dropdownBtnTxtStyle}
+        renderDropdownIcon={isOpened => {
+              return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={theme.colors.primary} size={18} />;
+            }}
+        dropdownIconPosition={'right'}
+        dropdownStyle={styles.dropdownDropdownStyle}
+        rowStyle={styles.dropdownRowStyle}
+        rowTextStyle={styles.dropdownRowTxtStyle}
+      />
+      <SelectDropdown
+        defaultButtonText='Please select an experience level'
+        data={experience}
+        onSelect={(selectedItem, index) =>{
+          console.log(selectedItem, index)
+        }}
+        buttonTextAfterSelection={(selectedItem, index) => {
+          return selectedItem
+        }}
+        rowTextForSelection={(item, index) => {
+          return item
+        }}
+        buttonStyle = {styles.dropDown}
+        buttonTextStyle={styles.dropdownBtnTxtStyle}
+        renderDropdownIcon={isOpened => {
+              return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={theme.colors.primary} size={18} />;
+            }}
+        dropdownIconPosition={'right'}
+        dropdownStyle={styles.dropdownDropdownStyle}
+        rowStyle={styles.dropdownRowStyle}
+        rowTextStyle={styles.dropdownRowTxtStyle}
+      />
       <Button
         mode="contained"
         onPress={onSignUpPressed}
@@ -91,4 +145,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: theme.colors.primary,
   },
+  dropDown: {
+    marginTop: 4,
+    width: '100%',
+    height: 45,
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#444',
+    justifyContent: 'center',
+  },
+  dropdownBtnTxtStyle: {color: '#444', textAlign: 'center'},
+  dropdownDropdownStyle: {backgroundColor: '#EFEFEF'},
+  dropdownRowStyle: {backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5'},
+  dropdownRowTxtStyle: {color: '#444', textAlign: 'center'},
+  header: {textAlign: 'center'}
 })
