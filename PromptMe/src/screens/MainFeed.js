@@ -73,7 +73,7 @@ import {
   const styles = StyleSheet.create ({
     scrollView: {
         backgroundColor: "white",
-        
+        paddingVertical: "10%"
         
     },
     homeInnerContainer1: {
@@ -104,6 +104,7 @@ import {
     
     homeText: {
         backgroundColor: 'white',
+        color: "#9300ff",
         paddingLeft: "10%",
         paddingBottom: "10%",
         fontWeight: 'bold',
@@ -112,6 +113,7 @@ import {
 
     homeTextUser: {
         backgroundColor: 'white',
+        color: "#9300ff",
         paddingLeft: "5%",
         fontWeight: 'bold',
         fontSize: "15%"
@@ -120,7 +122,7 @@ import {
     homeTextOtherUser: {
         backgroundColor: 'white',
         paddingLeft: "5%",
-      
+        color: "#9300ff",
         alignSelf: "flex-start",
         fontWeight: 'bold',
         fontSize: "15%"

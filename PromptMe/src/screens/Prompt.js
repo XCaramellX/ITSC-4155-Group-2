@@ -29,6 +29,7 @@ export default function Prompt({navigation}) {
     { data: "Dummy Data 10", key: 10 },
     { data: "Dummy Data 11", key: 11 },
     { data: "Dummy Data 12", key: 12 },
+    { data: "Dummy Data 13", key: 13 },
   ]);
  
 
@@ -63,14 +64,15 @@ const styles = StyleSheet.create({
 
   item: {
     marginTop: 24,
-    padding: 30,
+    padding: "5%",
     fontSize: 24,
+    alignSelf: "center"
   },
 
   promptHolder: {
     backgroundColor: "white",
-   
-    paddingHorizontal: 20,
+    paddingHorizontal: "5%",
+    paddingVertical: "10%",
     alignItems: 'center',
 
   },
@@ -88,7 +90,6 @@ const styles = StyleSheet.create({
     paddingBottom: "20%",
     shadowColor: "grey",
     marginTop: "10%",
-    marginBottom: "5%",
     shadowOpacity: "0.7",
     shadowOffset: { width: -2, height: 4 },
   },
