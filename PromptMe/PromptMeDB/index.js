@@ -19,9 +19,18 @@ mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+    origin: "exp://192.168.1.221:19000"
+}));
 app.use(morgan("dev"));
 
-app.use("/api", authRoutes)
+app.use("/api", authRoutes);
 
-app.listen(8000, () => console.log("Server running on port 8000"));
+app.get('/', (req, res) => {
+    res.json({ success: true, message: 'Port Running on server 8000' })
+})
+
+
+const server = app.listen(8000, () => {console.log("Server running on port 8000")});
+
+// Handle unhandled rejections

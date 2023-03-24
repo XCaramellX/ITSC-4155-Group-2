@@ -1,4 +1,4 @@
-import user from "../Models/user.js";
+import User from "../Models/user.js";
 import { hashPassword, comparePassword } from "../BcryptHash/auth.js";
 import jwt from "jsonwebtoken";
 import { nanoid } from "nanoid";

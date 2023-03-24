@@ -1,16 +1,17 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
-import { Text } from 'react-native-paper'
-import { SelectList } from 'react-native-dropdown-select-list'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import axios from 'axios'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import Background from '../components/Background'
-import Header from '../components/Sign-In-Header'
-import Button from '../components/Button'
-import TextInput from '../components/TextInput'
-import BackButton from '../components/BackButton'
-import { theme } from '../themes/sign-in-theme'
+import React, { useState } from 'react';
+import { View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { Text } from 'react-native-paper';
+import { SelectList } from 'react-native-dropdown-select-list';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Background from '../components/Background';
+import Header from '../components/Sign-In-Header';
+import Button from '../components/Button';
+import TextInput from '../components/TextInput';
+import BackButton from '../components/BackButton';
+import { theme } from '../themes/sign-in-theme';
+
 
 
 
@@ -41,15 +42,21 @@ export default function RegisterScreen({ navigation }) {
       alert("All fields must be filled out")
       return
     }
+    
 
-     const resp = await axios.post("http://localhost:8000/api/signup", {name, email, password, category, experience});
-     console.log(resp.data);
+    const resp = await axios.post("http://192.168.1.221:8000/api/signup", { name, email, password, category, experience })
+    console.log(resp.data)
+    alert("Sign in successful")
+  
+   
+  
+    
 
     navigation.reset({
       index: 0,
       routes: [{ name: 'Prompt' }],
     })
-  }
+  };
 
   return (
     <Background>
@@ -58,16 +65,16 @@ export default function RegisterScreen({ navigation }) {
       <TextInput
         label="Name"
         returnKeyType="next"
-        value={name.value}
-        onChangeText={(text) => setName({ value: text, error: '' })}
+        // value={name.value}
+        onChangeText={(text) => setName(text)}
         // error={!!name.error}
         // errorText={name.error}
       />
       <TextInput
         label="Email"
         returnKeyType="next"
-        value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: '' })}
+        // value={email.value}
+        onChangeText={(text) => setEmail(text)}
         // error={!!email.error}
         // errorText={email.error}
         autoCapitalize="none"
@@ -78,8 +85,8 @@ export default function RegisterScreen({ navigation }) {
       <TextInput
         label="Password"
         returnKeyType="done"
-        value={password.value}
-        onChangeText={(text) => setPassword({ value: text, error: '' })}
+        // value={password.value}
+        onChangeText={(text) => setPassword(text)}
         // error={!!password.error}
         // errorText={password.error}
         secureTextEntry

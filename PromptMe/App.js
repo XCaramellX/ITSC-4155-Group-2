@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,12 +12,27 @@ import {
   MainFeed,
   Dashboard,
 } from './src/screens';
-
+import axios from 'axios';
 
 
 const Stack = createStackNavigator();
 
 export default function App() {
+
+  //Fetch api for app to use
+  const fetchApi = async () => {
+    try {
+      const res = await axios.get('http://192.168.1.221:8000/');
+      console.log(res.data);
+    } catch(err) {
+      console.log(err.message);
+    }
+  }
+
+  useEffect(() => {
+    fetchApi()
+  }, []);
+
   return (
     <Provider theme={theme}>
       <NavigationContainer>
