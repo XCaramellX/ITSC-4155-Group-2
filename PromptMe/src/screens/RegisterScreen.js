@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { Text } from 'react-native-paper'
-import SelectDropdown from 'react-native-select-dropdown'
 import { SelectList } from 'react-native-dropdown-select-list'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
@@ -12,30 +11,17 @@ import Button from '../components/Button'
 import TextInput from '../components/TextInput'
 import BackButton from '../components/BackButton'
 import { theme } from '../themes/sign-in-theme'
-import { emailValidator } from '../validators/emailValidator'
-import { passwordValidator } from '../validators/passwordValidator'
-import { nameValidator } from '../validators/nameValidator'
 
-<<<<<<< HEAD
+
+
+
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const categoryData = ["Art", "Music", "Writing"]
-  const experienceData = ["Beginner", "Intermediate", "Expert"]
-  const [category, setCategory] = useState("")
-  const [experience, setExperience] = useState("")
 
-=======
-const { width } = Dimensions.get('window');
-
-export default function RegisterScreen({ navigation }) {
-  const [name, setName] = useState({ value: '', error: '' })
-  const [email, setEmail] = useState({ value: '', error: '' })
-  const [password, setPassword] = useState({ value: '', error: '' })
-
-  const [category, setCategory] = React.useState("");
-  const [experience, setExperience] = React.useState("");
+  const [category, setCategory] = useState("");
+  const [experience, setExperience] = useState("");
 
 
   const categories = [
@@ -49,7 +35,6 @@ export default function RegisterScreen({ navigation }) {
     { key: '2', value: 'Intermediate' },
     { key: '3', value: 'Expert' },
   ];
->>>>>>> d9cb637121da7a1a46e65ea7c9e0c7867f04954b
 
   const onSignUpPressed = async () => {
     if (email == "" || password == "" || name == "" || category == "" || experience == "") {
@@ -57,14 +42,8 @@ export default function RegisterScreen({ navigation }) {
       return
     }
 
-<<<<<<< HEAD
-    const resp = await axios.post("http://localhost:8000/api/signup", {name, email, password, category, experience});
-    console.log(resp.data)
-    alert("Sign up successful")
-=======
-    /* const resp = await axios.post("http://localhost:8000/api/signup", {name, email, password, category, experience});
-     console.log(resp.data);*/
->>>>>>> d9cb637121da7a1a46e65ea7c9e0c7867f04954b
+     const resp = await axios.post("http://localhost:8000/api/signup", {name, email, password, category, experience});
+     console.log(resp.data);
 
     navigation.reset({
       index: 0,
@@ -141,14 +120,8 @@ export default function RegisterScreen({ navigation }) {
 
       {/* <SelectDropdown
         defaultButtonText='Please select a category'
-<<<<<<< HEAD
-        data={categoryData}
-        onSelect={(selectedItem, index) => {
-          setCategory({value: selectedItem})
-=======
         data={category}
         onSelect={(selectedItem, index) => {
->>>>>>> d9cb637121da7a1a46e65ea7c9e0c7867f04954b
           console.log(selectedItem, index)
           console.log(category)
         }}
@@ -171,17 +144,9 @@ export default function RegisterScreen({ navigation }) {
       />
       <SelectDropdown
         defaultButtonText='Please select an experience level'
-<<<<<<< HEAD
-        data={experienceData}
-        onSelect={(selectedItem, index) =>{
-          setExperience({value: selectedItem})
-          console.log(selectedItem, index) 
-          console.log(experience)
-=======
         data={experience}
         onSelect={(selectedItem, index) => {
           console.log(selectedItem, index)
->>>>>>> d9cb637121da7a1a46e65ea7c9e0c7867f04954b
         }}
         buttonTextAfterSelection={(selectedItem, index) => {
           return selectedItem
@@ -189,12 +154,7 @@ export default function RegisterScreen({ navigation }) {
         rowTextForSelection={(item, index) => {
           return item
         }}
-<<<<<<< HEAD
-        
-        buttonStyle = {styles.dropDown}
-=======
         buttonStyle={styles.dropDown}
->>>>>>> d9cb637121da7a1a46e65ea7c9e0c7867f04954b
         buttonTextStyle={styles.dropdownBtnTxtStyle}
         renderDropdownIcon={isOpened => {
           return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={theme.colors.primary} size={18} />;
