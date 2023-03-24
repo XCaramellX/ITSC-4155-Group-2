@@ -25,6 +25,11 @@ export default function StartScreen({ navigation }) {
         Sign Up
       </Button>
 
+      <Button
+      mode="outlined"
+      onPress={() => navigation.navigate('TestScreen')}>
+       Test Screen
+      </Button>
     </Background>
   )
 }

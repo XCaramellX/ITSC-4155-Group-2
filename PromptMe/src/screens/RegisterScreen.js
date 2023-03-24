@@ -15,26 +15,25 @@ import { emailValidator } from '../validators/emailValidator'
 import { passwordValidator } from '../validators/passwordValidator'
 import { nameValidator } from '../validators/nameValidator'
 
-const {width} = Dimensions.get('window');
-
 export default function RegisterScreen({ navigation }) {
-  const [name, setName] = useState({ value: '', error: '' })
-  const [email, setEmail] = useState({ value: '', error: '' })
-  const [password, setPassword] = useState({ value: '', error: '' })
-  const category = ["Art", "Music", "Writing"]
-  const experience = ["Beginner", "Intermediate", "Expert"]
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const categoryData = ["Art", "Music", "Writing"]
+  const experienceData = ["Beginner", "Intermediate", "Expert"]
+  const [category, setCategory] = useState("")
+  const [experience, setExperience] = useState("")
+
 
   const onSignUpPressed = async () => {
-    const nameError = nameValidator(name.value)
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
-    if (emailError || passwordError || nameError) {
+    if (email == "" || password == "" || name == "" || category == "" || experience == "") {
       alert("All fields must be filled out")
       return
     }
 
-   /* const resp = await axios.post("http://localhost:8000/api/signup", {name, email, password, category, experience});
-    console.log(resp.data);*/
+    const resp = await axios.post("http://localhost:8000/api/signup", {name, email, password, category, experience});
+    console.log(resp.data)
+    alert("Sign up successful")
 
     navigation.reset({
       index: 0,
@@ -51,16 +50,16 @@ export default function RegisterScreen({ navigation }) {
         returnKeyType="next"
         value={name.value}
         onChangeText={(text) => setName({ value: text, error: '' })}
-        error={!!name.error}
-        errorText={name.error}
+        // error={!!name.error}
+        // errorText={name.error}
       />
       <TextInput
         label="Email"
         returnKeyType="next"
         value={email.value}
         onChangeText={(text) => setEmail({ value: text, error: '' })}
-        error={!!email.error}
-        errorText={email.error}
+        // error={!!email.error}
+        // errorText={email.error}
         autoCapitalize="none"
         autoCompleteType="email"
         textContentType="emailAddress"
@@ -71,16 +70,19 @@ export default function RegisterScreen({ navigation }) {
         returnKeyType="done"
         value={password.value}
         onChangeText={(text) => setPassword({ value: text, error: '' })}
-        error={!!password.error}
-        errorText={password.error}
+        // error={!!password.error}
+        // errorText={password.error}
         secureTextEntry
       />
       <SelectDropdown
         defaultButtonText='Please select a category'
-        data={category}
-        onSelect={(selectedItem, index) =>{
+        data={categoryData}
+        onSelect={(selectedItem, index) => {
+          setCategory({value: selectedItem})
           console.log(selectedItem, index)
+          console.log(category)
         }}
+        
         buttonTextAfterSelection={(selectedItem, index) => {
           return selectedItem
         }}
@@ -99,9 +101,11 @@ export default function RegisterScreen({ navigation }) {
       />
       <SelectDropdown
         defaultButtonText='Please select an experience level'
-        data={experience}
+        data={experienceData}
         onSelect={(selectedItem, index) =>{
-          console.log(selectedItem, index)
+          setExperience({value: selectedItem})
+          console.log(selectedItem, index) 
+          console.log(experience)
         }}
         buttonTextAfterSelection={(selectedItem, index) => {
           return selectedItem
@@ -109,6 +113,7 @@ export default function RegisterScreen({ navigation }) {
         rowTextForSelection={(item, index) => {
           return item
         }}
+        
         buttonStyle = {styles.dropDown}
         buttonTextStyle={styles.dropdownBtnTxtStyle}
         renderDropdownIcon={isOpened => {
@@ -147,12 +152,13 @@ const styles = StyleSheet.create({
   },
   dropDown: {
     marginTop: 4,
+    marginBottom: 8,
     width: '100%',
     height: 45,
     backgroundColor: '#FFF',
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#444',
+    borderWidth: 2,
+    borderColor: '#9300ff',
     justifyContent: 'center',
   },
   dropdownBtnTxtStyle: {color: '#444', textAlign: 'center'},

@@ -1,16 +1,16 @@
-import User from "../models/user";
-import { hashPassword, comparePassword } from "../BcryptHash/auth";
+import user from "../Models/user.js";
+import { hashPassword, comparePassword } from "../BcryptHash/auth.js";
 import jwt from "jsonwebtoken";
-import nanoid from "nanoid";
-// sendgrid
-require("dotenv").config();
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(process.env.SENDGRID_KEY);
+import { nanoid } from "nanoid";
+import dotenv from "dotenv"
+
+dotenv.config();
+
 export const signup = async (req, res) => {
     console.log("Signup Hit");
     try {
         // validation
-        const { name, email, password } = req.body;
+        const { name, email, password, category, experience } = req.body;
         if (!name) {
             return res.json({
                 error: "Name is required",
@@ -26,6 +26,16 @@ export const signup = async (req, res) => {
                 error: "Password is required and should be 6 characters long",
             });
         }
+        if (category == 'none') {
+            return res.json({
+                error: "Must select a category"
+            })
+        }
+        if (experience == 'none') {
+            return res.json({
+                error: "Must select a cexperience level"
+            })
+        }
         const exist = await User.findOne({ email });
         if (exist) {
             return res.json({
@@ -39,6 +49,8 @@ export const signup = async (req, res) => {
                 name,
                 email,
                 password: hashedPassword,
+                category,
+                experience,
             }).save();
             // create signed token
             const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
@@ -109,15 +121,6 @@ export const forgotPassword = async (req, res) => {
         subject: "Password reset code",
         html: "<h1>Your password  reset code is: {resetCode}</h1>"
     };
-    // send email
-    try {
-        const data = await sgMail.send(emailData);
-        console.log(data);
-        res.json({ ok: true });
-    } catch (err) {
-        console.log(err);
-        res.json({ ok: false });
-    }
 };
 export const resetPassword = async (req, res) => {
     try {

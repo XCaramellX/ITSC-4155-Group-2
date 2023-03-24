@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   }, 
   promptOutterContainer: {
     backgroundColor: "white",
-    borderRadius: "20",
+    borderRadius: 20,
     width: "70%",
     paddingBottom: "20%",
     shadowColor: "grey",

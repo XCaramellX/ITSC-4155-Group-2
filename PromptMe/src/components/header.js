@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     marginBottom: '10%',
     alignSelf: 'center',
     fontFamily: 'Stay-Classy',
-    fontSize: '35'
+    fontSize: 35
   }
 });
 

@@ -78,7 +78,7 @@ import {
     },
     homeInnerContainer1: {
        backgroundColor: 'white',
-       borderRadius: "20",
+       borderRadius: 20,
        width: "90%",
        padding: "30%",
        shadowColor: "grey",
@@ -91,7 +91,7 @@ import {
 
     homeInnerContainer2: {
        backgroundColor: 'white',
-       borderRadius: "20",
+       borderRadius: 20,
        width: "90%",
        padding: "30%",
        marginTop: "5%",

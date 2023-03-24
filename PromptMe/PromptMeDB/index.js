@@ -1,10 +1,14 @@
-const express = require("express");
-require('dotenv').config();
-const mongoose = require("mongoose");
-const cors = require("cors");
+import express from 'express';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import morgan from 'morgan';
+
+import authRoutes from './routes/auth.js';
+
+dotenv.config();
 
 
-const morgan = require("morgan");
 
 const app = express();
 
@@ -18,8 +22,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan("dev"));
 
-app.get('/', (req, res) =>{
-    res.send('<h1 style="color:green;">Port running</h1>');
-});
+app.use("/api", authRoutes)
 
 app.listen(8000, () => console.log("Server running on port 8000"));

@@ -9,6 +9,7 @@ import BackButton from '../components/BackButton'
 import { theme } from '../themes/sign-in-theme'
 import { emailValidator } from '../validators/emailValidator'
 import { passwordValidator } from '../validators/passwordValidator'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -19,7 +20,8 @@ export default function LoginScreen({ navigation }) {
     const passwordError = passwordValidator(password.value)
     if (emailError || passwordError) {
       alert("All fields must be filled out");
-      return
+      return;
+    } else {
     }
     navigation.reset({
       index: 0,
