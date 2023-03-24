@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { Text } from 'react-native-paper'
 import SelectDropdown from 'react-native-select-dropdown'
+import { SelectList } from 'react-native-dropdown-select-list'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -15,6 +16,7 @@ import { emailValidator } from '../validators/emailValidator'
 import { passwordValidator } from '../validators/passwordValidator'
 import { nameValidator } from '../validators/nameValidator'
 
+<<<<<<< HEAD
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -24,6 +26,30 @@ export default function RegisterScreen({ navigation }) {
   const [category, setCategory] = useState("")
   const [experience, setExperience] = useState("")
 
+=======
+const { width } = Dimensions.get('window');
+
+export default function RegisterScreen({ navigation }) {
+  const [name, setName] = useState({ value: '', error: '' })
+  const [email, setEmail] = useState({ value: '', error: '' })
+  const [password, setPassword] = useState({ value: '', error: '' })
+
+  const [category, setCategory] = React.useState("");
+  const [experience, setExperience] = React.useState("");
+
+
+  const categories = [
+    { key: '1', value: 'Art' },
+    { key: '2', value: 'Music' },
+    { key: '3', value: 'Writing' },
+  ];
+
+  const experiences = [
+    { key: '1', value: 'Beginner' },
+    { key: '2', value: 'Intermediate' },
+    { key: '3', value: 'Expert' },
+  ];
+>>>>>>> d9cb637121da7a1a46e65ea7c9e0c7867f04954b
 
   const onSignUpPressed = async () => {
     if (email == "" || password == "" || name == "" || category == "" || experience == "") {
@@ -31,9 +57,14 @@ export default function RegisterScreen({ navigation }) {
       return
     }
 
+<<<<<<< HEAD
     const resp = await axios.post("http://localhost:8000/api/signup", {name, email, password, category, experience});
     console.log(resp.data)
     alert("Sign up successful")
+=======
+    /* const resp = await axios.post("http://localhost:8000/api/signup", {name, email, password, category, experience});
+     console.log(resp.data);*/
+>>>>>>> d9cb637121da7a1a46e65ea7c9e0c7867f04954b
 
     navigation.reset({
       index: 0,
@@ -74,11 +105,50 @@ export default function RegisterScreen({ navigation }) {
         // errorText={password.error}
         secureTextEntry
       />
-      <SelectDropdown
+      <SelectList
+        onSelect={() => console.log(category)}
+        setSelected={(value) => setCategory(value)}
+        data={categories}
+        save="value"
+        placeholder='Please select a category'
+        inputStyles={{
+          fontSize: 18,
+          color: theme.colors.secondary,
+        }}
+        boxStyles={{
+          borderRadius: 5,
+          width: '100%',
+          marginVertical: 12,
+        }}
+      />
+      <SelectList
+        onSelect={() => console.log(experience)}
+        setSelected={(value) => setExperience(value)}
+        data={experiences}
+        save="value"
+        search={false}
+        placeholder='Please select an experience level'
+        inputStyles={{
+          fontSize: 18,
+          color: theme.colors.secondary,
+        }}
+        boxStyles={{
+          borderRadius: 5,
+          width: '100%',
+          marginVertical: 12,
+        }}
+      />
+
+      {/* <SelectDropdown
         defaultButtonText='Please select a category'
+<<<<<<< HEAD
         data={categoryData}
         onSelect={(selectedItem, index) => {
           setCategory({value: selectedItem})
+=======
+        data={category}
+        onSelect={(selectedItem, index) => {
+>>>>>>> d9cb637121da7a1a46e65ea7c9e0c7867f04954b
           console.log(selectedItem, index)
           console.log(category)
         }}
@@ -89,11 +159,11 @@ export default function RegisterScreen({ navigation }) {
         rowTextForSelection={(item, index) => {
           return item
         }}
-        buttonStyle = {styles.dropDown}
+        buttonStyle={styles.dropDown}
         buttonTextStyle={styles.dropdownBtnTxtStyle}
         renderDropdownIcon={isOpened => {
-              return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={theme.colors.primary} size={18} />;
-            }}
+          return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={theme.colors.primary} size={18} />;
+        }}
         dropdownIconPosition={'right'}
         dropdownStyle={styles.dropdownDropdownStyle}
         rowStyle={styles.dropdownRowStyle}
@@ -101,11 +171,17 @@ export default function RegisterScreen({ navigation }) {
       />
       <SelectDropdown
         defaultButtonText='Please select an experience level'
+<<<<<<< HEAD
         data={experienceData}
         onSelect={(selectedItem, index) =>{
           setExperience({value: selectedItem})
           console.log(selectedItem, index) 
           console.log(experience)
+=======
+        data={experience}
+        onSelect={(selectedItem, index) => {
+          console.log(selectedItem, index)
+>>>>>>> d9cb637121da7a1a46e65ea7c9e0c7867f04954b
         }}
         buttonTextAfterSelection={(selectedItem, index) => {
           return selectedItem
@@ -113,17 +189,21 @@ export default function RegisterScreen({ navigation }) {
         rowTextForSelection={(item, index) => {
           return item
         }}
+<<<<<<< HEAD
         
         buttonStyle = {styles.dropDown}
+=======
+        buttonStyle={styles.dropDown}
+>>>>>>> d9cb637121da7a1a46e65ea7c9e0c7867f04954b
         buttonTextStyle={styles.dropdownBtnTxtStyle}
         renderDropdownIcon={isOpened => {
-              return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={theme.colors.primary} size={18} />;
-            }}
+          return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={theme.colors.primary} size={18} />;
+        }}
         dropdownIconPosition={'right'}
         dropdownStyle={styles.dropdownDropdownStyle}
         rowStyle={styles.dropdownRowStyle}
         rowTextStyle={styles.dropdownRowTxtStyle}
-      />
+      /> */}
       <Button
         mode="contained"
         onPress={onSignUpPressed}
@@ -161,9 +241,9 @@ const styles = StyleSheet.create({
     borderColor: '#9300ff',
     justifyContent: 'center',
   },
-  dropdownBtnTxtStyle: {color: '#444', textAlign: 'center'},
-  dropdownDropdownStyle: {backgroundColor: '#EFEFEF'},
-  dropdownRowStyle: {backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5'},
-  dropdownRowTxtStyle: {color: '#444', textAlign: 'center'},
-  header: {textAlign: 'center'}
+  dropdownBtnTxtStyle: { color: '#444', textAlign: 'center' },
+  dropdownDropdownStyle: { backgroundColor: '#EFEFEF' },
+  dropdownRowStyle: { backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5' },
+  dropdownRowTxtStyle: { color: '#444', textAlign: 'center' },
+  header: { textAlign: 'center' }
 })
