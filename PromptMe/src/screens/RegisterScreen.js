@@ -46,7 +46,7 @@ export default function RegisterScreen({ navigation }) {
 
     const resp = await axios.post("http://192.168.1.221:8000/api/signup", { name, email, password, category, experience })
     console.log(resp.data)
-    alert("Sign in successful")
+    alert("Sign up successful")
   
    
   
