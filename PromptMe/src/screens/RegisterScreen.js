@@ -21,8 +21,8 @@ export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const [category, setCategory] = useState("");
-  const [experience, setExperience] = useState("");
+  const [category, setCategory] = useState(" ");
+  const [experience, setExperience] = useState(" ");
 
 
   const categories = [
@@ -38,24 +38,27 @@ export default function RegisterScreen({ navigation }) {
   ];
 
   const onSignUpPressed = async () => {
-    if (email == "" || password == "" || name == "" || category == "" || experience == "") {
+    if (email == "" || password == "" || name == "") {
       alert("All fields must be filled out")
       return
     }
     
 
-    const resp = await axios.post("http://192.168.1.221:8000/api/signup", { name, email, password, category, experience })
-    console.log(resp.data)
-    alert("Sign up successful")
-  
+    const resp = await axios.post("http://192.168.1.221:8000/api/signup", { name, email, password, category, experience });
+    if (resp.data.error) {
+      alert(resp.data.error);
+    } else {
+      alert("Sign up Successful");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Prompt' }],
+      });
+    }
    
   
     
 
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Prompt' }],
-    })
+   
   };
 
   return (

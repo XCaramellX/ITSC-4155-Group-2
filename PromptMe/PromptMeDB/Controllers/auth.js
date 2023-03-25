@@ -7,6 +7,8 @@ import dotenv from "dotenv"
 dotenv.config();
 
 export const signup = async (req, res) => {
+    const re = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+
     console.log("Signup Hit");
     try {
         // validation
@@ -20,18 +22,22 @@ export const signup = async (req, res) => {
             return res.json({
                 error: "Email is required",
             });
+        } else if (!re.test(email)) {
+            return res.json({
+                error: "Please use valid email address!"
+            });
         }
         if (!password || password.length < 6) {
             return res.json({
                 error: "Password is required and should be 6 characters long",
             });
         }
-        if (category == 'none') {
+        if (category == " ") {
             return res.json({
                 error: "Must select a category"
             })
         }
-        if (experience == 'none') {
+        if (experience == " ") {
             return res.json({
                 error: "Must select a cexperience level"
             })

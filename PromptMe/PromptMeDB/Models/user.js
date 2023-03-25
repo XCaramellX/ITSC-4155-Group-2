@@ -22,12 +22,12 @@ const userSchema = new Schema({
     },
     category: {
         type: String,
-        default: "none",
+        default: " ",
         required: true,
     },
     experience: {
         type: String,
-        default: "none",
+        default: " ",
         required: true,
     },
 },
