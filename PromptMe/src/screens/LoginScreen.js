@@ -7,26 +7,29 @@ import Button from '../components/Button'
 import TextInput from '../components/TextInput'
 import BackButton from '../components/BackButton'
 import { theme } from '../themes/sign-in-theme'
-import { emailValidator } from '../validators/emailValidator'
-import { passwordValidator } from '../validators/passwordValidator'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import axios from 'axios';
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState({ value: '', error: '' })
-  const [password, setPassword] = useState({ value: '', error: '' })
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   const onLoginPressed = async () => {
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
-    if (emailError || passwordError) {
+    if (email == "" || password == "") {
       alert("All fields must be filled out");
       return;
-    } else {
     }
+
+    const resp = await axios.post("http://192.168.1.221:8000/api/signin", { email, password });
+    if(resp.data.error){
+    console.log(resp.data)
+    } else {
+    alert("Login successful");
     navigation.reset({
       index: 0,
-      routes: [{ name: 'Prompt' }],
+      routes: [{name: 'MainFeed'}]
     })
+    }
   }
 
   return (
@@ -37,9 +40,9 @@ export default function LoginScreen({ navigation }) {
         label="Email"
         returnKeyType="next"
         value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: '' })}
-        error={!!email.error}
-        errorText={email.error}
+        onChangeText={(text) => setEmail(text)}
+        // error={!!email.error}
+        // errorText={email.error}
         autoCapitalize="none"
         autoCompleteType="email"
         textContentType="emailAddress"
@@ -49,9 +52,9 @@ export default function LoginScreen({ navigation }) {
         label="Password"
         returnKeyType="done"
         value={password.value}
-        onChangeText={(text) => setPassword({ value: text, error: '' })}
-        error={!!password.error}
-        errorText={password.error}
+        onChangeText={(text) => setPassword(text)}
+        // error={!!password.error}
+        // errorText={password.error}
         secureTextEntry
       />
       <View style={styles.forgotPassword}>

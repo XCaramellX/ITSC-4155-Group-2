@@ -19,9 +19,7 @@ mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-    origin: "exp://192.168.1.221:19000"
-}));
+app.use(cors());
 app.use(morgan("dev"));
 
 app.use("/api", authRoutes);
