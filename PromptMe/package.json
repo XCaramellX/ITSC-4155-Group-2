@@ -4,7 +4,9 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "server": "cd PromptMeDB && npm start",
+    "dev": "concurrently -n 'App,server' \"npm start\" \"npm run server\""
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",

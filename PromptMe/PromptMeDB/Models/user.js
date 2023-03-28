@@ -30,6 +30,10 @@ const userSchema = new Schema({
         default: " ",
         required: true,
     },
+    Prompt: {
+        type: String,
+        default: ""
+    }
 },
 { timestamps: true }
 );

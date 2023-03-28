@@ -22,7 +22,7 @@ export default function LoginScreen({ navigation }) {
 
     const resp = await axios.post("http://192.168.1.221:8000/api/signin", { email, password });
     if(resp.data.error){
-    console.log(resp.data)
+      alert(resp.data)
     } else {
     alert("Login successful");
     navigation.reset({

@@ -1,8 +1,9 @@
 import User from "../Models/user.js";
+import Prompts from "../Models/prompts.js";
 import { hashPassword, comparePassword } from "../BcryptHash/auth.js";
 import jwt from "jsonwebtoken";
 import { nanoid } from "nanoid";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -151,5 +152,6 @@ export const resetPassword = async (req, res) => {
         return res.json({ ok: true });
     } catch (err) {
         console.log(err);
-    }
+    }  
 };
+

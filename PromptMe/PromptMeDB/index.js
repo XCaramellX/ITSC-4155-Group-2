@@ -3,14 +3,17 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import morgan from 'morgan';
+import Prompts from './Models/prompts.js'
 
 import authRoutes from './routes/auth.js';
+
 
 dotenv.config();
 
 
 
 const app = express();
+const PORT = process.env.PORT || 8000;
 
 mongoose
     .connect(process.env.DB_URI)
@@ -25,10 +28,13 @@ app.use(morgan("dev"));
 app.use("/api", authRoutes);
 
 app.get('/', (req, res) => {
-    res.json({ success: true, message: 'Port Running on server 8000' })
+    res.json({ success: true, message: 'Database Connected' })
 })
 
 
-const server = app.listen(8000, () => {console.log("Server running on port 8000")});
+const server = app.listen(PORT, () => {console.log(`Server running on port ${PORT}`)});
 
-// Handle unhandled rejections
+
+
+
+

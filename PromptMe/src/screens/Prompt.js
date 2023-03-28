@@ -11,13 +11,32 @@ import {
   TouchableOpacity
 } from "react-native";
 import { theme } from '../themes/sign-in-theme'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/header";
+import axios from "axios";
 
 
-export default function Prompt({navigation}) {
+export default function Prompt({navigation}){
+  
+  const [prompt, setPrompt] = useState([{}])
+  const prompts = async () => {
+    const resp = await axios.get("http://192.168.1.221:8000/api/getprompts");
+    setPrompt(resp.data)
+    if(resp) {
+      alert("We have DB connection");
+    } else {
+      alert("DB connection failed");
+    }
+  }
+
+  useEffect(() => {
+    prompts()
+  }, []);
+
+  console.log(prompt);
+
   const [data, setData] = useState([
-    { data: "Dummy Data 1", key: 1 },
+    { data: "Dummy data 1", key: 1 },
     { data: "Dummy Data 2", key: 2 },
     { data: "Dummy Data 3", key: 3 },
     { data: "Dummy Data 4", key: 4 },
@@ -31,6 +50,8 @@ export default function Prompt({navigation}) {
     { data: "Dummy Data 12", key: 12 },
     { data: "Dummy Data 13", key: 13 },
   ]);
+
+
  
 
   return (
