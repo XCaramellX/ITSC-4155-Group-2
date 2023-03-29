@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import * as React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from "../../context/auth";
 import {
   FlatList,
   StyleSheet,
@@ -11,32 +12,43 @@ import {
   TouchableOpacity
 } from "react-native";
 import { theme } from '../themes/sign-in-theme'
-import { useState, useEffect } from "react";
 import Header from "../components/header";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-export default function Prompt({navigation}){
+export default function Prompt({ navigation }) {
+
+  const [promptSelection, setPromptSelection] = useState("");
+  const [prompt, setPrompt] = useState("");
+  const [email, setEmail] = useState("");
+  const [state, setState] = useContext(AuthContext);
+
+  useEffect(() => {
+    if (state) {
+      const { email, prompt } = state.user;
+      setEmail(email);
+      setPrompt(prompt);
+      console.log(email);
+      console.log(prompt);
+    };
+  }, [state]);
+
   
-  const [prompt, setPrompt] = useState([{}])
-  const prompts = async () => {
-    const resp = await axios.get("http://192.168.1.221:8000/api/getprompts");
-    setPrompt(resp.data)
-    if(resp) {
-      alert("We have DB connection");
-    } else {
-      alert("DB connection failed");
-    }
+
+  const prompts = async (req, res) => {
+    res = await axios.get("http://192.168.1.221:8000/api/prompts");
+    setPromptSelection(res.data[0].content);
   }
 
   useEffect(() => {
     prompts()
   }, []);
 
-  console.log(prompt);
+  // console.log(promptSelection)
 
-  const [data, setData] = useState([
-    { data: "Dummy data 1", key: 1 },
+  const data = [
+    { data: promptSelection, key: 1 },
     { data: "Dummy Data 2", key: 2 },
     { data: "Dummy Data 3", key: 3 },
     { data: "Dummy Data 4", key: 4 },
@@ -49,35 +61,49 @@ export default function Prompt({navigation}){
     { data: "Dummy Data 11", key: 11 },
     { data: "Dummy Data 12", key: 12 },
     { data: "Dummy Data 13", key: 13 },
-  ]);
+  ]
+
+  console.log(prompt);
+
+  const promptSelected = async () => {
+    const res = await axios.post("http://192.168.1.221:8000/api/prompts", { email, prompt });
+    if (res.data.error) {
+      console.log(res.data.error);
+    } else {
+      setState(res.data)
+      await AsyncStorage.setItem('auth-rn', JSON.stringify(res.data))
+      alert('New prompt selected');
+      navigation.navigate('MainFeed');
+    };
+  }
 
 
- 
+
 
   return (
 
-       
-        <View>
-          
-        <ScrollView contentContainerStyle={styles.promptHolder}>
+
+    <View>
+
+      <ScrollView contentContainerStyle={styles.promptHolder}>
         <Header />
-          <StatusBar></StatusBar>
-            {data.map((item) => {
-              return (
-                <TouchableOpacity style={styles.promptOutterContainer} onPress={() => navigation.replace('MainFeed')} key={item.key}>
-                
-                 <View style={styles.promptDesign}></View>
-                  <Text style={styles.item}>{item.data}</Text>
-                
-                </TouchableOpacity>
-              );
-            })}
-        </ScrollView> 
-        </View>
-      
-        
+        <StatusBar></StatusBar>
+        {data.map((item) => {
+          return (
+            <TouchableOpacity style={styles.promptOutterContainer} key={item.key} onPress={() => { setPrompt(item.data) }}>
+
+              <View style={styles.promptDesign}></View>
+              <Text style={styles.item}>{item.data}</Text>
+
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+    </View>
+
+
   );
-          
+
 }
 
 const styles = StyleSheet.create({
@@ -103,7 +129,7 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20
-  }, 
+  },
   promptOutterContainer: {
     backgroundColor: "white",
     borderRadius: 20,

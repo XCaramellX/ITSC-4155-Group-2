@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { TouchableOpacity, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
@@ -9,10 +9,12 @@ import BackButton from '../components/BackButton'
 import { theme } from '../themes/sign-in-theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios';
+import { AuthContext } from '../../context/auth'
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [state, setState] = useContext(AuthContext);
 
   const onLoginPressed = async () => {
     if (email == "" || password == "") {
@@ -22,14 +24,17 @@ export default function LoginScreen({ navigation }) {
 
     const resp = await axios.post("http://192.168.1.221:8000/api/signin", { email, password });
     if(resp.data.error){
-      alert(resp.data)
+      alert(resp.data.error)
     } else {
-    alert("Login successful");
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'MainFeed'}]
-    })
+      setState(resp.data);
+      await AsyncStorage.setItem('auth-rn', JSON.stringify(resp.data));
+      alert("Login successful");
+      navigation.navigate('MainFeed');
     }
+
+    
+
+    console.log(resp.data)
   }
 
   return (

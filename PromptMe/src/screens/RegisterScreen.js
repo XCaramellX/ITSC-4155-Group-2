@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { Text } from 'react-native-paper';
 import { SelectList } from 'react-native-dropdown-select-list';
@@ -48,17 +48,10 @@ export default function RegisterScreen({ navigation }) {
     if (resp.data.error) {
       alert(resp.data.error);
     } else {
+      await AsyncStorage.setItem('auth-rn', JSON.stringify(resp.data));
       alert("Sign up Successful");
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Prompt' }],
-      });
+      navigation.navigate('Prompt');
     }
-   
-  
-    
-
-   
   };
 
   return (

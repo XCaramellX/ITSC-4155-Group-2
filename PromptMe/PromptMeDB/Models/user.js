@@ -30,9 +30,9 @@ const userSchema = new Schema({
         default: " ",
         required: true,
     },
-    Prompt: {
+    prompt: {
         type: String,
-        default: ""
+        default: "default prompt"
     }
 },
 { timestamps: true }

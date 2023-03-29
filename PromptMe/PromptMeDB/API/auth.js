@@ -1,5 +1,4 @@
 import User from "../Models/user.js";
-import Prompts from "../Models/prompts.js";
 import { hashPassword, comparePassword } from "../BcryptHash/auth.js";
 import jwt from "jsonwebtoken";
 import { nanoid } from "nanoid";
@@ -152,6 +151,20 @@ export const resetPassword = async (req, res) => {
         return res.json({ ok: true });
     } catch (err) {
         console.log(err);
-    }  
+    }
 };
+export const promptSelected = async (req, res) => {
+    const { prompt, email } = req.body;
+    
+    try { 
+        const user = await User.findOne({ email });
+        user.prompt = prompt;
+        user.save();
+        console.log('Save successful!')
+    } catch (err) {
+        return res.json({
+            error: 'It messed up again'
+        });
+    }
+}
 

@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import morgan from 'morgan';
-import Prompts from './Models/prompts.js'
 
 import authRoutes from './routes/auth.js';
 
@@ -32,7 +31,7 @@ app.get('/', (req, res) => {
 })
 
 
-const server = app.listen(PORT, () => {console.log(`Server running on port ${PORT}`)});
+app.listen(PORT, () => {console.log(`Server running on port ${PORT}`)});
 
 
 
