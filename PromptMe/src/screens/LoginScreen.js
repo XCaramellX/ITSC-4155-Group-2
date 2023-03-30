@@ -9,7 +9,7 @@ import BackButton from '../components/BackButton'
 import { theme } from '../themes/sign-in-theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios';
-import { AuthContext } from '../../context/auth'
+import { AuthContext } from '../../context/auth';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");

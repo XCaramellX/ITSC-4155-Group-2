@@ -50,6 +50,7 @@ export const signup = async (req, res) => {
         }
         // hash password
         const hashedPassword = await hashPassword(password);
+
         try {
             const user = await new User({
                 name,
@@ -154,17 +155,23 @@ export const resetPassword = async (req, res) => {
     }
 };
 export const promptSelected = async (req, res) => {
-    const { prompt, email } = req.body;
     
-    try { 
-        const user = await User.findOne({ email });
-        user.prompt = prompt;
-        user.save();
-        console.log('Save successful!')
+    const { prompt, email } = req.body;
+
+    try {
+        if (!(prompt == '') && !(email == '')) {
+            const user = await User.findOne({ email });
+            user.prompt = prompt;
+            user.save();
+            console.log('Save successful!');
+            console.log(prompt);
+        } else {
+            return res.json({
+                error: 'Save unsuccessful'
+            })
+        }
     } catch (err) {
-        return res.json({
-            error: 'It messed up again'
-        });
+        console.log(err)
     }
 }
 

@@ -11,15 +11,17 @@ import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import BackButton from '../components/BackButton';
 import { theme } from '../themes/sign-in-theme';
+import { AuthContext } from '../../context/auth';
 
 
 
 
 
 export default function RegisterScreen({ navigation }) {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [state, setState] = useContext(AuthContext);
 
   const [category, setCategory] = useState(" ");
   const [experience, setExperience] = useState(" ");
@@ -48,10 +50,13 @@ export default function RegisterScreen({ navigation }) {
     if (resp.data.error) {
       alert(resp.data.error);
     } else {
+      setState(resp.data);
       await AsyncStorage.setItem('auth-rn', JSON.stringify(resp.data));
       alert("Sign up Successful");
       navigation.navigate('Prompt');
     }
+
+    console.log(resp.data);
   };
 
   return (

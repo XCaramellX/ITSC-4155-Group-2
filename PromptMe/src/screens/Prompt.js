@@ -8,20 +8,25 @@ import {
   View,
   SafeAreaView,
   ScrollView,
-  Dimensions,
-  TouchableOpacity
-} from "react-native";
-import { theme } from '../themes/sign-in-theme'
-import Header from "../components/header";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+  TouchableOpacity,
+  Modal,
+  Dimensions
+} from 'react-native';
+import { theme } from '../themes/sign-in-theme';
+import { SimpleModal } from '../components/SimpleModal';
+import Header from '../components/header';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT_MODAL = 150;
 
 export default function Prompt({ navigation }) {
 
   const [promptSelection, setPromptSelection] = useState("");
   const [prompt, setPrompt] = useState("");
   const [email, setEmail] = useState("");
+  const [isModalVisible, setisModalVisible] = useState(false);
   const [state, setState] = useContext(AuthContext);
 
   useEffect(() => {
@@ -34,7 +39,7 @@ export default function Prompt({ navigation }) {
     };
   }, [state]);
 
-  
+
 
   const prompts = async (req, res) => {
     res = await axios.get("http://192.168.1.221:8000/api/prompts");
@@ -63,18 +68,20 @@ export default function Prompt({ navigation }) {
     { data: "Dummy Data 13", key: 13 },
   ]
 
-  console.log(prompt);
+
 
   const promptSelected = async () => {
-    const res = await axios.post("http://192.168.1.221:8000/api/prompts", { email, prompt });
-    if (res.data.error) {
-      console.log(res.data.error);
+    setisModalVisible(false);
+    const resp = await axios.post("http://192.168.1.221:8000/api/prompts", { email, prompt });
+    
+    if(resp.data.error){
+      alert(resp.data.error)
     } else {
-      setState(res.data)
-      await AsyncStorage.setItem('auth-rn', JSON.stringify(res.data))
-      alert('New prompt selected');
-      navigation.navigate('MainFeed');
-    };
+      setState(resp.data);
+      await AsyncStorage.setItem('auth-rn', JSON.stringify(resp.data));
+    }
+
+    
   }
 
 
@@ -90,7 +97,7 @@ export default function Prompt({ navigation }) {
         <StatusBar></StatusBar>
         {data.map((item) => {
           return (
-            <TouchableOpacity style={styles.promptOutterContainer} key={item.key} onPress={() => { setPrompt(item.data) }}>
+            <TouchableOpacity style={styles.promptOutterContainer} key={item.key} onPress={() => { setPrompt(item.data), setisModalVisible(true) }}>
 
               <View style={styles.promptDesign}></View>
               <Text style={styles.item}>{item.data}</Text>
@@ -98,6 +105,32 @@ export default function Prompt({ navigation }) {
             </TouchableOpacity>
           );
         })}
+        <Modal
+          transparent={true}
+          animationType='fade'
+          visible={isModalVisible}
+          onRequestClose={() => { setisModalVisible(false) }}
+        >
+          <TouchableOpacity
+            disabled={true}
+            style={styles.container}
+          >
+            <View style={styles.modal}>
+              <View style={styles.textView}>
+                <Text style={styles.text}>Confirm prompt selection</Text>
+              </View>
+              <View style={styles.viewButton}>
+                <TouchableOpacity style={styles.button} onPress={() => {promptSelected(), navigation.navigate('MainFeed'), alert("Prompt selection saved!") }}>
+                  <Text style={[styles.text, { color: 'blue' }]}>Confirm</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => setisModalVisible(false)}>
+                  <Text style={[styles.text, { color: 'blue' }]}>Cancel</Text>
+                </TouchableOpacity>
+
+              </View>
+            </View>
+          </TouchableOpacity>
+        </Modal>
       </ScrollView>
     </View>
 
@@ -140,6 +173,36 @@ const styles = StyleSheet.create({
     shadowOpacity: "0.7",
     shadowOffset: { width: -2, height: 4 },
   },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  modal: {
+    height: HEIGHT_MODAL,
+    width: WIDTH - 80,
+    paddingTop: 10,
+    backgroundColor: '#9300ff',
+    borderRadius: 10,
+  },
+  textView: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  text: {
+    margin: 5,
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+  viewButton: {
+    width: '100%',
+    flexDirection: 'row',
+  },
+  button: {
+    flex: 1,
+    paddingVertical: 10,
+    alignItems: 'center'
+  }
 
 
 });
