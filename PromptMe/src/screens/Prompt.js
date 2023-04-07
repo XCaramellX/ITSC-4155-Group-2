@@ -42,7 +42,7 @@ export default function Prompt({ navigation }) {
 
 
   const prompts = async (req, res) => {
-    res = await axios.get("http://192.168.1.221:8000/api/prompts");
+    res = await axios.get("http://172.16.9.28:8000/api/prompts");
     setPromptSelection(res.data[0].content);
   }
 
@@ -72,7 +72,7 @@ export default function Prompt({ navigation }) {
 
   const promptSelected = async () => {
     setisModalVisible(false);
-    const resp = await axios.post("http://192.168.1.221:8000/api/prompts", { email, prompt });
+    const resp = await axios.post("http://172.16.9.28:8000/api/prompts", { email, prompt });
     
     if(resp.data.error){
       alert(resp.data.error)
@@ -91,9 +91,8 @@ export default function Prompt({ navigation }) {
 
 
     <View>
-
       <ScrollView contentContainerStyle={styles.promptHolder}>
-        <Header />
+      <Header />
         <StatusBar></StatusBar>
         {data.map((item) => {
           return (
@@ -155,6 +154,14 @@ const styles = StyleSheet.create({
     paddingVertical: "10%",
     alignItems: 'center',
 
+  },
+
+  menu: {
+    alignSelf: "center",
+    alignItems: "center",
+    backgroundColor: "#9300ff",
+    bottom: "25%",
+    paddingBottom: "20%",
   },
 
   promptDesign: {

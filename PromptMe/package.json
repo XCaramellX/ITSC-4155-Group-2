@@ -27,7 +27,8 @@
     "react-native-screens": "~3.18.0",
     "react-native-select-dropdown": "^3.3.2",
     "react-native-status-bar-height": "*",
-    "react-navigation": "^4.4.4"
+    "react-navigation": "^4.4.4",
+    "expo-image-picker": "~14.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

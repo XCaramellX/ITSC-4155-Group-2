@@ -10,6 +10,7 @@ import {
   ResetPasswordScreen,
   Prompt,
   MainFeed,
+  Upload,
 } from './src/screens';
 import { AuthProvider } from './context/auth.js';
 
@@ -30,6 +31,7 @@ export default function App() {
             <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
             <Stack.Screen name="Prompt" component={Prompt} />
             <Stack.Screen name="MainFeed" component={MainFeed} />
+            <Stack.Screen name="Upload" component={Upload} />
             <Stack.Screen
               name="ResetPasswordScreen"
               component={ResetPasswordScreen}

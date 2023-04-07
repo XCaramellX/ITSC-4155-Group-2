@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState } from 'react'
 import Background from '../components/Background'
 import Header from "../components/header";
+import MenuBar from "../components/MenuBar";
 import BackButton from "../components/BackButton";
 import {
     FlatList,
@@ -23,6 +24,7 @@ import {
         routes: [{ name: 'Prompt'}]
     })
 
+
     const [otherUserData] = useState([
         {data: "dummy data", key: 1},
         {data: "dummy data", key: 2},
@@ -37,7 +39,8 @@ import {
 
     return (
    
-        
+        <View>
+            
         <ScrollView contentContainerStyle={styles.scrollView}>
             <Header/> 
             <StatusBar></StatusBar>
@@ -64,9 +67,11 @@ import {
             </View>
                 )
              })}
+        
    
         </ScrollView>  
-  
+        <MenuBar/>
+        </View>
     )
   }  
   
@@ -75,6 +80,13 @@ import {
         backgroundColor: "white",
         paddingVertical: "10%"
         
+    },
+
+    menu: {
+        bottom: "70%",
+        alignSelf: "center",
+        paddingTop: "20%",
+        backgroundColor: "#9300ff"
     },
     homeInnerContainer1: {
        backgroundColor: 'white',
