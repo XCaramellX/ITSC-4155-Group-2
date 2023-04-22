@@ -3,6 +3,15 @@ import { hashPassword, comparePassword } from "../BcryptHash/auth.js";
 import jwt from "jsonwebtoken";
 import { nanoid } from "nanoid";
 import dotenv from "dotenv";
+import cloudinary from "cloudinary";
+
+//Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_KEY,
+    api_secret: process.env.CLOUDINARY_SECRET,
+});
+
 
 dotenv.config();
 
@@ -174,4 +183,32 @@ export const promptSelected = async (req, res) => {
         console.log(err)
     }
 }
+
+exports.uploadImage = async (req, res) => {
+    try{
+        const result = await cloudinary.uploader.upload(req.body, image, {
+            id: nanoid(),
+            type: 'jpg',
+        });
+        console.log(req.body.user);
+        const user = await User.findByIdAndUpdate(
+            req.body.user._id,
+            {
+                image: {
+                    user: user.name,
+                    id: result.id,
+                    url: result.secure_url,
+                },
+            },
+            {new: true}
+        );
+        return res.json({
+            name: user.name,
+            email: user.email,
+            image: user.image,
+        });
+    }catch (err){
+        console.log(err);
+    }
+};
 

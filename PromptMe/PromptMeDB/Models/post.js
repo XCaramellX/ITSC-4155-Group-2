@@ -7,6 +7,7 @@ const postSchema = new Schema(
             {
                 url: '',
                 id: '',
+                user: '',
                 private: false,
             }
         ],

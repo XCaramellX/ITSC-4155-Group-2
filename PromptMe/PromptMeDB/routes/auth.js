@@ -3,7 +3,7 @@ import express from 'express';
 const router = express.Router();
 
 // Controllers
-import { signup, signin, forgotPassword, resetPassword, promptSelected } from "../API/auth.js";
+import { signup, signin, forgotPassword, resetPassword, promptSelected, uploadImage } from "../API/auth.js";
 import Prompts from "../Models/prompts.js";
 
 router.get("/", (req, res) => {
@@ -29,5 +29,7 @@ router.get("/prompts", (req, res) => {
         });
 });
 router.post("/prompts", promptSelected);
+router.post("/upload-image", uploadImage)
+
 
 export default router;

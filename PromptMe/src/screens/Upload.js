@@ -39,10 +39,14 @@ export default function Upload({navigation}){
         }
         let base64Image = 'data:image/jpg;base64,${picked.base64}';
         setUploadImage(base64Image);
+
+        let storedData = await AsyncStorage.getItem("auth-rn");
+        const parsed = JSON.parse(storedData);
         const { data } = await axios.post("http://localhost:8000/api/upload-image",{
             image: base64Image,
+            //user: parsed.user,
         });
-
+        console.log('UPLOADED Response => ', data)
     }
 
     return(
@@ -50,8 +54,7 @@ export default function Upload({navigation}){
         <Background>
             
             <UploadCaption
-                    label="Enter Your Caption"
-                    
+                    label="Enter Your Caption"         
                 >
             </UploadCaption> 
 
@@ -68,12 +71,13 @@ export default function Upload({navigation}){
                 
                 <TouchableOpacity onPress={() =>handleUpload()}>
                     <View style={{alignSelf: "center", top: "30%", backgroundColor: 'lightgrey', opacity: '.7'}}>
-                        <Image source={{ url: uploadImage }}></Image>
+                        <Image source={{ url: uploadImage }}/>
                         <FontAwesome5 name="camera" size={135} color="#9300ff"
                             style={{opacity: '0.7', paddingHorizontal: 130, paddingVertical: 40}}/>
                         <Text style={{fontWeight: 'bold', bottom: '13%', alignSelf: "center", fontSize: 15, color: "black"}}>
                             Press to Upload
                         </Text>
+                        
                     </View> 
                 </TouchableOpacity>
             
