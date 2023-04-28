@@ -1,10 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Background from '../components/Background'
 import Header from "../components/header";
 import MenuBar from "../components/MenuBar";
 import BackButton from "../components/BackButton";
 import { AuthContext } from "../../context/auth";
+import axios from 'axios';
 import {
     FlatList,
     StyleSheet,
@@ -31,14 +32,14 @@ export default function MainFeed({ navigation }) {
 
   useEffect(() => {
     if (state) {
-      const {post} = state.post;
-      setPost(post);
+     
+     
     };
   }, [state]);
 
 
 
-  const posts = async (req, res) => {
+  /*const posts = async (req, res) => {
     res = await axios.get("http://172.16.9.28:8000/api/post");
     setPostSelection(
       res.data
@@ -52,7 +53,7 @@ export default function MainFeed({ navigation }) {
 
   useEffect(() => {
     posts()
-  }, []); 
+  }, []); */
 
     const [otherUserData] = useState([
         { data: "dummy data", key: 1 },
@@ -73,7 +74,6 @@ export default function MainFeed({ navigation }) {
                 <Header />
                 <StatusBar></StatusBar>
                 <BackButton goBack={onGoBack} />
-                <ProfileButton />
                 <Text style={styles.homeText}>Home</Text>
                 <Text style={styles.homeTextUser}>Your Newest Post:</Text>
 
