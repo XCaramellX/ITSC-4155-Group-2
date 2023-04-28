@@ -92,7 +92,7 @@ export default function Upload({navigation}){
 
                     <UploadButton
                         mode="contained"
-                        onPress ={() => navigation.navigate('StartScreen')}
+                        onPress ={() => navigation.navigate('MainFeedScreen')}
                     >
                         Back
                     </UploadButton>         

@@ -19,23 +19,23 @@ const styles = StyleSheet.create({
     menu: {
         bottom: 70,
         width: 500,
-        paddingBottom: 20,
-       
+        paddingBottom: 60,
+        flexDirection: "row",
         backgroundColor: "#9300ff"
     },
 
     uploadText: {
-   
-        left: 300,
+        top: 25,
+        left: 190,
     },
 
     homeText: {
-      
+        top: 25,
         left: 10
     },
 
     promptText: {
-       
+        top: 25,
         left: 30
    
     }
