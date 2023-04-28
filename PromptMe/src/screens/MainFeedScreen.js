@@ -4,7 +4,7 @@ import Background from '../components/Background'
 import Header from "../components/header";
 import MenuBar from "../components/MenuBar";
 import BackButton from "../components/BackButton";
-import ProfileButton from "../components/ProfileButton.js";
+import { AuthContext } from "../../context/auth";
 import {
     FlatList,
     StyleSheet,
@@ -25,6 +25,34 @@ export default function MainFeed({ navigation }) {
         routes: [{ name: 'Prompt' }]
     })
 
+  const [setPost] = useState("");
+  const [postSelection, setPostSelection] = useState("");
+  const [state] = useContext(AuthContext);
+
+  useEffect(() => {
+    if (state) {
+      const {post} = state.post;
+      setPost(post);
+    };
+  }, [state]);
+
+
+
+  const posts = async (req, res) => {
+    res = await axios.get("http://172.16.9.28:8000/api/post");
+    setPostSelection(
+      res.data
+      .filter(promptFilter => promptFilter.category == state.user.category && promptFilter.experience == state.user.experience)
+      .map(promptContent => promptContent.content)
+      );
+  }
+  
+
+  
+
+  useEffect(() => {
+    posts()
+  }, []); 
 
     const [otherUserData] = useState([
         { data: "dummy data", key: 1 },

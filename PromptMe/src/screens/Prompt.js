@@ -15,8 +15,10 @@ import {
 import { theme } from '../themes/sign-in-theme';
 import { SimpleModal } from '../components/SimpleModal';
 import Header from '../components/header';
+import MenuBar from "../components/MenuBar";
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import user from "../../PromptMeDB/Models/user";
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT_MODAL = 150;
@@ -31,7 +33,7 @@ export default function Prompt({ navigation }) {
 
   useEffect(() => {
     if (state) {
-      const { email, prompt } = state.user;
+      const {email, prompt} = state.user;
       setEmail(email);
       setPrompt(prompt);
       console.log(email);
@@ -43,8 +45,15 @@ export default function Prompt({ navigation }) {
 
   const prompts = async (req, res) => {
     res = await axios.get("http://172.16.9.28:8000/api/prompts");
-    setPromptSelection(res.data[0].content);
+    setPromptSelection(
+      res.data
+      .filter(promptFilter => promptFilter.category == state.user.category && promptFilter.experience == state.user.experience)
+      .map(promptContent => promptContent.content)
+      );
   }
+  
+
+  
 
   useEffect(() => {
     prompts()
@@ -52,27 +61,29 @@ export default function Prompt({ navigation }) {
 
   // console.log(promptSelection)
 
-  const data = [
-    { data: promptSelection, key: 1 },
-    { data: "Dummy Data 2", key: 2 },
-    { data: "Dummy Data 3", key: 3 },
-    { data: "Dummy Data 4", key: 4 },
-    { data: "Dummy Data 5", key: 5 },
-    { data: "Dummy Data 6", key: 6 },
-    { data: "Dummy Data 7", key: 7 },
-    { data: "Dummy Data 8", key: 8 },
-    { data: "Dummy Data 9", key: 9 },
-    { data: "Dummy Data 10", key: 10 },
-    { data: "Dummy Data 11", key: 11 },
-    { data: "Dummy Data 12", key: 12 },
-    { data: "Dummy Data 13", key: 13 },
+  const promptData = [
+    { data: promptSelection[0], key: 1 },
+    { data: promptSelection[1], key: 2 },
+    { data: promptSelection[2], key: 3 },
+    { data: promptSelection[3], key: 4 },
+    { data: promptSelection[4], key: 5 },
+    { data: promptSelection[5], key: 6 },
+    { data: promptSelection[6], key: 7 },
+    { data: promptSelection[7], key: 8 },
+    { data: promptSelection[8], key: 9 },
+    { data: promptSelection[9], key: 10 },
+    { data: promptSelection[10], key: 11 },
+    { data: promptSelection[11], key: 12 },
+    { data: promptSelection[12], key: 13 },
+    { data: promptSelection[13], key: 14 },
+  
   ]
 
 
 
   const promptSelected = async () => {
     setisModalVisible(false);
-    const resp = await axios.post("http://172.16.9.28:8000/api/prompts", { email, prompt });
+    const resp = await axios.post("http://172.16.9.28:8000/api/prompts",  {email, prompt});
     
     if(resp.data.error){
       alert(resp.data.error)
@@ -81,7 +92,6 @@ export default function Prompt({ navigation }) {
       await AsyncStorage.setItem('auth-rn', JSON.stringify(resp.data));
     }
 
-    
   }
 
 
@@ -94,9 +104,9 @@ export default function Prompt({ navigation }) {
       <ScrollView contentContainerStyle={styles.promptHolder}>
       <Header />
         <StatusBar></StatusBar>
-        {data.map((item) => {
+        {promptData.map((item) => {
           return (
-            <TouchableOpacity style={styles.promptOutterContainer} key={item.key} onPress={() => { setPrompt(item.data), setisModalVisible(true) }}>
+            <TouchableOpacity style={styles.promptOutterContainer} key={item.key} onPress={() => {setPrompt(item.data), setisModalVisible(true)}}>
 
               <View style={styles.promptDesign}></View>
               <Text style={styles.item}>{item.data}</Text>
@@ -119,7 +129,7 @@ export default function Prompt({ navigation }) {
                 <Text style={styles.text}>Confirm prompt selection</Text>
               </View>
               <View style={styles.viewButton}>
-                <TouchableOpacity style={styles.button} onPress={() => {promptSelected(), navigation.navigate('MainFeed'), alert("Prompt selection saved!") }}>
+                <TouchableOpacity style={styles.button} onPress={() => {promptSelected(), navigation.navigate('MainFeedScreen'), alert("Prompt selection saved!") }}>
                   <Text style={[styles.text, { color: 'blue' }]}>Confirm</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => setisModalVisible(false)}>
@@ -131,6 +141,7 @@ export default function Prompt({ navigation }) {
           </TouchableOpacity>
         </Modal>
       </ScrollView>
+      <MenuBar/>
     </View>
 
 

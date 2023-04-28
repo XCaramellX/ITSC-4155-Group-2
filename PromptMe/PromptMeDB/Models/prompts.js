@@ -6,7 +6,10 @@ const prompts = new Schema ({
     content: {
         type: String,
         required: true
-    }   
+    }
+
+   
+
 });
 
 export default mongoose.model("Prompts", prompts)

@@ -37,5 +37,6 @@ const styles = StyleSheet.create({
     promptText: {
        
         left: 30
+   
     }
 })

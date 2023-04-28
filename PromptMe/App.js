@@ -9,7 +9,7 @@ import {
   RegisterScreen,
   ResetPasswordScreen,
   Prompt,
-  MainFeed,
+  MainFeedScreen,
   Upload,
   //ProfileScreen,
 } from './src/screens';
@@ -31,7 +31,7 @@ export default function App() {
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
             <Stack.Screen name="Prompt" component={Prompt} />
-            <Stack.Screen name="MainFeed" component={MainFeed} />
+            <Stack.Screen name="MainFeedScreen" component={MainFeedScreen} />
             <Stack.Screen name="Upload" component={Upload} />
             <Stack.Screen
               name="ResetPasswordScreen"
