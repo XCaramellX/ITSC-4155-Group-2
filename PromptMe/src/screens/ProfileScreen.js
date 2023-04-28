@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+/*import React, { useState, useContext } from 'react';
 import { View, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 import { SelectList } from 'react-native-dropdown-select-list';
@@ -14,7 +14,7 @@ import { Container, Row, Col, Card, Typography, Tab, Tabs } from 'react-bootstra
 import ProfileImageAccount from '../components/ProfileImageAccount';
 import BsTabs from '../components/Tabs'
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 import BackButton from '../components/BackButton';
@@ -70,7 +70,7 @@ export default function ProfileScreen({ navigation }) {
     <section style={{ backgroundColor: '#eee' }}>
       <Container style={styles.header}>
         <BackButton goBack={navigation.goBack} />
-        {/* <Header style={{ color: 'black' }}>Create Account</Header> */}
+        {<Header style={{ color: 'black' }}>Create Account</Header> }
       </Container>
       <Container className="py-5">
         <Row>
@@ -126,7 +126,7 @@ export default function ProfileScreen({ navigation }) {
               </View>
             </Tab>
 
-            {/* Comments */}
+            { Comments }
             <Tab eventKey="2" title="Comments">
               <Container className="py-5 h-100">
                 <Row className="justify-content-center align-items-center h-100">
@@ -147,7 +147,7 @@ export default function ProfileScreen({ navigation }) {
                           </Card.Text>
 
 
-                          {/*  Click on user img to go to prifile
+                          { Click on user img to go to prifile
                             
                             <a href="#!">
                               <Card.Img
@@ -156,7 +156,7 @@ export default function ProfileScreen({ navigation }) {
                                 alt="avatar"
                                 className="rounded-circle me-3"
                                 fluid />
-                            </a> */}
+                            </a> }
 
                         </div>
                       </Card.Body>
@@ -263,4 +263,4 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: 'center',
   },
-})
+}) */
