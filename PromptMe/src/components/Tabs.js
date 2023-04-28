@@ -1,62 +1,27 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Tab from './Tab';
+import React from 'react';
 
-class Tabs extends Component {
-    static propTypes = {
-        children: PropTypes.instanceOf(Array).isRequired,
-    }
+import { Container, Row, Col, Card, Typography, Tab, Tabs } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            activeTab: this.props.children[0].props.label,
-        };
-    }
-
-    onClickTabItem = (tab) => {
-        this.setState({ activeTab: tab });
-    }
-
-    render() {
-        const {
-            onClickTabItem,
-            props: {
-                children,
-            },
-            state: {
-                activeTab,
-            }
-        } = this;
-
-        return (
-            <div className="tabs">
-                <ol className="tab-list">
-                    {children.map((child) => {
-                        const { label } = child.props;
-
-                        return (
-                            <Tab
-                                activeTab={activeTab}
-                                key={label}
-                                label={label}
-                                onClick={onClickTabItem}
-                            />
-                        );
-                    })}
-                </ol>
-                <div className="tab-content">
-                    {children.map((child) => {
-                        if (child.props.label !== activeTab) return undefined;
-                        return child.props.children;
-                    })}
-                </div>
-            </div>
-        );
-    }
+function BsTabs(props) {
+    return (
+        <Container className="py-4">
+            <Row className='justify-content-center'>
+                <Tabs justify variant="pills" defaultActiveKey="tab-1" className="mb-1 p-0">
+                    <Tab eventKey="tab-1" title="Tab 1">
+                        Tab 1 contant
+                    </Tab>
+                    <Tab eventKey="tab-2" title="Tab 2">
+                        Tab 1 contant
+                    </Tab>
+                    <Tab eventKey="tab-3" title="Tab 3">
+                        Tab 1 contant
+                    </Tab>
+                </Tabs>
+            </Row>
+        </Container>
+    );
 }
 
-
-
-export default Tabs;
+export default BsTabs;
