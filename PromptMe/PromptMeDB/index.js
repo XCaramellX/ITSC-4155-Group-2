@@ -31,6 +31,22 @@ app.get('/', (req, res) => {
     res.json({ success: true, message: 'Database Connected' })
 })
 
+app.post('/api/upload-image', async(req, res) => {
+    const {image} = req.body;
+
+    try {
+        const result = await cloudinary.uploader.upload(image, {
+            upload_preset: "ml_default",
+        });
+
+        const newUserImage = new ImageModel({url: result.secure_url});
+        await newUserImage.save();
+
+        res.status(201).json({url: result.secure_url, id: newUserImage._id});
+    } catch (error) {
+        res.status(500).json({error: error.message});
+    }
+})
 
 app.listen(PORT, () => {console.log(`Server running on port ${PORT}`)});
 

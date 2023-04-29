@@ -3,7 +3,7 @@ import { hashPassword, comparePassword } from "../BcryptHash/auth.js";
 import jwt from "jsonwebtoken";
 import { nanoid } from "nanoid";
 import dotenv from "dotenv";
-import cloudinary from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 
 //Cloudinary
 cloudinary.config({

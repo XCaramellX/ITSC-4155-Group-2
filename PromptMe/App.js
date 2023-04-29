@@ -26,7 +26,7 @@ export default function App() {
       <NavigationContainer>
         <AuthProvider>
           <Stack.Navigator
-            initialRouteName="MainFeedpage2"
+            initialRouteName="StartScreen"
             screenOptions={{ headerShown: false }}>
             <Stack.Screen name="StartScreen" component={StartScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />

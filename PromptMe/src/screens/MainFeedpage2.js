@@ -88,7 +88,7 @@ export default function Mainfeedpage2({ navigation }) {
                                 marginTop: 2,
                                 marginBottom: 5,
                                 padding: 10,
-                                textAlighn: 'center',
+                                textAlign: 'center',
                                 justifyContent: 'center',
                             }}>
                             <Title
