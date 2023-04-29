@@ -6,3 +6,5 @@ export { default as Prompt } from './Prompt'
 export { default as MainFeedScreen } from './MainFeedScreen'
 export { default as Upload } from './Upload'
 export { default as ProfileScreen } from './ProfileScreen'
+export { default as MainFeedpage2 } from './MainFeedpage2'
+

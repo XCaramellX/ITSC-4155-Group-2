@@ -12,6 +12,7 @@ import {
   MainFeedScreen,
   Upload,
   ProfileScreen,
+  MainFeedpage2,
 } from './src/screens';
 import { AuthProvider } from './context/auth.js';
 
@@ -25,7 +26,7 @@ export default function App() {
       <NavigationContainer>
         <AuthProvider>
           <Stack.Navigator
-            initialRouteName="StartScreen"
+            initialRouteName="MainFeedpage2"
             screenOptions={{ headerShown: false }}>
             <Stack.Screen name="StartScreen" component={StartScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
@@ -38,6 +39,8 @@ export default function App() {
               component={ResetPasswordScreen}
             />
             <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+            <Stack.Screen name="MainFeedpage2" component={MainFeedpage2} />
+
 
           </Stack.Navigator>
         </AuthProvider>
