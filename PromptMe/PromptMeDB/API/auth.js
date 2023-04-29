@@ -186,7 +186,7 @@ export const promptSelected = async (req, res) => {
     }
 }
 
-/*exports.uploadImage = async (req, res) => {
+export const uploadImage = async (req, res) => {
     try{
         const result = await cloudinary.uploader.upload(req.body, image, {
             id: nanoid(),
@@ -212,5 +212,5 @@ export const promptSelected = async (req, res) => {
     }catch (err){
         console.log(err);
     }
-}; */
+}; 
 
