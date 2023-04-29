@@ -65,8 +65,11 @@ export default function Prompt({ navigation }) {
     { data: promptSelection[0], key: 1 },
     { data: promptSelection[1], key: 2 },
     { data: promptSelection[2], key: 3 },
+    { data: promptSelection[3], key: 4 },
+    { data: promptSelection[4], key: 5 },
+    { data: promptSelection[5], key: 6 },
+    { data: promptSelection[6], key: 7 },
     
-  
   ]
 
 
