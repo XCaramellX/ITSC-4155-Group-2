@@ -5,4 +5,4 @@ export { default as ResetPasswordScreen } from './ResetPasswordScreen'
 export { default as Prompt } from './Prompt'
 export { default as MainFeedScreen } from './MainFeedScreen'
 export { default as Upload } from './Upload'
-
+export { default as ProfileScreen } from './ProfileScreen'

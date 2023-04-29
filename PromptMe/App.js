@@ -11,7 +11,7 @@ import {
   Prompt,
   MainFeedScreen,
   Upload,
-
+  ProfileScreen,
 } from './src/screens';
 import { AuthProvider } from './context/auth.js';
 
@@ -37,7 +37,8 @@ export default function App() {
               name="ResetPasswordScreen"
               component={ResetPasswordScreen}
             />
-           
+            <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+
           </Stack.Navigator>
         </AuthProvider>
       </NavigationContainer>
