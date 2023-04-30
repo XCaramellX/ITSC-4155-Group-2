@@ -4,7 +4,7 @@ import { theme } from '../themes/sign-in-theme'
 
 export default function CommentBox({ children }) {
     return (
-        <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <KeyboardAvoidingView behavior="padding">
             {children}
         </KeyboardAvoidingView>
     )

@@ -119,9 +119,7 @@ export default function Mainfeedpage2({ navigation }) {
             <View style={styles.userInfoSection}>
                 <View style={{ flexDirection: 'row', marginTop: 15 }}></View>
             </View>
-            <CommentBox>
-                <CommentInput onSubmit={handleCommentSubmit} />
-            </CommentBox>
+            <CommentInput onSubmit={handleCommentSubmit} />
         </SafeAreaView>
     );
 }
@@ -134,7 +132,7 @@ const styles = StyleSheet.create({
     userInfoSection: {
         justifyContent: 'center',
         paddingHorizontal: 30,
-        marginBottom: 10,
+        marginTop: 15,
         backgroundColor: '#eee',
 
     },

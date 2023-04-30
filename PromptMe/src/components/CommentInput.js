@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import TextInput from '../components/TextInput'
 
+
 export default function CommentInput({ onSubmit }) {
   const [text, setText] = useState('');
 
@@ -43,7 +44,7 @@ export default function CommentInput({ onSubmit }) {
         mode="outlined"
         multiline={true}
         maxLength={1000}
-        numberOfLines={3}
+        numberOfLines={1}
         onChangeText={changeHandler}
         value={text}
       />

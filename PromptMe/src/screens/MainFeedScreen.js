@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
         paddingLeft: "10%",
         paddingBottom: "10%",
         fontWeight: 'bold',
-        fontSize: "20%"
+        fontSize: 20
     },
 
     homeTextUser: {
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
         color: "#9300ff",
         paddingLeft: "5%",
         fontWeight: 'bold',
-        fontSize: "15%"
+        fontSize: 15
     },
 
     homeTextOtherUser: {
@@ -178,6 +178,6 @@ const styles = StyleSheet.create({
         color: "#9300ff",
         alignSelf: "flex-start",
         fontWeight: 'bold',
-        fontSize: "15%"
+        fontSize: 15
     }
 })
