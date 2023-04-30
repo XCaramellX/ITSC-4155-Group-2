@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Keyboard,
 } from 'react-native';
-import { TextInput as Input } from 'react-native-paper';
+import TextInput from '../components/TextInput'
 
 export default function CommentInput({ onSubmit }) {
   const [text, setText] = useState('');
@@ -20,7 +20,10 @@ export default function CommentInput({ onSubmit }) {
 
   const submitButtonHandler = () => {
     Keyboard.dismiss();
-    onSubmit(text);
+    if (text.trim().length !== 0) {
+      onSubmit(text);
+    }
+
     setTimeout(() => {
       setText('');
     }, 1500);
@@ -32,7 +35,7 @@ export default function CommentInput({ onSubmit }) {
         style={styles.profilImage}
         source={require('../assets/default_profile_picture.png')}
       />
-      <Input
+      <TextInput
         style={styles.input}
         label="Add a comment"
         selectionColor="gray"
@@ -44,6 +47,7 @@ export default function CommentInput({ onSubmit }) {
         onChangeText={changeHandler}
         value={text}
       />
+
       <TouchableOpacity onPress={submitButtonHandler}>
         <Image
           style={styles.sendIcon}
@@ -73,8 +77,7 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   input: {
-    width: '75%',
+    width: 250,
     backgroundColor: 'white',
-    marginBottom: 10,
   },
 });
