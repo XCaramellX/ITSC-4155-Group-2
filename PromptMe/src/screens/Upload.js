@@ -86,7 +86,7 @@ export default function Upload({navigation}){
                 <View style={pageStyles.row}>
                     <UploadButton
                         mode="contained"
-                        onPress ={() => navigation.navigate('Prompt')}
+                        onPress ={() => navigation.navigate('MainFeedScreen')}
                     >
                         Post
                     </UploadButton>

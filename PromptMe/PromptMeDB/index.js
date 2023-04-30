@@ -36,7 +36,18 @@ app.post('/api/upload-image', async(req, res) => {
     try {
            await uploadImage(req, res);
     } catch (error) {
-        res.status(500).json({error: error.message});
+        res.status(400).json({error: "Image did not upload"});
+    }
+})
+
+app.get('/api/user-new-image-post/:userId', async(req, res) => {
+    try{
+        
+        const { userId } = req.params;
+        const postUserNewImage = await ImageModel.findOne({user: userId}).sort({ createdAt: -1});
+        res.status(200).json(postUserNewImage);
+    } catch(error){
+        res.status(400).json({error: error.message});
     }
 })
 

@@ -15,46 +15,44 @@ import {
     SafeAreaView,
     ScrollView,
     Dimensions,
-    TouchableOpacity
+    TouchableOpacity,
+    Image
 } from "react-native";
 import { theme } from '../themes/sign-in-theme'
 
 
 
-export default function MainFeed({ navigation }) {
+export default function MainFeed({ navigation}) {
     const onGoBack = () => navigation.reset({
         index: 0,
         routes: [{ name: 'Prompt' }]
     })
 
-    const [setPost] = useState("");
-    const [postSelection, setPostSelection] = useState("");
-    const [state] = useContext(AuthContext);
+    const [newUserPost, setNewUserPost] = useState(null);
+    const [otherUserPost, setOtherUserPost] = useState([]);
+    const [state, setState] = useContext(AuthContext);
 
-    useEffect(() => {
-        if (state) {
-
-
-        };
-    }, [state]);
-
-
-
-    /*const posts = async (req, res) => {
-      res = await axios.get("http://172.16.9.28:8000/api/post");
-      setPostSelection(
-        res.data
-        .filter(promptFilter => promptFilter.category == state.user.category && promptFilter.experience == state.user.experience)
-        .map(promptContent => promptContent.content)
-        );
+   const getNewestPost = async (req, newPostResponse) => {
+ 
+        
+        newPostResponse = await axios.get(`http://172.16.9.28:8000/api/user-new-image-post/${userId}`);
+        setNewUserPost(newPostResponse.data);
+ 
     }
-    
-  
+
+   /* const getOtherUserPost = async () => {
+        const { data } = await axios.get("api/other-user-post/${user._id}");
+        setOtherUserPost(data);
+     
+    } */
     
   
     useEffect(() => {
-      posts()
-    }, []); */
+    
+
+      getNewestPost();
+      //getOtherUserPost(); 
+    }, []);  
 
     const [otherUserData] = useState([
         { data: "dummy data", key: 1 },
@@ -64,9 +62,13 @@ export default function MainFeed({ navigation }) {
 
     ])
 
-    const [newPostData] = useState([
-        { newPostData: "dummy data", newPostKey: 1 }
-    ])
+    /*const [newUserData] = useState([
+        { data: "dummy data", key: 1 },
+     
+
+    ]) */
+
+  
 
     return (
 
@@ -79,17 +81,24 @@ export default function MainFeed({ navigation }) {
 
                 <Text style={styles.homeText}>Home</Text>
                 <Text style={styles.homeTextUser}>Your Newest Post:</Text>
+                
+                <View style={styles.homeInnerContainer1}>
+                {newUserPost && (
+                    <Image source={{uri: newUserPost.url}} style={{width: "100%", height: "40%"}}/> 
+                    )}
+                </View> 
+                  
+                
+              {/* {newUserData.map((newItem) => {
 
+                return (
+              
+                )
+                })} */}
+               
 
-                {newPostData.map((postItem) => {
-                    return (
-                        <View style={styles.homeInnerContainer1} key={postItem.newPostKey}>
-
-
-                        </View>
-
-                    )
-                })}
+                    
+            
                 <Text style={styles.homeTextOtherUser}>Other Posts:</Text>
                 {otherUserData.map((userItem) => {
                     return (
