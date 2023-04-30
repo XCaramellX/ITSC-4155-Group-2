@@ -28,48 +28,34 @@ export default function MainFeed({ navigation}) {
         routes: [{ name: 'Prompt' }]
     })
 
-    const [newUserPost, setNewUserPost] = useState(null);
-    const [otherUserPost, setOtherUserPost] = useState([]);
+   // const [imagePost, setImagePost] = useState([]);
+    const [images, setImages] = useState([]);
     const [state, setState] = useContext(AuthContext);
 
-   const getNewestPost = async (req, newPostResponse) => {
- 
-        
-        newPostResponse = await axios.get(`http://172.16.9.28:8000/api/user-new-image-post/${userId}`);
-        setNewUserPost(newPostResponse.data);
- 
-    }
+    useEffect(() => {
+        if (state) {
+          const {id} = state.user;
+      
+        };
+      }, [state]);
 
-   /* const getOtherUserPost = async () => {
-        const { data } = await axios.get("api/other-user-post/${user._id}");
-        setOtherUserPost(data);
-     
-    } */
-    
+   const getImagePost = async () => {
+
+        const getImageResponse = await axios.get('http://172.16.9.28:8000/api/showImages');
+        setImages(getImageResponse.data);
+    }
   
     useEffect(() => {
-    
-
-      getNewestPost();
-      //getOtherUserPost(); 
+      getImagePost();
     }, []);  
 
-    const [otherUserData] = useState([
-        { data: "dummy data", key: 1 },
-        { data: "dummy data", key: 2 },
-        { data: "dummy data", key: 3 },
-        { data: "dummy data", key: 4 },
-
-    ])
-
-    /*const [newUserData] = useState([
-        { data: "dummy data", key: 1 },
-     
+   /* const [otherUserData] = useState([
+        { data: imagePost[0], key: 1 },
+        
 
     ]) */
 
   
-
     return (
 
         <View>
@@ -80,34 +66,18 @@ export default function MainFeed({ navigation}) {
                 <ProfileButton />
 
                 <Text style={styles.homeText}>Home</Text>
-                <Text style={styles.homeTextUser}>Your Newest Post:</Text>
-                
-                <View style={styles.homeInnerContainer1}>
-                {newUserPost && (
-                    <Image source={{uri: newUserPost.url}} style={{width: "100%", height: "40%"}}/> 
-                    )}
-                </View> 
-                  
-                
-              {/* {newUserData.map((newItem) => {
-
-                return (
-              
-                )
-                })} */}
-               
-
                     
             
-                <Text style={styles.homeTextOtherUser}>Other Posts:</Text>
-                {otherUserData.map((userItem) => {
-                    return (
+                <Text style={styles.homeTextOtherUser}>Post Feed:</Text>
+                {images &&
+                    images.map((image) => (
+                   
 
-                        <View style={styles.homeInnerContainer2} key={userItem.key}>
-
+                        <View style={styles.homeInnerContainer2} key={image.id}>
+                            <Image source={{uri: image.url}} style={styles.imagesStyle}/>
                         </View>
-                    )
-                })}
+                    
+                ))}
 
 
             </ScrollView>
@@ -150,6 +120,17 @@ const styles = StyleSheet.create({
         marginTop: "5%",
         marginLeft: "5%",
         marginBottom: "5%",
+        shadowColor: "grey",
+        shadowOpacity: "0.7",
+        shadowOffset: { width: -2, height: 2 },
+    },
+
+    imagesStyle: {
+        backgroundColor: 'white',
+        borderRadius: 20,
+        width: 100,
+        height: 100,
+        resizeMode: "contain",
         shadowColor: "grey",
         shadowOpacity: "0.7",
         shadowOffset: { width: -2, height: 2 },
