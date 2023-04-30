@@ -40,16 +40,15 @@ app.post('/api/upload-image', async(req, res) => {
     }
 })
 
-app.get('/api/user-new-image-post/:userId', async(req, res) => {
+app.get('/api/showImages', async(req, res) => {
     try{
         
-        const { userId } = req.params;
-        const postUserNewImage = await ImageModel.findOne({user: userId}).sort({ createdAt: -1});
-        res.status(200).json(postUserNewImage);
+        const imagePost = await ImageModel.findOne().sort({ createdAt: -1});
+        res.status(200).json(imagePost);
     } catch(error){
         res.status(400).json({error: error.message});
     }
-})
+});
 
 app.listen(PORT, () => {console.log(`Server running on port ${PORT}`)});
 

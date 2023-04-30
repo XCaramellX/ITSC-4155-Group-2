@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 // Controllers
-import { signup, signin, forgotPassword, resetPassword, promptSelected, uploadImage, userNewImagePost} from "../API/auth.js";
+import { signup, signin, forgotPassword, resetPassword, promptSelected, uploadImage} from "../API/auth.js";
 import Prompts from "../Models/prompts.js";
 import Image from "../Models/images.js";
 
@@ -31,7 +31,7 @@ router.get("/prompts", (req, res) => {
         });
 });
 
-router.get("/user-new-image-post", (req, res) =>{
+router.get("/showImages", (req, res) =>{
     Image.find({ })
         .then((data) => {
 
@@ -41,9 +41,9 @@ router.get("/user-new-image-post", (req, res) =>{
         .catch((error) => {
             console.log(error);
         });
-})
+}) 
 router.post("/prompts", promptSelected);
 router.post("/upload-image", uploadImage);
-router.post("/user-new-image-post", userNewImagePost);
+
 
 export default router;
