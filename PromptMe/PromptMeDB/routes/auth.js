@@ -3,7 +3,6 @@ import express from 'express';
 const router = express.Router();
 
 
-
 // Controllers
 import { signup, signin, forgotPassword, resetPassword, promptSelected, uploadImage} from "../API/auth.js";
 import Prompts from "../Models/prompts.js";

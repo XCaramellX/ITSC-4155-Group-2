@@ -3,14 +3,21 @@ const { Schema } = mongoose;
 
 const images = new Schema(
     {
-        image: [
-            {
-                url: '',
-                id: '',
-                user: '',
-                private: false,
-            }
-        ]
+       user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+       },
+
+       id: {
+            type: String,
+            required: true,
+       },
+
+       url: {
+            type: String,
+            required: true
+       }
+        
     }
 )
-export default mongoose.model("Image", postSchema);
+export default mongoose.model("Image", images);

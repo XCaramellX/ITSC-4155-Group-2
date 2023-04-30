@@ -38,15 +38,15 @@ export default function Upload({navigation}){
             //this.setState({image: permResult.uri});
             return;
         }
-        let base64Image = 'data:image/jpg;base64,${picked.base64}';
+        let base64Image = `data:image/jpg;base64,${picked.base64}`;
         setUploadImage(base64Image);
 
-        /*let storedData = await AsyncStorage.getItem("auth-rn");
-        const parsed = JSON.parse(storedData); */
+        let storedData = await AsyncStorage.getItem("auth-rn");
+        const parsed = JSON.parse(storedData); 
         
         const { data } = await axios.post("http://172.16.9.28:8000/api/upload-image",{
             image: base64Image,
-            //user: parsed.user,
+            user: parsed.user,
         });
 
     }
