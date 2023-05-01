@@ -30,6 +30,7 @@ export default function Prompt({ navigation }) {
   const [email, setEmail] = useState("");
   const [isModalVisible, setisModalVisible] = useState(false);
   const [state, setState] = useContext(AuthContext);
+  const promptData = [];
 
   useEffect(() => {
     if (state) {
@@ -44,7 +45,7 @@ export default function Prompt({ navigation }) {
 
 
   const prompts = async (req, res) => {
-    res = await axios.get("http://172.16.9.28:8000/api/prompts");
+    res = await axios.get("http://192.168.1.221:8000/api/prompts");
     setPromptSelection(
       res.data
         .filter(promptFilter => promptFilter.category == state.user.category && promptFilter.experience == state.user.experience)
@@ -61,16 +62,14 @@ export default function Prompt({ navigation }) {
 
   // console.log(promptSelection)
 
-  const promptData = [
-    { data: promptSelection[0], key: 1 },
-    { data: promptSelection[1], key: 2 },
-    { data: promptSelection[2], key: 3 },
-    { data: promptSelection[3], key: 4 },
-    { data: promptSelection[4], key: 5 },
-    { data: promptSelection[5], key: 6 },
-    { data: promptSelection[6], key: 7 },
+   for (let x = 0; x < promptSelection.length; x++) {
+    const item = {
+      data: promptSelection[x],
+      key: x
+    };
 
-  ]
+    promptData.push(item);
+   }
 
 
 
@@ -94,7 +93,7 @@ export default function Prompt({ navigation }) {
 
 
     <View>
-      <ScrollView contentContainerStyle={styles.promptHolder}>
+      <ScrollView contentContainerStyle={styles.promptHolder} showsVerticalScrollIndicator={false}>
         <Header />
         <StatusBar></StatusBar>
         {promptData.map((item) => {
