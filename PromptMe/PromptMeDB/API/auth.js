@@ -1,11 +1,12 @@
 import User from "../Models/user.js";
+import Image from "../Models/images.js";
 import { hashPassword, comparePassword } from "../BcryptHash/auth.js";
 import jwt from "jsonwebtoken";
 import { nanoid } from "nanoid";
 import dotenv from "dotenv";
-import cloudinary from "cloudinary";
-import sharp from 'sharp';
-import multer from 'multer';
+import { v2 as cloudinary } from "cloudinary";
+
+dotenv.config();
 
 //Cloudinary
 cloudinary.config({
@@ -14,8 +15,6 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-
-dotenv.config();
 
 export const signup = async (req, res) => {
     const re = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
@@ -188,17 +187,30 @@ export const promptSelected = async (req, res) => {
 
 export const uploadImage = async (req, res) => {
     try{
-        const result = await cloudinary.uploader.upload(req.body, image, {
-            id: nanoid(),
-            type: 'jpg',
+        const result = await cloudinary.uploader.upload(req.body.image, {
+            public_id: nanoid(),
+            resource_type: 'image',
+            format: 'jpg'
         });
+
         console.log(req.body.user);
+        const userId = req.body.user._id;
+
+        const userImage = new Image({
+            user: userId,
+            id: result.public_id,
+            url: result.secure_url
+        })
+
+
+        await userImage.save();
+
         const user = await User.findByIdAndUpdate(
-            req.body.user._id,
+            userId,
             {
                 image: {
-                    user: user.name,
-                    id: result.id,
+                    user: userId,
+                    id: result.public_id,
                     url: result.secure_url,
                 },
             },
@@ -212,5 +224,35 @@ export const uploadImage = async (req, res) => {
     }catch (err){
         console.log(err);
     }
-};
+}; 
 
+export const userNewImagePost = async(req, res) => {
+    try{
+    
+        console.log(req.body.user);
+        const userId = req.body.images._id
+
+        const user = 
+          await Image.findByIdAndUpdate(
+            userId,
+            {
+                image: {
+                    user: userId,
+                    id: result.public_id,
+                    url: result.secure_url,
+                },
+            },
+            ImageModel.findOne({user: userId}).sort({ createdAt: -1}),
+            {new: true}
+        );
+        
+            
+        return res.json({
+          
+            image: user.image,
+        });
+       
+    }catch (err){
+        console.log(err);
+    }
+}

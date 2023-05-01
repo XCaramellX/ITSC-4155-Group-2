@@ -8,22 +8,35 @@ export default function MenuBar() {
 
     return (
     <View style={styles.menu}>
-        <Text style={styles.menuText} onPress={() => {navigation.navigate('Upload')}}>Upload</Text>
+        <Text style={styles.uploadText} onPress={() => {navigation.navigate('Upload')}}>Upload</Text>
+        <Text style={styles.homeText} onPress={() => {navigation.navigate('MainFeedScreen')}}>Home</Text>
+        <Text style={styles.promptText} onPress={() => {navigation.navigate('Prompt')}}>Prompts</Text> 
     </View>
     );
 }
 
 const styles = StyleSheet.create({
     menu: {
-        bottom: "10%",
-        width: "100%",
-        alignSelf: "center",
-        paddingBottom: "20%",
+        bottom: 70,
+        width: 500,
+        paddingBottom: 60,
+        flexDirection: "row",
         backgroundColor: "#9300ff"
     },
 
-    menuText: {
-        marginTop: "10%",
-        marginLeft: "10%"
+    uploadText: {
+        top: 25,
+        left: 190,
+    },
+
+    homeText: {
+        top: 25,
+        left: 10
+    },
+
+    promptText: {
+        top: 25,
+        left: 30
+   
     }
 })

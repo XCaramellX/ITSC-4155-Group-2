@@ -5,6 +5,7 @@ import UploadCaption from '../components/UploadCaption'
 import UploadSwitch from '../components/UploadSwitch'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import * as ImagePicker from "expo-image-picker";
+import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 //import UploadDrop from '../components/UploadDropBox'
@@ -37,16 +38,17 @@ export default function Upload({navigation}){
             //this.setState({image: permResult.uri});
             return;
         }
-        let base64Image = 'data:image/jpg;base64,${picked.base64}';
+        let base64Image = `data:image/jpg;base64,${picked.base64}`;
         setUploadImage(base64Image);
 
         let storedData = await AsyncStorage.getItem("auth-rn");
-        const parsed = JSON.parse(storedData);
-        const { data } = await axios.post("http://localhost:8000/api/upload-image",{
+        const parsed = JSON.parse(storedData); 
+        
+        const { data } = await axios.post("http://172.16.9.28:8000/api/upload-image",{
             image: base64Image,
-            //user: parsed.user,
+            user: parsed.user,
         });
-        console.log('UPLOADED Response => ', data)
+
     }
 
     return(
@@ -84,14 +86,14 @@ export default function Upload({navigation}){
                 <View style={pageStyles.row}>
                     <UploadButton
                         mode="contained"
-                        onPress ={() => navigation.navigate('Prompt')}
+                        onPress ={() => navigation.navigate('MainFeedScreen')}
                     >
                         Post
                     </UploadButton>
 
                     <UploadButton
                         mode="contained"
-                        onPress ={() => navigation.navigate('StartScreen')}
+                        onPress ={() => navigation.navigate('MainFeedScreen')}
                     >
                         Back
                     </UploadButton>         

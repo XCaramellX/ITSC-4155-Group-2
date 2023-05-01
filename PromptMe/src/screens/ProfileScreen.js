@@ -1,228 +1,589 @@
-import React, { useState, useContext } from 'react';
-import { View, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
-import { Text } from 'react-native-paper';
-import { SelectList } from 'react-native-dropdown-select-list';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import React, { useState } from 'react';
+import {
+    View,
+    StyleSheet,
+    SafeAreaView,
+    TouchableOpacity,
+    ScrollView,
+    SectionList,
+    Image,
+    Button,
+    useWindowDimensions,
+} from 'react-native';
+import {
+    Avatar,
+    Title,
+    Caption,
+    Text,
+    TouchableRipple,
+} from 'react-native-paper';
 import Background from '../components/Background';
 import Header from '../components/Sign-In-Header';
-import Button from '../components/Button';
-
-import { Container, Row, Col, Card, Typography } from 'react-bootstrap';
-
-import Tabs from "../components/Tabs";
-import "../themes/Tabs.css";
-
-
+import TextInput from '../components/TextInput';
 import BackButton from '../components/BackButton';
+import SelectDropdown from 'react-native-select-dropdown';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { theme } from '../themes/sign-in-theme';
-import { AuthContext } from '../../context/auth';
+import { emailValidator } from '../validators/emailValidator';
+import { passwordValidator } from '../validators/passwordValidator';
+import { nameValidator } from '../validators/nameValidator';
+import { TabView, SceneMap } from 'react-native-tab-view';
 
-{/* <div className="vh-100" style={{ backgroundColor: '#eee' }}>
-  <MDBContainer className="container py-5 h-100">
-    <MDBRow className="justify-content-center align-items-center h-100">
-      <MDBCol md="12" xl="4">
-        <MDBCard style={{ borderRadius: '15px' }}>
-          <MDBCardBody className="text-center">
-            <div className="mt-3 mb-4">
-              <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp"
-                className="rounded-circle" fluid style={{ width: '100px' }} />
-            </div>
-            <MDBTypography tag="h4">Julie L. Arsenault</MDBTypography>
-            <MDBCardText className="text-muted mb-4">
-              @Programmer <span className="mx-2">|</span> <a href="#!">mdbootstrap.com</a>
-            </MDBCardText>
-            <div className="mb-4 pb-2">
-              <MDBBtn outline floating>
-                <MDBIcon fab icon="facebook" size="lg" />
-              </MDBBtn>
-              <MDBBtn outline floating className="mx-1">
-                <MDBIcon fab icon="twitter" size="lg" />
-              </MDBBtn>
-              <MDBBtn outline floating>
-                <MDBIcon fab icon="skype" size="lg" />
-              </MDBBtn>
-            </div>
-            <MDBBtn rounded size="lg">
-              Message now
-            </MDBBtn>
-            <div className="d-flex justify-content-between text-center mt-5 mb-2">
-              <div>
-                <MDBCardText className="mb-1 h5">8471</MDBCardText>
-                <MDBCardText className="small text-muted mb-0">Wallets Balance</MDBCardText>
-              </div>
-              <div className="px-3">
-                <MDBCardText className="mb-1 h5">8512</MDBCardText>
-                <MDBCardText className="small text-muted mb-0">Followers</MDBCardText>
-              </div>
-              <div>
-                <MDBCardText className="mb-1 h5">4751</MDBCardText>
-                <MDBCardText className="small text-muted mb-0">Total Transactions</MDBCardText>
-              </div>
-            </div>
-          </MDBCardBody>
-        </MDBCard>
-      </MDBCol>
-    </MDBRow>
-  </MDBContainer>
-</div> */}
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+export default function RegisterScreen({ navigation }) {
+    const [user, setUser] = useState([
+        {
+            name: 'John Doe',
+            email: 'jDoe34@uncc.edu',
+            category: 'Music',
+            experience: 'Beginner',
+            prompt: 'Hello from the back end, We are connected',
+            key: 1,
+        },
+    ]);
 
+    const [prompts, setPrompts] = useState([
+        {
+            category: 'Writing',
+            experience: 'Beginner',
+            content: 'Write a story about a character late to a special event.',
+            key: 1,
+        },
+        {
+            category: 'Writing',
+            experience: 'Beginner',
+            content: 'Write a story about a character late to a special event.',
+            key: 1,
+        },
+        {
+            category: 'Writing',
+            experience: 'Beginner',
+            content: 'Write a story about a character late to a special event.',
+            key: 1,
+        },
+        {
+            category: 'Writing',
+            experience: 'Beginner',
+            content: 'Write a story about a character late to a special event.',
+            key: 1,
+        },
+        {
+            category: 'Writing',
+            experience: 'Beginner',
+            content: 'Write a story about a character late to a special event.',
+            key: 1,
+        },
+        {
+            category: 'Writing',
+            experience: 'Beginner',
+            content: 'Write a story about a character late to a special event.',
+            key: 1,
+        },
+    ]);
 
+    const layout = useWindowDimensions();
 
-export default function ProfileScreen({ navigation }) {
-  const [data, setData] = useState([
-    { data: "Dummy Data 1", key: 1 },
-    { data: "Dummy Data 2", key: 2 },
-    { data: "Dummy Data 3", key: 3 },
-    { data: "Dummy Data 4", key: 4 },
-    { data: "Dummy Data 5", key: 5 },
-    { data: "Dummy Data 6", key: 6 },
-    { data: "Dummy Data 7", key: 7 },
-    { data: "Dummy Data 8", key: 8 },
-    { data: "Dummy Data 9", key: 9 },
-    { data: "Dummy Data 10", key: 10 },
-  ]);
+    const [routes] = React.useState([
+        { key: 'first', title: 'Posts' },
+        { key: 'second', title: 'Comments' },
+        { key: 'third', title: 'About' },
+    ]);
 
-  const onSignUpPressed = async () => {
-    if (email == "" || password == "" || name == "") {
-      alert("All fields must be filled out")
-      return
-    }
+    const [index, setIndex] = React.useState(0);
 
+    const FirstRoute = () => (
+        <ScrollView>
+            {prompts.map((item) => {
+                return (
+                    <View style={styles.container}>
+                        <Text style={styles.item}>{item.content}</Text>
+                    </View>
+                );
+            })}
+        </ScrollView>
+    );
 
-    const resp = await axios.post("http://172.16.9.28:8000/api/signup", { name, email, password, category, experience });
-    if (resp.data.error) {
-      alert(resp.data.error);
-    } else {
-      setState(resp.data);
-      await AsyncStorage.setItem('auth-rn', JSON.stringify(resp.data));
-      alert("Sign up Successful");
-      navigation.navigate('Prompt');
-    }
+    const SecondRoute = () => (
+        <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
+    );
 
-    console.log(resp.data);
-  };
+    const ThirdRoute = () => (
+        <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
+    );
 
+    const renderScene = SceneMap({
+        first: FirstRoute,
+        second: SecondRoute,
+        third: ThirdRoute,
+    });
 
-  return (
-    <Container style={styles.background}>
-      <Container style={styles.header}>
-        <BackButton goBack={navigation.goBack} />
-        {/* <Header style={{ color: 'black' }}>Create Account</Header> */}
-      </Container>
+    const Posts = () => (
+        <ScrollView>
+            {prompts.map((item) => {
+                return (
+                    <View style={styles.container}>
+                        <Text style={styles.item}>{item.content}</Text>
+                    </View>
+                );
+            })}
+        </ScrollView>
+    );
 
+    const Comments = () => (
+        <ScrollView>
+            {prompts.map((item) => {
+                return (
+                    <View style={styles.container}>
+                        <Text style={styles.item}>{item.content}</Text>
+                    </View>
+                );
+            })}
+        </ScrollView>
+    );
 
-      <Container className="container py-5 h-100">
-        <Row style={styles.container}>
-          <Col md="12" xl="4">
-            <Card style={styles.card}>
-              <Card.Body className="text-center">
-                <div className="mt-3 mb-4">
-                  <Card.Img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp"
-                    className="rounded-circle"
-                    fluid
-                    style={{ width: '100px' }}
-                  />
-                </div>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', }}>Julie L. Arsenault</Text>
-                <Card.Text className="text-muted mb-4">
-                  @Programmer <span className="mx-2">|</span>{' '}
-                  <a href="#!">mdbootstrap.com</a>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+    const About = () => (
+        <ScrollView>
+            {prompts.map((item) => {
+                return (
+                    <View style={styles.container}>
+                        <Text style={styles.item}>{item.content}</Text>
+                    </View>
+                );
+            })}
+        </ScrollView>
+    );
 
-      <div>
-        <Tabs>
-          <div label="Posts">
-            <View style={styles.scrollContainer}>
-              <ScrollView>
-                {data.map((item) => {
-                  return (
-                    <Container >
-                      <Row key={item.key} style={styles.container}>
-                        <Col md="12" xl="4">
-                          <Card style={styles.card}>
-                            <Card.Body className="text-center">
-                              <Text style={styles.item}>{item.data}</Text>
-                              <Card.Text className="text-muted mb-4">
-                                @Programmer <span className="mx-2">|</span>{' '}
-                                <a href="#!">mdbootstrap.com</a>
-                              </Card.Text>
-                            </Card.Body>
-                          </Card>
-                        </Col>
-                      </Row>
-                      <Text>
-                        {"\n"}
-                      </Text>
-                    </Container>
-                  );
-                })}
-                <View >
+    return (
+        <SafeAreaView style={styles.container}>
+            <View style={styles.userInfoSection}>
+                <View style={{ flexDirection: 'row', marginTop: 15 }}>
+                    <Avatar.Image
+                        src={require('../assets/default_profile_picture.svg')}
+                        size={80}
+                    />
+                    <View style={{ marginLeft: 20 }}>
+                        <Title
+                            style={[
+                                styles.title,
+                                {
+                                    marginTop: 15,
+                                    marginBottom: 5,
+                                },
+                            ]}>
+                            John Doe
+                        </Title>
+                        <Caption style={styles.caption}>@j_doe</Caption>
+                    </View>
                 </View>
-              </ScrollView>
             </View>
-          </div>
-          <div label="Comments">
-            After 'while, <em>Crocodile</em>!
-          </div>
-          <div label="About">
-            Nothing to see here, this tab is <em>extinct</em>!
-          </div>
-        </Tabs>
-      </div>
-    </Container>
-  )
+
+            <View style={styles.userInfoSection}>
+                <View style={styles.row}>
+                    <Icon name="map-marker-radius" color="#777777" size={20} />
+                    <Text style={{ color: '#777777', marginLeft: 20 }}>
+                        Kolkata, India
+                    </Text>
+                </View>
+                <View style={styles.row}>
+                    <Icon name="phone" color="#777777" size={20} />
+                    <Text style={{ color: '#777777', marginLeft: 20 }}>
+                        +91-900000009
+                    </Text>
+                </View>
+                <View style={styles.row}>
+                    <Icon name="email" color="#777777" size={20} />
+                    <Text style={{ color: '#777777', marginLeft: 20 }}>
+                        john_doe@email.com
+                    </Text>
+                </View>
+            </View>
+
+            <View style={styles.infoBoxWrapper}>
+                <View
+                    style={[
+                        styles.infoBox,
+                        {
+                            borderRightColor: '#dddddd',
+                            borderRightWidth: 1,
+                        },
+                    ]}>
+                    <Title>34</Title>
+                    <Caption>Follows</Caption>
+                </View>
+                <View style={styles.infoBox}>
+                    <Title>12</Title>
+                    <Caption>Posts</Caption>
+                </View>
+            </View>
+            <TabView
+                navigationState={{ index, routes }}
+                renderScene={renderScene}
+                onIndexChange={setIndex}
+                initialLayout={{ width: layout.width }}
+            />
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({
-  header: {
-    // backgroundColor: theme.colors.primary,
-    color: theme.colors.background,
-    flexGrow: 1,
+    container: {
+        flex: 1,
+    },
+    userInfoSection: {
+        justifyContent: 'center',
+        paddingHorizontal: 30,
+        marginBottom: 25,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+    caption: {
+        fontSize: 14,
+        lineHeight: 14,
+        fontWeight: '500',
+    },
+    row: {
+        flexDirection: 'row',
+        marginBottom: 10,
+    },
+    infoBoxWrapper: {
+        borderBottomColor: '#dddddd',
+        borderBottomWidth: 1,
+        borderTopColor: '#dddddd',
+        borderTopWidth: 1,
+        flexDirection: 'row',
+        height: 100,
+    },
+    infoBox: {
+        width: '50%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    // menuWrapper: {
+    //   marginTop: 10,
+    // },
+    // menuItem: {
+    //   flexDirection: 'row',
+    //   paddingVertical: 15,
+    //   paddingHorizontal: 30,
+    // },
+    // menuItemText: {
+    //   color: '#777777',
+    //   marginLeft: 20,
+    //   fontWeight: '600',
+    //   fontSize: 16,
+    //   lineHeight: 26,
+    // },
+});
 
-    justifyContent: 'center',
-    textAlign: 'center',
-  },
-  background: {
-    backgroundColor: theme.colors.background,
-    flexGrow: 1,
+// <ScrollView>
+//   {prompts.map((item) => {
+//     return (
+//       <View style={styles.container}>
+//         <Text style={styles.item}>{item.content}</Text>
+//       </View>
+//     );
+//   })}
+//   <View></View>
+// </ScrollView>
 
+// Tab View
+// <TabView
+//   navigationState={{ index, routes }}
+//   renderScene={renderScene}
+//   onIndexChange={setIndex}
+//   initialLayout={{ width: layout.width }}
+// />
 
-    justifyContent: 'center',
-  },
+// <View>
+//   <TabView
+//     navigationState={{ index, routes }}
+//     renderScene={renderScene}
+//     onIndexChange={setIndex}
+//     initialLayout={{ width: layout.width }}
+//   />
+// </View>
 
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
-    padding: 8,
-  },
-  card: {
-    borderRadius: '50px',
-    marginTop: 24,
-    padding: 30,
-  },
+//
 
-  item: {
-    fontSize: 24,
-  },
+// import React, { Component } from 'react'
+// import {
+//   Animated,
+//   Image,
+//   Platform,
+//   ScrollView,
+//   StyleSheet,
+//   Text,
+//   View,
+// } from 'react-native'
+// import { Icon } from 'react-native-elements'
+// import {
+//   TabView,
+//   TabBar,
+//   TabViewPagerScroll,
+//   TabViewPagerPan,
+// } from 'react-native-tab-view'
+// import PropTypes from 'prop-types'
 
-  scrollContainer: {
-    flexGrow: 1,
-    padding: 10,
-    justifyContent: 'center',
-  },
+// import Posts from '../components/Posts'
 
+// const styles = StyleSheet.create({
+//   cardContainer: {
+//     flex: 1,
+//   },
+//   container: {
+//     flex: 1,
+//   },
+//   headerContainer: {
+//     alignItems: 'center',
+//     backgroundColor: '#FFF',
+//     marginBottom: 10,
+//     marginTop: 45,
+//   },
+//   indicatorTab: {
+//     backgroundColor: 'transparent',
+//   },
+//   scroll: {
+//     backgroundColor: '#FFF',
+//   },
+//   sceneContainer: {
+//     marginTop: 10,
+//   },
+//   socialIcon: {
+//     marginLeft: 14,
+//     marginRight: 14,
+//   },
+//   socialRow: {
+//     flexDirection: 'row',
+//   },
+//   tabBar: {
+//     backgroundColor: '#EEE',
+//   },
+//   tabContainer: {
+//     flex: 1,
+//     marginBottom: 12,
+//   },
+//   tabLabelNumber: {
+//     color: 'gray',
+//     fontSize: 12.5,
+//     textAlign: 'center',
+//   },
+//   tabLabelText: {
+//     color: 'black',
+//     fontSize: 22.5,
+//     fontWeight: '600',
+//     textAlign: 'center',
+//   },
+//   userBioRow: {
+//     marginLeft: 40,
+//     marginRight: 40,
+//   },
+//   userBioText: {
+//     color: 'gray',
+//     fontSize: 13.5,
+//     textAlign: 'center',
+//   },
+//   userImage: {
+//     borderRadius: 60,
+//     height: 120,
+//     marginBottom: 10,
+//     width: 120,
+//   },
+//   userNameRow: {
+//     marginBottom: 10,
+//   },
+//   userNameText: {
+//     color: '#5B5A5A',
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//   },
+//   userRow: {
+//     alignItems: 'center',
+//     flexDirection: 'column',
+//     justifyContent: 'center',
+//     marginBottom: 12,
+//   },
+// })
 
+// class Profile2 extends Component {
+//   static propTypes = {
+//     avatar: PropTypes.string.isRequired,
+//     name: PropTypes.string.isRequired,
+//     bio: PropTypes.string.isRequired,
+//     containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+//     tabContainerStyle: PropTypes.oneOfType([
+//       PropTypes.object,
+//       PropTypes.number,
+//     ]),
+//     posts: PropTypes.arrayOf(
+//       PropTypes.shape({
+//         id: PropTypes.number.isRequired,
+//         words: PropTypes.string.isRequired,
+//         sentence: PropTypes.string.isRequired,
+//         paragraph: PropTypes.string.isRequired,
+//         image: PropTypes.string,
+//         user: PropTypes.shape({
+//           name: PropTypes.string.isRequired,
+//           username: PropTypes.string.isRequired,
+//           avatar: PropTypes.string.isRequired,
+//           email: PropTypes.string.isRequired,
+//         }),
+//       })
+//     ).isRequired,
+//   }
 
+//   static defaultProps = {
+//     containerStyle: {},
+//     tabContainerStyle: {},
+//   }
 
+//   state = {
+//     tabs: {
+//       index: 0,
+//       routes: [
+//         { key: '1', title: 'active', count: 31 },
+//         { key: '2', title: 'like', count: 86 },
+//         { key: '3', title: 'following', count: 95 },
+//         { key: '4', title: 'followers', count: '1.3 K' },
+//       ],
+//     },
+//   }
 
-})
+//   onPressPlace = () => {
+//     console.log('place')
+//   }
+
+//   handleIndexChange = index => {
+//     this.setState({
+//       tabs: {
+//         ...this.state.tabs,
+//         index,
+//       },
+//     })
+//   }
+
+//   renderTabBar = props => {
+//     return <TabBar
+//       indicatorStyle={styles.indicatorTab}
+//       renderLabel={this.renderLabel(props)}
+//       pressOpacity={0.8}
+//       style={styles.tabBar}
+//       {...props}
+//     />
+//   };
+
+//   renderLabel = props => ({ route }) => {
+//     const routes = props.navigationState.routes
+
+//     let labels = []
+//     routes.forEach((e, index) => {
+//       labels.push(index === props.navigationState.index ? 'black' : 'gray')
+//     })
+
+//     const currentIndex = parseInt(route.key) - 1
+//     const color = labels[currentIndex]
+
+//     return (
+//       <View>
+//         <Animated.Text style={[styles.tabLabelText, { color }]}>
+//           {route.count}
+//         </Animated.Text>
+//         <Animated.Text style={[styles.tabLabelNumber, { color }]}>
+//           {route.title}
+//         </Animated.Text>
+//       </View>
+//     )
+//   }
+
+//   renderScene = ({ route: { key } }) => {
+//     const { posts } = this.props
+
+//     switch (key) {
+//       case '1':
+//         return <Posts containerStyle={styles.sceneContainer} posts={posts} />
+//       case '2':
+//         return <Posts containerStyle={styles.sceneContainer} posts={posts} />
+//       case '3':
+//         return <Posts containerStyle={styles.sceneContainer} posts={posts} />
+//       case '4':
+//         return <Posts containerStyle={styles.sceneContainer} posts={posts} />
+//       default:
+//         return <View />
+//     }
+//   }
+
+//   renderContactHeader = () => {
+//     const { avatar, name, bio } = this.props
+
+//     return (
+//       <View style={styles.headerContainer}>
+//         <View style={styles.userRow}>
+//           <Image
+//             style={styles.userImage}
+//             source={{uri: avatar}}
+//           />
+//           <View style={styles.userNameRow}>
+//             <Text style={styles.userNameText}>{name}</Text>
+//           </View>
+//           <View style={styles.userBioRow}>
+//             <Text style={styles.userBioText}>{bio}</Text>
+//           </View>
+//         </View>
+//         <View style={styles.socialRow}>
+//           <View>
+//             <Icon
+//               size={30}
+//               type="entypo"
+//               color="#3B5A98"
+//               name="facebook-with-circle"
+//               onPress={() => console.log('facebook')}
+//             />
+//           </View>
+//           <View style={styles.socialIcon}>
+//             <Icon
+//               size={30}
+//               type="entypo"
+//               color="#56ACEE"
+//               name="twitter-with-circle"
+//               onPress={() => console.log('twitter')}
+//             />
+//           </View>
+//           <View>
+//             <Icon
+//               size={30}
+//               type="entypo"
+//               color="#DD4C39"
+//               name="google--with-circle"
+//               onPress={() => console.log('google')}
+//             />
+//           </View>
+//         </View>
+//       </View>
+//     )
+//   }
+
+//   render() {
+//     return (
+//       <ScrollView style={styles.scroll}>
+//         <View style={[styles.container, this.props.containerStyle]}>
+//           <View style={styles.cardContainer}>
+//             {this.renderContactHeader()}
+//             <TabView
+//               style={[styles.tabContainer, this.props.tabContainerStyle]}
+//               navigationState={this.state.tabs}
+//               renderScene={this.renderScene}
+//               renderTabBar={this.renderTabBar}
+//               onIndexChange={this.handleIndexChange}
+//             />
+//           </View>
+//         </View>
+//       </ScrollView>
+//     )
+//   }
+// }
+
+// export default Profile2

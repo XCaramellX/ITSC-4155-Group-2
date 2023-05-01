@@ -9,9 +9,10 @@ import {
   RegisterScreen,
   ResetPasswordScreen,
   Prompt,
-  MainFeed,
+  MainFeedScreen,
   Upload,
   ProfileScreen,
+  MainFeedpage2,
 } from './src/screens';
 import { AuthProvider } from './context/auth.js';
 
@@ -31,13 +32,16 @@ export default function App() {
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
             <Stack.Screen name="Prompt" component={Prompt} />
-            <Stack.Screen name="MainFeed" component={MainFeed} />
+            <Stack.Screen name="MainFeedScreen" component={MainFeedScreen} />
             <Stack.Screen name="Upload" component={Upload} />
             <Stack.Screen
               name="ResetPasswordScreen"
               component={ResetPasswordScreen}
             />
             <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+            <Stack.Screen name="MainFeedpage2" component={MainFeedpage2} />
+
+
           </Stack.Navigator>
         </AuthProvider>
       </NavigationContainer>

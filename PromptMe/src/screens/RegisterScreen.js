@@ -44,7 +44,6 @@ export default function RegisterScreen({ navigation }) {
       alert("All fields must be filled out")
       return
     }
-    
 
     const resp = await axios.post("http://172.16.9.28:8000/api/signup", { name, email, password, category, experience });
     if (resp.data.error) {
@@ -68,8 +67,8 @@ export default function RegisterScreen({ navigation }) {
         returnKeyType="next"
         // value={name.value}
         onChangeText={(text) => setName(text)}
-        // error={!!name.error}
-        // errorText={name.error}
+      // error={!!name.error}
+      // errorText={name.error}
       />
       <TextInput
         label="Email"

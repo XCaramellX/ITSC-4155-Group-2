@@ -29,7 +29,7 @@ export default function LoginScreen({ navigation }) {
       setState(resp.data);
       await AsyncStorage.setItem('auth-rn', JSON.stringify(resp.data));
       alert("Login successful");
-      navigation.navigate('MainFeed');
+      navigation.navigate('MainFeedScreen');
     }
 
     
