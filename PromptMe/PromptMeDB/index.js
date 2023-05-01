@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import morgan from 'morgan';
 
+
 import authRoutes from './routes/auth.js';
 
 
@@ -25,6 +26,8 @@ app.use(cors());
 app.use(morgan("dev"));
 
 app.use("/api", authRoutes);
+
+
 
 app.get('/', (req, res) => {
     res.json({ success: true, message: 'Database Connected' })

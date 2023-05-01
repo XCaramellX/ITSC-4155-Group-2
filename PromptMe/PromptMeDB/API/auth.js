@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import { nanoid } from "nanoid";
 import dotenv from "dotenv";
 import cloudinary from "cloudinary";
+import sharp from 'sharp';
+import multer from 'multer';
 
 //Cloudinary
 cloudinary.config({
@@ -184,7 +186,7 @@ export const promptSelected = async (req, res) => {
     }
 }
 
-exports.uploadImage = async (req, res) => {
+export const uploadImage = async (req, res) => {
     try{
         const result = await cloudinary.uploader.upload(req.body, image, {
             id: nanoid(),

@@ -29,7 +29,7 @@ router.get("/prompts", (req, res) => {
         });
 });
 router.post("/prompts", promptSelected);
-router.post("/upload-image", uploadImage)
+router.post("/upload-image", uploadImage);
 
 
 export default router;
