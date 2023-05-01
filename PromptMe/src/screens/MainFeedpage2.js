@@ -57,7 +57,6 @@ export default function Mainfeedpage2({ route, navigation }) {
                 .map(prompt => prompt.prompt)
         );
     }
-
     // Like Dislike
     const [likeCount, setLikeCount] = useState(50);
     const [dislikeCount, setDislikeCount] = useState(25);
@@ -105,6 +104,7 @@ export default function Mainfeedpage2({ route, navigation }) {
     };
 
     // Like Dislike
+
 
 
 
@@ -178,37 +178,37 @@ export default function Mainfeedpage2({ route, navigation }) {
                     </View>
                 </View>
                 <View style={styles.headerFooterStyle}>
-                    <Text style={styles.textStyle}>This is Footer</Text>
+
+                    <View style={{
+                        flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#9300ff", width: '50%', borderRadius: 20,
+                    }}>
+                        <View style={{ flexDirection: "row" }}>
+                            <TouchableOpacity
+                                style={[
+                                    { padding: 10 },
+                                    activeBtn === "like" ? { backgroundColor: "green", borderRadius: 20 } : {},
+                                ]}
+                                onPress={handleLikeClick}
+                            >
+                                <Text>👍 Like | {likeCount}</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[
+                                    { padding: 10 },
+                                    activeBtn === "dislike" ? { backgroundColor: "red", borderRadius: 20 } : {},
+                                ]}
+                                onPress={handleDisikeClick}
+                            >
+                                <Text>👎 Dislike | {dislikeCount}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
                 </View>
 
                 <ScrollView>
-                    <View style={styles.headerFooterStyle}>
-
-                        <View style={{
-                            flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#9300ff", width: '50%', borderRadius: 20,
-                        }}>
-                            <View style={{ flexDirection: "row" }}>
-                                <TouchableOpacity
-                                    style={[
-                                        { padding: 10 },
-                                        activeBtn === "like" ? { backgroundColor: "green", borderRadius: 20 } : {},
-                                    ]}
-                                    onPress={handleLikeClick}
-                                >
-                                    <Text>👍 Like | {likeCount}</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={[
-                                        { padding: 10 },
-                                        activeBtn === "dislike" ? { backgroundColor: "red", borderRadius: 20 } : {},
-                                    ]}
-                                    onPress={handleDisikeClick}
-                                >
-                                    <Text>👎 Dislike | {dislikeCount}</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-
+                    <View>
+                        <CommentList comments={comments} />
                     </View>
                 </ScrollView>
             </ScrollView>
@@ -258,11 +258,14 @@ const styles = StyleSheet.create({
 
     headerFooterStyle: {
         width: '100%',
-        height: 45,
+        height: 60,
         backgroundColor: '#9300ff',
         marginBottom: 15,
         borderTopColor: '#dddddd',
         borderTopWidth: 4,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 8,
     },
     textStyle: {
         textAlign: 'center',
