@@ -44,7 +44,7 @@ export default function CommentInput({ onSubmit }) {
         mode="outlined"
         multiline={true}
         maxLength={1000}
-        numberOfLines={1}
+        numberOfLines={5}
         onChangeText={changeHandler}
         value={text}
       />
