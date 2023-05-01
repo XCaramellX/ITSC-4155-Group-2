@@ -45,7 +45,7 @@ export default function Mainfeedpage2({ route, navigation }) {
         index: 0,
         routes: [{ name: 'MainFeedScreen' }]
     })
-    const {image} = route.params;
+    const { image } = route.params;
 
     const [comments, setComments] = useState(initialComments);
     const [userPrompt, setUserPrompt] = useState("");
@@ -53,15 +53,61 @@ export default function Mainfeedpage2({ route, navigation }) {
     const users = async (req, res) => {
         res = await axios.get("http://172.16.9.28:8000/api/users");
         setUserPrompt(
-          res.data
-            .map(prompt=> prompt.prompt)
+            res.data
+                .map(prompt => prompt.prompt)
         );
-      }
-    
-    
-    
-    
-      
+    }
+
+    // Like Dislike
+    const [likeCount, setLikeCount] = useState(50);
+    const [dislikeCount, setDislikeCount] = useState(25);
+
+    const [activeBtn, setActiveBtn] = useState("none");
+
+    const handleLikeClick = () => {
+        if (activeBtn === "none") {
+            setLikeCount(likeCount + 1);
+            setActiveBtn("like");
+            return;
+        }
+
+        if (activeBtn === 'like') {
+            setLikeCount(likeCount - 1);
+            setActiveBtn("none");
+            return;
+        }
+
+        if (activeBtn === "dislike") {
+            setLikeCount(likeCount + 1);
+            setDislikeCount(dislikeCount - 1);
+            setActiveBtn("like");
+        }
+    };
+
+    const handleDisikeClick = () => {
+        if (activeBtn === "none") {
+            setDislikeCount(dislikeCount + 1);
+            setActiveBtn("dislike");
+            return;
+        }
+
+        if (activeBtn === 'dislike') {
+            setDislikeCount(dislikeCount - 1);
+            setActiveBtn("none");
+            return;
+        }
+
+        if (activeBtn === "like") {
+            setDislikeCount(dislikeCount + 1);
+            setLikeCount(likeCount - 1);
+            setActiveBtn("dislike");
+        }
+    };
+
+    // Like Dislike
+
+
+
     const handleCommentSubmit = (text) => {
         const newComment = {
             author: 'CurrentUser',
@@ -73,7 +119,7 @@ export default function Mainfeedpage2({ route, navigation }) {
 
     useEffect(() => {
         users()
-      }, []);
+    }, []);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -127,7 +173,7 @@ export default function Mainfeedpage2({ route, navigation }) {
                                 }}>
                                 "{userPrompt}"
                             </Title>
-                            <Image source={{uri: image.url}} style={styles.postimagesStyle}></Image>
+                            <Image source={{ uri: image.url }} style={styles.postimagesStyle}></Image>
                         </View>
                     </View>
                 </View>
@@ -136,8 +182,33 @@ export default function Mainfeedpage2({ route, navigation }) {
                 </View>
 
                 <ScrollView>
-                    <View>
-                        <CommentList comments={comments} />
+                    <View style={styles.headerFooterStyle}>
+
+                        <View style={{
+                            flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#9300ff", width: '50%', borderRadius: 20,
+                        }}>
+                            <View style={{ flexDirection: "row" }}>
+                                <TouchableOpacity
+                                    style={[
+                                        { padding: 10 },
+                                        activeBtn === "like" ? { backgroundColor: "green", borderRadius: 20 } : {},
+                                    ]}
+                                    onPress={handleLikeClick}
+                                >
+                                    <Text>👍 Like | {likeCount}</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[
+                                        { padding: 10 },
+                                        activeBtn === "dislike" ? { backgroundColor: "red", borderRadius: 20 } : {},
+                                    ]}
+                                    onPress={handleDisikeClick}
+                                >
+                                    <Text>👎 Dislike | {dislikeCount}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+
                     </View>
                 </ScrollView>
             </ScrollView>
