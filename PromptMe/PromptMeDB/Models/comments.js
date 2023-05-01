@@ -1,26 +1,25 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const images = new Schema(
+const comments = new Schema(
     {
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+           }, 
+           
         image: 
             {
-                url: '',
-                id: '',
-                user: '',
-                private: false,
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Image'
             }, 
 
-        likes:
-            {
-                type: Number,
-            },
 
-        comments: {
-            type: String,
-            username: String,
-            userAt: String
+        commentText: {
+            type: String
         }
-    }
+
+}
+
 )
-export default mongoose.model("Image", postSchema);
+export default mongoose.model("Comment", comments);

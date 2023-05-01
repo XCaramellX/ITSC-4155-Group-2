@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, } from 'react';
 import CommentBox from '../components/CommentBox';
 import {
     View,
@@ -17,6 +17,7 @@ import { TextInput as Input } from 'react-native-paper';
 import { theme } from '../themes/sign-in-theme';
 // import Commentbox from '../components/Commentbox'
 import BackButton from '../components/BackButton';
+import MainFeedPage2BackButton from '../components/MainFeedPage2BackButton'
 // import EditButton from '../components/EditButton'
 import { StatusBar } from 'expo-status-bar';
 import CommentList from '../components/CommentList';
@@ -39,9 +40,28 @@ const postDetails = {
     imageURL: 'https://via.placeholder.com/300',
 };
 
-export default function Mainfeedpage2({ navigation }) {
-    const [comments, setComments] = useState(initialComments);
+export default function Mainfeedpage2({ route, navigation }) {
+    const onGoBack = () => navigation.reset({
+        index: 0,
+        routes: [{ name: 'MainFeedScreen' }]
+    })
+    const {image} = route.params;
 
+    const [comments, setComments] = useState(initialComments);
+    const [userPrompt, setUserPrompt] = useState("");
+
+    const users = async (req, res) => {
+        res = await axios.get("http://172.16.9.28:8000/api/users");
+        setUserPrompt(
+          res.data
+            .map(prompt=> prompt.prompt)
+        );
+      }
+    
+    
+    
+    
+      
     const handleCommentSubmit = (text) => {
         const newComment = {
             author: 'CurrentUser',
@@ -50,10 +70,15 @@ export default function Mainfeedpage2({ navigation }) {
         };
         setComments([newComment, ...comments]);
     };
+
+    useEffect(() => {
+        users()
+      }, []);
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
-
+                <MainFeedPage2BackButton />
                 <View style={styles.userInfoSection}>
                     <View style={{ flexDirection: 'row', marginTop: 15 }}>
                         <Image
@@ -100,8 +125,9 @@ export default function Mainfeedpage2({ navigation }) {
                                     justifyContent: 'center',
                                     fontSize: 20,
                                 }}>
-                                "Draw a well known character in there usual environment."
+                                "{userPrompt}"
                             </Title>
+                            <Image source={{uri: image.url}} style={styles.postimagesStyle}></Image>
                         </View>
                     </View>
                 </View>
@@ -140,6 +166,19 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
     },
+
+    postimagesStyle: {
+        backgroundColor: 'white',
+        borderRadius: 20,
+        width: 100,
+        height: 100,
+        alignSelf: "center",
+        resizeMode: "contain",
+        shadowColor: "grey",
+        shadowOpacity: "0.7",
+        shadowOffset: { width: -2, height: 2 },
+    },
+
     caption: {
         fontSize: 14,
         lineHeight: 14,

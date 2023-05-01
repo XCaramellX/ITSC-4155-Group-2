@@ -7,6 +7,7 @@ const router = express.Router();
 import { signup, signin, forgotPassword, resetPassword, promptSelected, uploadImage} from "../API/auth.js";
 import Prompts from "../Models/prompts.js";
 import Image from "../Models/images.js";
+import User from '../Models/user.js';
 
 router.get("/", (req, res) => {
     return res.json({
@@ -21,6 +22,18 @@ router.post("/reset-password", resetPassword);
 router.get("/prompts", (req, res) => {
     
     Prompts.find({ })
+        .then((data) => {
+
+            console.log('Data: ', data)
+            return res.json(data);
+        }) 
+        .catch((error) => {
+            console.log(error);
+        });
+});
+
+router.get("/users", (req, res) =>{
+    User.find({ })
         .then((data) => {
 
             console.log('Data: ', data)

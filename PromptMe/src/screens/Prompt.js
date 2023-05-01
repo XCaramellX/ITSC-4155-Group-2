@@ -45,7 +45,7 @@ export default function Prompt({ navigation }) {
 
 
   const prompts = async (req, res) => {
-    res = await axios.get("http://192.168.1.221:8000/api/prompts");
+    res = await axios.get("http://172.16.9.28:8000/api/prompts");
     setPromptSelection(
       res.data
         .filter(promptFilter => promptFilter.category == state.user.category && promptFilter.experience == state.user.experience)
@@ -62,7 +62,7 @@ export default function Prompt({ navigation }) {
 
   // console.log(promptSelection)
 
-   for (let x = 0; x < promptSelection.length; x++) {
+  for (let x = 0; x < promptSelection.length; x++) {
     const item = {
       data: promptSelection[x],
       key: x
