@@ -44,7 +44,7 @@ export default function Prompt({ navigation }) {
 
 
   const prompts = async (req, res) => {
-    res = await axios.get("http://172.16.9.28:8000/api/prompts");
+    res = await axios.get("http://192.168.1.239:8000/api/prompts");
     setPromptSelection(
       res.data
         .filter(promptFilter => promptFilter.category === state.user.category && promptFilter.experience === state.user.experience)
@@ -74,7 +74,7 @@ export default function Prompt({ navigation }) {
 
   const promptSelected = async () => {
     setisModalVisible(false);
-    const resp = await axios.post(`http://${IP}:8000/api/prompts`, { email, prompt });
+    const resp = await axios.post(`http://192.168.1.239:8000/api/prompts`, { email, prompt });
 
     if (resp.data.error) {
       alert(resp.data.error)
