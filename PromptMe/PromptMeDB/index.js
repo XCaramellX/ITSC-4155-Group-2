@@ -48,18 +48,18 @@ app.get('/api/showImages', async(req, res) => {
 });
 
 
-app.get('/api/users', async(req, res) => {
+/*app.get('/api/users', async(req, res) => {
     const user = await User.find()
     res.status(200).json(user);
-}); 
+}); */
 
-app.get('/api/imagePrompt/:imageId', async (req, res) => {
+app.get('/api/showImages/:imageId', async (req, res) => {
 
     const {imageId} = req.params
     
-    const userImage = await Image.findById(imageId).populate('user');
-    res.status(200).json({userImage, prompt: userImage.user.prompt});
-})
+    const userImage = await Image.findById(imageId);
+    res.status(200).json(userImage);
+}) 
 
 app.listen(PORT, () => {console.log(`Server running on port ${PORT}`)});
 

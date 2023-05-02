@@ -32,7 +32,7 @@ router.get("/prompts", (req, res) => {
         });
 });
 
-router.get("/users", (req, res) =>{
+/*router.get("/users", (req, res) =>{
     User.find({ })
         .then((data) => {
 
@@ -42,7 +42,7 @@ router.get("/users", (req, res) =>{
         .catch((error) => {
             console.log(error);
         });
-});
+}); */
 
 router.get("/showImages", (req, res) =>{
     Image.find({ })

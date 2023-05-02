@@ -60,15 +60,15 @@ export default function Mainfeedpage2({ route, navigation }) {
 
     useEffect(() => {
         const userImages = async () => {
-            const res = await axios.get(`http://172.16.9.28:8000/api/imagePrompt/${imageId}`)
+            if(imageId) {
+            const res = await axios.get(`http://172.16.9.28:8000/api/showImages/${imageId}`)
             setUserPrompt(res.data);
+            }
         };
 
-        if (imageId) {
-            userImages();
-        }
-
-
+        
+        userImages();
+        
     }, [imageId]);
 
     //Show and hide Commentt Box
@@ -180,20 +180,20 @@ export default function Mainfeedpage2({ route, navigation }) {
                                 justifyContent: 'center',
                             }}>
                             {userPrompt && (
-                                <>
-                                    <Title
-                                        style={{
-                                            marginTop: 2,
-                                            marginBottom: 5,
-                                            padding: 10,
-                                            textAlighn: 'center',
-                                            justifyContent: 'center',
-                                            fontSize: 20,
-                                        }}>
-                                        "{userPrompt.prompt}"
-                                    </Title>
-                                    <Image source={{ uri: userPrompt.userImage.url }} style={styles.postimagesStyle}></Image>
-                                </>
+                            <>
+                            <Title
+                                style={{
+                                    marginTop: 2,
+                                    marginBottom: 5,
+                                    padding: 10,
+                                    textAlighn: 'center',
+                                    justifyContent: 'center',
+                                    fontSize: 20,
+                                }}>
+                                "{userPrompt.prompt}"
+                            </Title>
+                            <Image source={{ uri: userPrompt.url }} style={styles.postimagesStyle}></Image>
+                            </>
                             )}
                         </View>
                     </View>

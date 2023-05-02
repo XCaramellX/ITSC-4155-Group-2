@@ -204,6 +204,7 @@ export const uploadImage = async (req, res) => {
             id: result.public_id,
             url: result.secure_url,
             prompt: userPrompt.prompt
+          
         })
 
 

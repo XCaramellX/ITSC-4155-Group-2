@@ -6,6 +6,7 @@ import BackButton from "../components/BackButton";
 import ProfileButton from "../components/ProfileButton.js";
 import { AuthContext } from "../../context/auth";
 import axios from 'axios';
+
 import {
     FlatList,
     StyleSheet,
@@ -41,7 +42,7 @@ export default function MainFeed({ navigation}) {
 
    const getImagePost = async () => {
 
-        const getImageResponse = await axios.get('http://172.16.9.28:8000/api/showImages');
+        const getImageResponse = await axios.get(`http://172.16.9.28:8000/api/showImages`);
         setImages(getImageResponse.data);
     }
   
