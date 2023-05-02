@@ -19,7 +19,8 @@ const images = new Schema(
        },
 
        prompt: {
-         type: String
+         type: String,
+         required: true
        },
 
       likes: {

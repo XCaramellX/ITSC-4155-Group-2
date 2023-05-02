@@ -196,15 +196,20 @@ export const uploadImage = async (req, res) => {
         console.log(req.body.user);
         
         const userId = req.body.user._id;
-
+        const imageUserId = req.body.image.user;
         const userPrompt = await User.findById(userId);
+        const imageLikes = await Image.findById(imageUserId);
+        const imageDislikes = await Image.findById(imageUserId);
+        const imageComments = await Image.findById(imageUserId);
 
         const userImage = new Image({
             user: userId,
             id: result.public_id,
             url: result.secure_url,
-            prompt: userPrompt.prompt
-          
+            prompt: userPrompt.prompt,
+            likes: imageLikes.likes,
+            dislikes: imageDislikes.dislikes,
+            comments: imageComments.comments,
         })
 
 
