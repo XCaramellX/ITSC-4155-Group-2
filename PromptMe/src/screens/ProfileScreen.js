@@ -16,6 +16,8 @@ import {
     Caption,
     Text,
     TouchableRipple,
+    Card,
+    IconButton
 } from 'react-native-paper';
 import Background from '../components/Background';
 import Header from '../components/Sign-In-Header';
@@ -119,45 +121,10 @@ export default function RegisterScreen({ navigation }) {
         third: ThirdRoute,
     });
 
-    const Posts = () => (
-        <ScrollView>
-            {prompts.map((item) => {
-                return (
-                    <View style={styles.container}>
-                        <Text style={styles.item}>{item.content}</Text>
-                    </View>
-                );
-            })}
-        </ScrollView>
-    );
-
-    const Comments = () => (
-        <ScrollView>
-            {prompts.map((item) => {
-                return (
-                    <View style={styles.container}>
-                        <Text style={styles.item}>{item.content}</Text>
-                    </View>
-                );
-            })}
-        </ScrollView>
-    );
-
-    const About = () => (
-        <ScrollView>
-            {prompts.map((item) => {
-                return (
-                    <View style={styles.container}>
-                        <Text style={styles.item}>{item.content}</Text>
-                    </View>
-                );
-            })}
-        </ScrollView>
-    );
-
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.userInfoSection}>
+            <ScrollView>
+                {/* <View style={styles.userInfoSection}>
                 <View style={{ flexDirection: 'row', marginTop: 15 }}>
                     <Avatar.Image
                         src={require('../assets/default_profile_picture.svg')}
@@ -177,8 +144,8 @@ export default function RegisterScreen({ navigation }) {
                         <Caption style={styles.caption}>@j_doe</Caption>
                     </View>
                 </View>
-            </View>
-
+            </View> */}
+                {/* 
             <View style={styles.userInfoSection}>
                 <View style={styles.row}>
                     <Icon name="map-marker-radius" color="#777777" size={20} />
@@ -198,9 +165,9 @@ export default function RegisterScreen({ navigation }) {
                         john_doe@email.com
                     </Text>
                 </View>
-            </View>
+            </View> */}
 
-            <View style={styles.infoBoxWrapper}>
+                {/* <View style={styles.infoBoxWrapper}>
                 <View
                     style={[
                         styles.infoBox,
@@ -216,13 +183,69 @@ export default function RegisterScreen({ navigation }) {
                     <Title>12</Title>
                     <Caption>Posts</Caption>
                 </View>
-            </View>
+            </View> */}
+                <BackButton goBack={navigation.goBack} />
+                <View style={styles.cardContainer}>
+                    <Card style={styles.cardProfile}>
+                        <Card.Content style={styles.cardContent}>
+                            <View style={styles.profilePictureContainer}>
+                                <Image
+                                    source={require('../assets/default_profile_picture.png')}
+                                    style={styles.profilePicture}
+                                />
+                            </View>
+                            <Text style={styles.name}>johnDoeXXXX</Text>
+                            <Text style={styles.subtitle}>
+                                @j_doe<Text style={styles.separator}></Text>{' '}
+                                {/* <Text style={styles.link}>mdbootstrap.com</Text> */}
+                            </Text>
+                            {/* <View style={styles.socialMediaButtonsContainer}>
+                            <IconButton icon="facebook" size={25} style={styles.socialMediaButton} />
+                            <IconButton icon="twitter" size={25} style={styles.socialMediaButton} />
+                            <IconButton icon="skype" size={25} style={styles.socialMediaButton} />
+                        </View> */}
+                        </Card.Content>
+                    </Card>
+
+                    <Card style={styles.cardInfo}>
+                        <Card.Content>
+                            <View style={styles.row}>
+                                <Text style={styles.label}>Full Name</Text>
+                                <Text style={styles.value}>Johnatan Smith</Text>
+                            </View>
+                            <View style={styles.separator} />
+                            <View style={styles.row}>
+                                <Text style={styles.label}>Email</Text>
+                                <Text style={styles.value}>example@example.com</Text>
+                            </View>
+                            <View style={styles.separator} />
+                            <View style={styles.row}>
+                                <Text style={styles.label}>Category</Text>
+                                <Text style={styles.value}>Art</Text>
+                            </View>
+                            <View style={styles.separator} />
+                            <View style={styles.row}>
+                                <Text style={styles.label}>Experience</Text>
+                                <Text style={styles.value}>Expert</Text>
+                            </View>
+                            <View style={styles.separator} />
+                            <View style={styles.rowPrompt}>
+                                <Text style={styles.label}>Prompt</Text>
+                                <Text style={styles.value}>Create an original character. Any art style but maybe try a new one. Be detailed.</Text>
+                            </View>
+                        </Card.Content>
+                    </Card>
+                </View>
+
+                {/* 
             <TabView
+
                 navigationState={{ index, routes }}
                 renderScene={renderScene}
                 onIndexChange={setIndex}
                 initialLayout={{ width: layout.width }}
-            />
+            /> */}
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -230,7 +253,79 @@ export default function RegisterScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#eee',
+        marginTop: 25,
+        justifyContent: 'center'
+
     },
+
+    cardContainer: {
+        flex: 1,
+        marginTop: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    tabView: {
+        backgroundColor: 'black'
+    },
+
+    cardProfile: {
+        justifyContent: 'center',
+        borderRadius: 15,
+        marginTop: 100,
+
+        width: 350,
+        height: 220
+
+    },
+    cardInfo: {
+        justifyContent: 'center',
+        borderRadius: 15,
+        marginTop: 25,
+        marginBottom: 25,
+        width: 350,
+        height: 320
+
+    },
+    cardContent: {
+        alignItems: 'center',
+    },
+    profilePictureContainer: {
+        marginTop: 10,
+        marginBottom: 10,
+    },
+    profilePicture: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+    },
+    name: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    subtitle: {
+        fontSize: 16,
+        color: 'grey',
+        marginBottom: 15,
+    },
+    separator: {
+        marginHorizontal: 5,
+    },
+    link: {
+        color: 'blue',
+        textDecorationLine: 'underline',
+    },
+    socialMediaButtonsContainer: {
+        flexDirection: 'row',
+        marginBottom: 10,
+    },
+    socialMediaButton: {
+        marginHorizontal: 5,
+    },
+
+
     userInfoSection: {
         justifyContent: 'center',
         paddingHorizontal: 30,
@@ -261,6 +356,29 @@ const styles = StyleSheet.create({
         width: '50%',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 8,
+    },
+    rowPrompt: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 80,
+    },
+    label: {
+        flex: 3,
+        fontWeight: 'bold',
+    },
+    value: {
+        flex: 7,
+    },
+    separator: {
+        height: 1,
+        backgroundColor: '#ccc',
+        marginVertical: 8,
     },
     // menuWrapper: {
     //   marginTop: 10,
