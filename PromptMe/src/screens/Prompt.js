@@ -74,7 +74,7 @@ export default function Prompt({ navigation }) {
 
   const promptSelected = async () => {
     setisModalVisible(false);
-    const resp = await axios.post("http://192.168.1.221:8000/api/prompts", { email, prompt });
+    const resp = await axios.post("http://172.16.9.28:8000/api/prompts", { email, prompt });
 
     if (resp.data.error) {
       alert(resp.data.error)
