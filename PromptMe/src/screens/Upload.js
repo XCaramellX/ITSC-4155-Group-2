@@ -75,7 +75,7 @@ export default function Upload({ navigation }) {
                 </View>
 
 
-                <Text style={{ fontWeight: 'bold', top: '3%', alignSelf: "center", textAlign: 'center', fontSize: `15` }} >{prompt}</Text>
+                <Text style={{ fontWeight: 'bold', top: '3%', alignSelf: "center", textAlign: 'center', fontSize: 15 }} >{prompt}</Text>
 
                 <TouchableOpacity onPress={() => handleUpload()}>
                     <View style={{ alignSelf: "center", top: "20%", backgroundColor: 'lightgrey', opacity: .7, width: WIDTH, height: HEIGHT, borderRadius: (WIDTH * HEIGHT) / 2 }}>

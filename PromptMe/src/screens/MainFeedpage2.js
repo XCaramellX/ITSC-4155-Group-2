@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import CommentBox from '../components/CommentBox';
 import axios from 'axios';
 import { AuthContext } from "../../context/auth";
@@ -13,6 +13,7 @@ import {
     TouchableOpacity,
     Image,
     KeyboardAvoidingView,
+    Button,
 } from 'react-native';
 import { Avatar, Title, Caption } from 'react-native-paper';
 import { TextInput as Input } from 'react-native-paper';
@@ -27,6 +28,8 @@ import CommentInput from '../components/CommentInput';
 import TextInput from '../components/TextInput';
 import User from '../../PromptMeDB/Models/user';
 import Images from '../../PromptMeDB/Models/images';
+import CommentIcon from '../assets/comment_icon.png'
+
 
 const initialComments = [
     { author: 'User1', content: 'Great post!', timestamp: '5 minutes ago' },
@@ -61,13 +64,18 @@ export default function Mainfeedpage2({ route, navigation }) {
             setUserPrompt(res.data);
         };
 
-        if(imageId) {
+        if (imageId) {
             userImages();
         }
-        
+
 
     }, [imageId]);
-    
+
+    //Show and hide Commentt Box
+
+    const [shouldShow, setShouldShow] = useState(true);
+
+
     // Like Dislike
     const [likeCount, setLikeCount] = useState(50);
     const [dislikeCount, setDislikeCount] = useState(25);
@@ -133,7 +141,7 @@ export default function Mainfeedpage2({ route, navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
-                <MainFeedPage2BackButton goBack={onGoBack}/>
+                <MainFeedPage2BackButton goBack={onGoBack} />
                 <View style={styles.userInfoSection}>
                     <View style={{ flexDirection: 'row', marginTop: 15 }}>
                         <Image
@@ -172,20 +180,20 @@ export default function Mainfeedpage2({ route, navigation }) {
                                 justifyContent: 'center',
                             }}>
                             {userPrompt && (
-                            <>
-                            <Title
-                                style={{
-                                    marginTop: 2,
-                                    marginBottom: 5,
-                                    padding: 10,
-                                    textAlighn: 'center',
-                                    justifyContent: 'center',
-                                    fontSize: 20,
-                                }}>
-                                "{userPrompt.prompt}"
-                            </Title>
-                            <Image source={{ uri: userPrompt.userImage.url }} style={styles.postimagesStyle}></Image>
-                            </>
+                                <>
+                                    <Title
+                                        style={{
+                                            marginTop: 2,
+                                            marginBottom: 5,
+                                            padding: 10,
+                                            textAlighn: 'center',
+                                            justifyContent: 'center',
+                                            fontSize: 20,
+                                        }}>
+                                        "{userPrompt.prompt}"
+                                    </Title>
+                                    <Image source={{ uri: userPrompt.userImage.url }} style={styles.postimagesStyle}></Image>
+                                </>
                             )}
                         </View>
                     </View>
@@ -193,13 +201,17 @@ export default function Mainfeedpage2({ route, navigation }) {
                 <View style={styles.headerFooterStyle}>
 
                     <View style={{
-                        flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#9300ff", width: '50%', borderRadius: 20,
+                        alignItems: "center", justifyContent: "center", backgroundColor: "#9300ff", width: '50%', borderRadius: 20, marginRight: 75,
                     }}>
                         <View style={{ flexDirection: "row" }}>
                             <TouchableOpacity
                                 style={[
                                     { padding: 10 },
-                                    activeBtn === "like" ? { backgroundColor: "green", borderRadius: 20 } : {},
+                                    activeBtn === "like" ? {
+                                        backgroundColor: "green",
+                                        borderTopLeftRadius: 20,
+                                        borderBottomLeftRadius: 20,
+                                    } : {},
                                 ]}
                                 onPress={handleLikeClick}
                             >
@@ -208,7 +220,10 @@ export default function Mainfeedpage2({ route, navigation }) {
                             <TouchableOpacity
                                 style={[
                                     { padding: 10 },
-                                    activeBtn === "dislike" ? { backgroundColor: "red", borderRadius: 20 } : {},
+                                    activeBtn === "dislike" ? {
+                                        backgroundColor: "red", borderTopRightRadius: 20,
+                                        borderBottomRightRadius: 20,
+                                    } : {},
                                 ]}
                                 onPress={handleDisikeClick}
                             >
@@ -216,6 +231,22 @@ export default function Mainfeedpage2({ route, navigation }) {
                             </TouchableOpacity>
                         </View>
                     </View>
+
+                    <View style={{
+                        alignItems: "center", justifyContent: "center", backgroundColor: "#9300ff", width: '15%', borderRadius: 20, marginLeft: 5,
+                    }}>
+                        <TouchableOpacity
+
+                            onPress={() => setShouldShow(!shouldShow)}
+                        >
+                            <Image
+                                style={styles.Icon}
+                                source={require('../assets/comment_icon.png')}
+                            />
+                        </TouchableOpacity>
+
+                    </View>
+
 
                 </View>
 
@@ -225,11 +256,11 @@ export default function Mainfeedpage2({ route, navigation }) {
                     </View>
                 </ScrollView>
             </ScrollView>
+            {shouldShow ?
+                (
+                    <CommentInput onSubmit={handleCommentSubmit} />
 
-            <View style={styles.userInfoSection}>
-                <View style={{ flexDirection: 'row', marginTop: 15 }}></View>
-            </View>
-            <CommentInput onSubmit={handleCommentSubmit} />
+                ) : null}
         </SafeAreaView>
     );
 }
@@ -271,14 +302,18 @@ const styles = StyleSheet.create({
 
     headerFooterStyle: {
         width: '100%',
-        height: 60,
-        backgroundColor: '#9300ff',
+        height: 75,
         marginBottom: 15,
         borderTopColor: '#dddddd',
         borderTopWidth: 4,
+        borderBottomColor: '#dddddd',
+        borderBottomWidth: 4,
+
         alignItems: "center",
         justifyContent: "center",
         padding: 8,
+        flexDirection: 'row',
+
     },
     textStyle: {
         textAlign: 'center',
@@ -359,5 +394,9 @@ const styles = StyleSheet.create({
     row: {
         top: '80%',
         flexDirection: 'row',
+    },
+    Icon: {
+        width: 40,
+        height: 40,
     },
 });
