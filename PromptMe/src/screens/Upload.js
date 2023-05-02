@@ -128,7 +128,7 @@ const pageStyles = StyleSheet.create({
         borderBottomColor: '#9300ff',
     },
     row: {
-        top: '-10%',
+        top: '30%',
         width: '105%',
         alignSelf: "center",
         flexDirection: 'row',
