@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Text, Keyboard} from 'react-native'
+import { View, StyleSheet, Text, Keyboard, KeyboardAvoidingView } from 'react-native'
 import { TextInput as Input } from 'react-native-paper'
 import { theme } from '../themes/sign-in-theme'
 
@@ -14,7 +14,7 @@ export default function UploadCaption({ errorText, description, ...props }) {
         multiline={true}
         maxLength={500}
         numberOfLines={3}
-        
+
         onSubmitEditing={Keyboard.dismiss}
 
         {...props}
@@ -31,20 +31,18 @@ const styles = StyleSheet.create({
   container: {
     width: '85%',
     alignSelf: "center",
-    top: 175,
+    top: 80,
     zIndex: 1,
-    
   },
   input: {
     backgroundColor: theme.colors.surface,
     height: 150,
-    
   },
   description: {
     fontSize: 15,
     color: theme.colors.secondary,
     paddingTop: 5,
-    
+
   },
   error: {
     fontSize: 13,

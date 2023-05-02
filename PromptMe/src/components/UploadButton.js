@@ -22,13 +22,14 @@ export default function UploadButton({ mode, style, ...props }) {
     button: {
       width: '100%',
       marginVertical: 10,
-      height: 100
+      height: 50
     },
     text: {
       fontWeight: 'bold',
       fontSize: 20,
-      lineHeight: 50,
       width: 150,
+      textAlignVertical: 'center',
+      paddingTop: 5
     },
     
   })

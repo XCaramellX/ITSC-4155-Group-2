@@ -27,7 +27,7 @@ export default function UploadSwitch(){
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      top: '7%',
+      top: '9%',
       left: 190,
     },
   });

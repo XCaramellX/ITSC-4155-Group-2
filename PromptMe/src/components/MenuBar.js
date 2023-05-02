@@ -1,42 +1,57 @@
-import {StyleSheet, Text, View, SafeAreaView } from 'react-native'
-import React, { useState, useEffect, useContext } from 'react';
-import {useNavigation} from '@react-navigation/native'
+import {StyleSheet, Text, View, SafeAreaView, } from 'react-native'
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Prompt, MainFeedScreen, Upload } from '../screens';
+import Ionicons from '@expo/vector-icons/Ionicons'
+import { theme } from '../themes/sign-in-theme';
 
+const bottomTab = createBottomTabNavigator();
+
+const homeNm = 'Home';
+const propNm = 'Prompt';
+const uploadnm = 'Upload';
 
 export default function MenuBar() {
-    const navigation = useNavigation();
+    
 
-    return (
-    <View style={styles.menu}>
-        <Text style={styles.uploadText} onPress={() => {navigation.navigate('Upload')}}>Upload</Text>
-        <Text style={styles.homeText} onPress={() => {navigation.navigate('MainFeedScreen')}}>Home</Text>
-        <Text style={styles.promptText} onPress={() => {navigation.navigate('Prompt')}}>Prompts</Text> 
-    </View>
-    );
+      return (
+        <bottomTab.Navigator initialRouteName='Home'
+        se
+        screenOptions={({ route }) => ({
+            headerShown:false,
+            tabBarIcon: ({focused, color}) => {
+                let iconName;
+                let routeName = route.name;
+
+
+                if (route.name === homeNm) {
+                    iconName = focused ? 'home' : 'home-outline'
+                } else if (route.name === propNm) {
+                    iconName = focused ? 'list' : 'list-outline'
+                } else if (route.name === uploadnm) {
+                    iconName = focused ? 'cloud-upload' : 'cloud-upload-outline'
+                }
+
+                return <Ionicons name={iconName} size={30} color={color}/>
+            },
+            tabBarActiveTintColor: theme.colors.primary,
+            tabBarInactiveTintColor: 'grey',
+            tabBarLabelStyle: { fontSize: 10, top: '5%'},
+            tabBarIconStyle: { top: '5%' },
+            tabBarHideOnKeyboard: true,
+            tabBarStyle: styles.tabBar,
+        })}>
+        
+          <bottomTab.Screen name={homeNm} component={MainFeedScreen} />
+          <bottomTab.Screen name={propNm} component={Prompt} />
+          <bottomTab.Screen name ={uploadnm} component={Upload} />
+        </bottomTab.Navigator>
+      )
 }
 
 const styles = StyleSheet.create({
-    menu: {
-        bottom: 70,
-        width: 500,
-        paddingBottom: 60,
-        flexDirection: "row",
-        backgroundColor: "#9300ff"
-    },
-
-    uploadText: {
-        top: 25,
-        left: 190,
-    },
-
-    homeText: {
-        top: 25,
-        left: 10
-    },
-
-    promptText: {
-        top: 25,
-        left: 30
-   
+    tabBar: {
+        backgroundColor: 'black',
+        height: 70
     }
 })

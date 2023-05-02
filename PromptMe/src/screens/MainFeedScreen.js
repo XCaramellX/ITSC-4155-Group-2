@@ -2,7 +2,6 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect, useContext } from 'react'
 import Background from '../components/Background'
 import Header from "../components/header";
-import MenuBar from "../components/MenuBar";
 import BackButton from "../components/BackButton";
 import ProfileButton from "../components/ProfileButton.js";
 import { AuthContext } from "../../context/auth";
@@ -41,7 +40,7 @@ export default function MainFeed({ navigation}) {
 
    const getImagePost = async () => {
 
-        const getImageResponse = await axios.get('http://172.16.9.28:8000/api/showImages');
+        const getImageResponse = await axios.get('http://192.168.1.221:8000/api/showImages');
         setImages(getImageResponse.data);
     }
   
@@ -81,7 +80,6 @@ export default function MainFeed({ navigation}) {
 
 
             </ScrollView>
-            <MenuBar />
         </View>
     )
 }
@@ -128,12 +126,13 @@ const styles = StyleSheet.create({
     imagesStyle: {
         backgroundColor: 'white',
         borderRadius: 20,
-        width: 100,
-        height: 100,
+        width: 200,
+        height: 200,
         resizeMode: "contain",
         shadowColor: "grey",
         shadowOpacity: "0.7",
         shadowOffset: { width: -2, height: 2 },
+        alignSelf: 'center',
     },
 
     homeText: {
