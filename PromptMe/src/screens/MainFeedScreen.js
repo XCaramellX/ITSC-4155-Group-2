@@ -42,7 +42,7 @@ export default function MainFeed({ navigation}) {
 
    const getImagePost = async () => {
 
-        const getImageResponse = await axios.get(`http://172.16.9.28:8000/api/showImages`);
+        const getImageResponse = await axios.get(`http://192.168.1.239:8000/api/showImages`);
         setImages(getImageResponse.data);
     }
   
