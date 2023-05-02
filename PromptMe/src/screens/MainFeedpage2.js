@@ -1,5 +1,7 @@
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect, useContext} from 'react';
 import CommentBox from '../components/CommentBox';
+import axios from 'axios';
+import { AuthContext } from "../../context/auth";
 import {
     View,
     StyleSheet,
@@ -23,6 +25,8 @@ import { StatusBar } from 'expo-status-bar';
 import CommentList from '../components/CommentList';
 import CommentInput from '../components/CommentInput';
 import TextInput from '../components/TextInput';
+import User from '../../PromptMeDB/Models/user';
+import Images from '../../PromptMeDB/Models/images';
 
 const initialComments = [
     { author: 'User1', content: 'Great post!', timestamp: '5 minutes ago' },
@@ -45,18 +49,25 @@ export default function Mainfeedpage2({ route, navigation }) {
         index: 0,
         routes: [{ name: 'MainFeedScreen' }]
     })
-    const { image } = route.params;
+    const { imageId } = route.params;
 
     const [comments, setComments] = useState(initialComments);
-    const [userPrompt, setUserPrompt] = useState("");
+    const [userPrompt, setUserPrompt] = useState(null);
+    const [state, setState] = useContext(AuthContext);
 
-    const users = async (req, res) => {
-        res = await axios.get("http://172.16.9.28:8000/api/users");
-        setUserPrompt(
-            res.data
-                .map(prompt => prompt.prompt)
-        );
-    }
+    useEffect(() => {
+        const userImages = async () => {
+            const res = await axios.get(`http://172.16.9.28:8000/api/imagePrompt/${imageId}`)
+            setUserPrompt(res.data);
+        };
+
+        if(imageId) {
+            userImages();
+        }
+        
+
+    }, [imageId]);
+    
     // Like Dislike
     const [likeCount, setLikeCount] = useState(50);
     const [dislikeCount, setDislikeCount] = useState(25);
@@ -117,14 +128,12 @@ export default function Mainfeedpage2({ route, navigation }) {
         setComments([newComment, ...comments]);
     };
 
-    useEffect(() => {
-        users()
-    }, []);
+
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
-                <MainFeedPage2BackButton />
+                <MainFeedPage2BackButton goBack={onGoBack}/>
                 <View style={styles.userInfoSection}>
                     <View style={{ flexDirection: 'row', marginTop: 15 }}>
                         <Image
@@ -162,6 +171,8 @@ export default function Mainfeedpage2({ route, navigation }) {
                                 textAlign: 'center',
                                 justifyContent: 'center',
                             }}>
+                            {userPrompt && (
+                            <>
                             <Title
                                 style={{
                                     marginTop: 2,
@@ -171,9 +182,11 @@ export default function Mainfeedpage2({ route, navigation }) {
                                     justifyContent: 'center',
                                     fontSize: 20,
                                 }}>
-                                "{userPrompt}"
+                                "{userPrompt.prompt}"
                             </Title>
-                            <Image source={{ uri: image.url }} style={styles.postimagesStyle}></Image>
+                            <Image source={{ uri: userPrompt.userImage.url }} style={styles.postimagesStyle}></Image>
+                            </>
+                            )}
                         </View>
                     </View>
                 </View>

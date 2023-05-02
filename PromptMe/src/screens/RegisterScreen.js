@@ -45,7 +45,7 @@ export default function RegisterScreen({ navigation }) {
       return
     }
 
-    const resp = await axios.post("http://192.168.1.221:8000/api/signup", { name, email, password, category, experience });
+    const resp = await axios.post("http://172.16.9.28:8000/api/signup", { name, email, password, category, experience });
     if (resp.data.error) {
       alert(resp.data.error);
     } else {

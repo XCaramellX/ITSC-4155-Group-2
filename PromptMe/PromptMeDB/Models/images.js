@@ -18,6 +18,10 @@ const images = new Schema(
             required: true
        },
 
+       prompt: {
+         type: String
+       },
+
       likes: {
           type: Number,
           default: 0

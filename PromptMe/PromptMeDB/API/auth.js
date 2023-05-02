@@ -194,12 +194,16 @@ export const uploadImage = async (req, res) => {
         });
 
         console.log(req.body.user);
+        
         const userId = req.body.user._id;
+
+        const userPrompt = await User.findById(userId);
 
         const userImage = new Image({
             user: userId,
             id: result.public_id,
-            url: result.secure_url
+            url: result.secure_url,
+            prompt: userPrompt.prompt
         })
 
 

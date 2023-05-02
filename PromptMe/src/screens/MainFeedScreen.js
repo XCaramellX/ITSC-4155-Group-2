@@ -41,7 +41,7 @@ export default function MainFeed({ navigation}) {
 
    const getImagePost = async () => {
 
-        const getImageResponse = await axios.get('http://192.168.1.221:8000/api/showImages');
+        const getImageResponse = await axios.get('http://172.16.9.28:8000/api/showImages');
         setImages(getImageResponse.data);
     }
   
@@ -73,7 +73,7 @@ export default function MainFeed({ navigation}) {
                     images.map((image) => (
                    
 
-                        <TouchableOpacity style={styles.homeInnerContainer2} key={image.id} onPress={() => { navigation.navigate('MainFeedpage2', {image})}}>
+                        <TouchableOpacity style={styles.homeInnerContainer2} key={image._id} onPress={() => { navigation.navigate('MainFeedpage2', {imageId: image._id})}}>
                             <Image source={{uri: image.url}} style={styles.imagesStyle}/>
                         </TouchableOpacity>
                     
