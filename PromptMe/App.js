@@ -8,13 +8,12 @@ import {
   LoginScreen,
   RegisterScreen,
   ResetPasswordScreen,
-  Prompt,
-  MainFeedScreen,
-  Upload,
   ProfileScreen,
   MainFeedpage2,
+  Prompt
 } from './src/screens';
 import { AuthProvider } from './context/auth.js';
+import MenuBar from './src/components/MenuBar';
 
 
 const Stack = createStackNavigator();
@@ -32,8 +31,7 @@ export default function App() {
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
             <Stack.Screen name="Prompt" component={Prompt} />
-            <Stack.Screen name="MainFeedScreen" component={MainFeedScreen} />
-            <Stack.Screen name="Upload" component={Upload} />
+            <Stack.Screen name="MainFeedScreen" component={MenuBar} />
             <Stack.Screen
               name="ResetPasswordScreen"
               component={ResetPasswordScreen}
