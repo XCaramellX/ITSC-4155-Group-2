@@ -28,6 +28,7 @@ export default function MainFeed({ navigation}) {
     })
 
    // const [imagePost, setImagePost] = useState([]);
+
     const [images, setImages] = useState([]);
     const [state, setState] = useContext(AuthContext);
 
@@ -58,7 +59,7 @@ export default function MainFeed({ navigation}) {
     return (
 
         <View>
-            <ScrollView contentContainerStyle={styles.scrollView}>
+            <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
                 <Header />
                 <StatusBar></StatusBar>
                 <BackButton goBack={onGoBack} />
@@ -72,9 +73,9 @@ export default function MainFeed({ navigation}) {
                     images.map((image) => (
                    
 
-                        <View style={styles.homeInnerContainer2} key={image.id}>
+                        <TouchableOpacity style={styles.homeInnerContainer2} key={image.id} onPress={() => { navigation.navigate('MainFeedpage2', {image})}}>
                             <Image source={{uri: image.url}} style={styles.imagesStyle}/>
-                        </View>
+                        </TouchableOpacity>
                     
                 ))}
 

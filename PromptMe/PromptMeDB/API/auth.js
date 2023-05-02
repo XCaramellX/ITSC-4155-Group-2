@@ -226,33 +226,3 @@ export const uploadImage = async (req, res) => {
     }
 }; 
 
-export const userNewImagePost = async(req, res) => {
-    try{
-    
-        console.log(req.body.user);
-        const userId = req.body.images._id
-
-        const user = 
-          await Image.findByIdAndUpdate(
-            userId,
-            {
-                image: {
-                    user: userId,
-                    id: result.public_id,
-                    url: result.secure_url,
-                },
-            },
-            ImageModel.findOne({user: userId}).sort({ createdAt: -1}),
-            {new: true}
-        );
-        
-            
-        return res.json({
-          
-            image: user.image,
-        });
-       
-    }catch (err){
-        console.log(err);
-    }
-}

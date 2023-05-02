@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, } from 'react';
 import CommentBox from '../components/CommentBox';
 import {
     View,
@@ -17,6 +17,7 @@ import { TextInput as Input } from 'react-native-paper';
 import { theme } from '../themes/sign-in-theme';
 // import Commentbox from '../components/Commentbox'
 import BackButton from '../components/BackButton';
+import MainFeedPage2BackButton from '../components/MainFeedPage2BackButton'
 // import EditButton from '../components/EditButton'
 import { StatusBar } from 'expo-status-bar';
 import CommentList from '../components/CommentList';
@@ -39,8 +40,73 @@ const postDetails = {
     imageURL: 'https://via.placeholder.com/300',
 };
 
-export default function Mainfeedpage2({ navigation }) {
+export default function Mainfeedpage2({ route, navigation }) {
+    const onGoBack = () => navigation.reset({
+        index: 0,
+        routes: [{ name: 'MainFeedScreen' }]
+    })
+    const { image } = route.params;
+
     const [comments, setComments] = useState(initialComments);
+    const [userPrompt, setUserPrompt] = useState("");
+
+    const users = async (req, res) => {
+        res = await axios.get("http://172.16.9.28:8000/api/users");
+        setUserPrompt(
+            res.data
+                .map(prompt => prompt.prompt)
+        );
+    }
+    // Like Dislike
+    const [likeCount, setLikeCount] = useState(50);
+    const [dislikeCount, setDislikeCount] = useState(25);
+
+    const [activeBtn, setActiveBtn] = useState("none");
+
+    const handleLikeClick = () => {
+        if (activeBtn === "none") {
+            setLikeCount(likeCount + 1);
+            setActiveBtn("like");
+            return;
+        }
+
+        if (activeBtn === 'like') {
+            setLikeCount(likeCount - 1);
+            setActiveBtn("none");
+            return;
+        }
+
+        if (activeBtn === "dislike") {
+            setLikeCount(likeCount + 1);
+            setDislikeCount(dislikeCount - 1);
+            setActiveBtn("like");
+        }
+    };
+
+    const handleDisikeClick = () => {
+        if (activeBtn === "none") {
+            setDislikeCount(dislikeCount + 1);
+            setActiveBtn("dislike");
+            return;
+        }
+
+        if (activeBtn === 'dislike') {
+            setDislikeCount(dislikeCount - 1);
+            setActiveBtn("none");
+            return;
+        }
+
+        if (activeBtn === "like") {
+            setDislikeCount(dislikeCount + 1);
+            setLikeCount(likeCount - 1);
+            setActiveBtn("dislike");
+        }
+    };
+
+    // Like Dislike
+
+
+
 
     const handleCommentSubmit = (text) => {
         const newComment = {
@@ -50,10 +116,15 @@ export default function Mainfeedpage2({ navigation }) {
         };
         setComments([newComment, ...comments]);
     };
+
+    useEffect(() => {
+        users()
+    }, []);
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
-
+                <MainFeedPage2BackButton />
                 <View style={styles.userInfoSection}>
                     <View style={{ flexDirection: 'row', marginTop: 15 }}>
                         <Image
@@ -100,13 +171,39 @@ export default function Mainfeedpage2({ navigation }) {
                                     justifyContent: 'center',
                                     fontSize: 20,
                                 }}>
-                                "Draw a well known character in there usual environment."
+                                "{userPrompt}"
                             </Title>
+                            <Image source={{ uri: image.url }} style={styles.postimagesStyle}></Image>
                         </View>
                     </View>
                 </View>
                 <View style={styles.headerFooterStyle}>
-                    <Text style={styles.textStyle}>This is Footer</Text>
+
+                    <View style={{
+                        flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#9300ff", width: '50%', borderRadius: 20,
+                    }}>
+                        <View style={{ flexDirection: "row" }}>
+                            <TouchableOpacity
+                                style={[
+                                    { padding: 10 },
+                                    activeBtn === "like" ? { backgroundColor: "green", borderRadius: 20 } : {},
+                                ]}
+                                onPress={handleLikeClick}
+                            >
+                                <Text>👍 Like | {likeCount}</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[
+                                    { padding: 10 },
+                                    activeBtn === "dislike" ? { backgroundColor: "red", borderRadius: 20 } : {},
+                                ]}
+                                onPress={handleDisikeClick}
+                            >
+                                <Text>👎 Dislike | {dislikeCount}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
                 </View>
 
                 <ScrollView>
@@ -140,6 +237,19 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
     },
+
+    postimagesStyle: {
+        backgroundColor: 'white',
+        borderRadius: 20,
+        width: 100,
+        height: 100,
+        alignSelf: "center",
+        resizeMode: "contain",
+        shadowColor: "grey",
+        shadowOpacity: "0.7",
+        shadowOffset: { width: -2, height: 2 },
+    },
+
     caption: {
         fontSize: 14,
         lineHeight: 14,
@@ -148,11 +258,14 @@ const styles = StyleSheet.create({
 
     headerFooterStyle: {
         width: '100%',
-        height: 45,
+        height: 60,
         backgroundColor: '#9300ff',
         marginBottom: 15,
         borderTopColor: '#dddddd',
         borderTopWidth: 4,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 8,
     },
     textStyle: {
         textAlign: 'center',
