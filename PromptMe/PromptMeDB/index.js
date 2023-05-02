@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import authRoutes from './routes/auth.js';
 import { uploadImage } from './API/auth.js';
 import User from './Models/user.js';
+import Image from './Models/images.js';
 
 
 dotenv.config();
@@ -41,16 +42,24 @@ app.post('/api/upload-image', async(req, res) => {
 })
 
 app.get('/api/showImages', async(req, res) => {
-    const imagePost = await ImageModel.findOne().sort({ createdAt: -1});
+    const imagePost = await Image.find();
     res.status(200).json(imagePost);
     res.status(400).json({error: error.message});
 });
 
-app.get('/api/users/:prompt', async(req, res) => {
-    const prompt = req.params.prompt;
-    const userPrompt = await User.find({userPrompt: prompt})
-    res.status(200).json(userPrompt);
-});
+
+app.get('/api/users', async(req, res) => {
+    const user = await User.find()
+    res.status(200).json(user);
+}); 
+
+app.get('/api/imagePrompt/:imageId', async (req, res) => {
+
+    const {imageId} = req.params
+    
+    const userImage = await Image.findById(imageId).populate('user');
+    res.status(200).json({userImage, prompt: userImage.user.prompt});
+})
 
 app.listen(PORT, () => {console.log(`Server running on port ${PORT}`)});
 

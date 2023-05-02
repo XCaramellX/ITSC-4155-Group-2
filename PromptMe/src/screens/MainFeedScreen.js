@@ -73,7 +73,7 @@ export default function MainFeed({ navigation}) {
                     images.map((image) => (
                    
 
-                        <TouchableOpacity style={styles.homeInnerContainer2} key={image.id} onPress={() => { navigation.navigate('MainFeedpage2', {image})}}>
+                        <TouchableOpacity style={styles.homeInnerContainer2} key={image._id} onPress={() => { navigation.navigate('MainFeedpage2', {imageId: image._id})}}>
                             <Image source={{uri: image.url}} style={styles.imagesStyle}/>
                         </TouchableOpacity>
                     
