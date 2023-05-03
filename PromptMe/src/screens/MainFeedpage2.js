@@ -120,21 +120,17 @@ export default function Mainfeedpage2({ route, navigation }) {
             const updateImage = await updateLikes(likeCount + 1);
             setUserPrompt(updateImage);
             return;
-        }
-
-        if (activeBtn === 'like') {
+        } else if (activeBtn === 'like') {
             setLikeCount(likeCount - 1);
             setActiveBtn("none");
             const updateImage = await updateLikes(likeCount - 1);
             setUserPrompt(updateImage);
             return;
-        }
-
-        if (activeBtn === "dislike") {
+        } else if (activeBtn === "dislike") {
             setLikeCount(likeCount + 1);
             setDislikeCount(dislikeCount - 1);
             setActiveBtn("like");
-            await updateLikes(likeCount + 1)
+            await updateDislikes(dislikeCount - 1)
             const updateImage = await updateLikes(likeCount + 1);
             setUserPrompt(updateImage);
         }
@@ -144,23 +140,20 @@ export default function Mainfeedpage2({ route, navigation }) {
         if (activeBtn === "none") {
             setDislikeCount(dislikeCount + 1);
             setActiveBtn("dislike");
-            const updateImage = await updateDislikes(dislikeCount - 1);
+            const updateImage = await updateDislikes(dislikeCount + 1);
             setUserPrompt(updateImage);
             return;
-        }
-
-        if (activeBtn === 'dislike') {
+        }else if (activeBtn === 'dislike') {
             setDislikeCount(dislikeCount - 1);
             setActiveBtn("none");
             const updateImage = await updateDislikes(dislikeCount - 1);
             setUserPrompt(updateImage);
             return;
-        }
-
-        if (activeBtn === "like") {
+        }else if (activeBtn === "like") {
             setDislikeCount(dislikeCount + 1);
             setLikeCount(likeCount - 1);
             setActiveBtn("dislike");
+            await updateLikes(likeCount - 1)
             const updateImage = await updateDislikes(dislikeCount + 1);
             setUserPrompt(updateImage);
         }
