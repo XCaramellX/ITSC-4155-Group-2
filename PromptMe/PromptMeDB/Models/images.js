@@ -25,12 +25,12 @@ const images = new Schema(
 
       likes: {
           type: Number,
-          default: 0
+          default: 1
        },
 
        dislikes: {
           type: Number,
-          default: 0
+          default: 1
        },
      
        comments: [

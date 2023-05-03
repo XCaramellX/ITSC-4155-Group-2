@@ -61,7 +61,7 @@ export default function Mainfeedpage2({ route, navigation }) {
     useEffect(() => {
         const userImages = async () => {
             if(imageId) {
-            const res = await axios.get(`http://192.168.1.239:8000/api/showImages/${imageId}`)
+            const res = await axios.get(`http://172.16.9.28:8000/api/showImages/${imageId}`)
             setUserPrompt(res.data);
             }
         };
