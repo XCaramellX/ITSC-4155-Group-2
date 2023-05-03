@@ -121,18 +121,21 @@ export default function Mainfeedpage2({ route, navigation }) {
             setUserPrompt(updateImage);
             return;
         } else if (activeBtn === 'like') {
+        if(likeCount > 0) {
             setLikeCount(likeCount - 1);
             setActiveBtn("none");
             const updateImage = await updateLikes(likeCount - 1);
             setUserPrompt(updateImage);
-            return;
+            }
         } else if (activeBtn === "dislike") {
+        if(dislikeCount > 0) {
             setLikeCount(likeCount + 1);
             setDislikeCount(dislikeCount - 1);
             setActiveBtn("like");
             await updateDislikes(dislikeCount - 1)
             const updateImage = await updateLikes(likeCount + 1);
             setUserPrompt(updateImage);
+        }
         }
     };
 
@@ -144,18 +147,21 @@ export default function Mainfeedpage2({ route, navigation }) {
             setUserPrompt(updateImage);
             return;
         }else if (activeBtn === 'dislike') {
+        if(dislikeCount > 0) {
             setDislikeCount(dislikeCount - 1);
             setActiveBtn("none");
             const updateImage = await updateDislikes(dislikeCount - 1);
             setUserPrompt(updateImage);
-            return;
+            }
         }else if (activeBtn === "like") {
+        if(likeCount > 0) {
             setDislikeCount(dislikeCount + 1);
             setLikeCount(likeCount - 1);
             setActiveBtn("dislike");
             await updateLikes(likeCount - 1)
             const updateImage = await updateDislikes(dislikeCount + 1);
             setUserPrompt(updateImage);
+            }
         }
     };
 
