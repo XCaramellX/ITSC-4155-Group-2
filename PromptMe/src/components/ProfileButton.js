@@ -3,6 +3,7 @@ import { TouchableOpacity, Image, StyleSheet } from 'react-native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import { useNavigation } from '@react-navigation/native'
 
+
 export default function BackButton() {
   const navigation = useNavigation();
 
@@ -10,7 +11,7 @@ export default function BackButton() {
     <TouchableOpacity onPress={() => { navigation.navigate('ProfileScreen') }} style={styles.container}>
       <Image
         style={styles.image}
-        source={require('../assets/default_profile_picture.svg')}
+        source={require('../assets/default_profile_picture.png')}
       />
     </TouchableOpacity>
   )
@@ -19,12 +20,11 @@ export default function BackButton() {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 15 + getStatusBarHeight(),
+    top: 25 + getStatusBarHeight(),
     right: 4,
   },
   image: {
-    width: 45,
-    height: 45,
+    width: 50,
+    height: 50,
   },
 })
-
