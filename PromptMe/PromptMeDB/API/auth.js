@@ -204,8 +204,8 @@ export const uploadImage = async (req, res) => {
             id: result.public_id,
             url: result.secure_url,
             prompt: userPrompt.prompt,
-            likes: 1,
-            dislikes: 1,
+            likes: 0,
+            dislikes: 0,
             comments: [],
         })
 

@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect, useContext } from 'react'
+import { useFocusEffect } from '@react-navigation/native';
 import Background from '../components/Background'
 import Header from "../components/header";
 import BackButton from "../components/BackButton";
@@ -46,9 +47,11 @@ export default function MainFeed({ navigation}) {
         setImages(getImageResponse.data);
     }
   
-    useEffect(() => {
-      getImagePost();
-    }, []);  
+    useFocusEffect(
+        React.useCallback(() => {
+            getImagePost();
+        }, [])
+    )
 
    /* const [otherUserData] = useState([
         { data: imagePost[0], key: 1 },

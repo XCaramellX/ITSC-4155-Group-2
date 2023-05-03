@@ -42,9 +42,13 @@ app.post('/api/upload-image', async(req, res) => {
 })
 
 app.get('/api/showImages', async(req, res) => {
-    const imagePost = await Image.find();
-    res.status(200).json(imagePost);
-    res.status(400).json({error: error.message});
+    try{
+        const imagePost = await Image.find();
+        res.status(200).json(imagePost);
+    }catch(error){
+        res.status(400).json({error: error.message});
+    }
+    
 });
 
 
@@ -54,12 +58,38 @@ app.get('/api/showImages', async(req, res) => {
 }); */
 
 app.get('/api/showImages/:imageId', async (req, res) => {
-
+    try{
     const {imageId} = req.params
-    
     const userImage = await Image.findById(imageId);
     res.status(200).json(userImage);
+    } catch(error){
+    res.status(400).json({error: error.message});
+    }
 }) 
+
+app.put('/api/likes', async(req, res) => {
+    
+    try{
+        const {imageId, likes} = req.body;
+        const updateImage = await Image.findOneAndUpdate(imageId, {likes}, {new: true});
+        
+        res.status(200).json(updateImage);
+    } catch (error){
+        res.status(400).json({error: error.message});
+    }
+})
+
+app.put('/api/dislikes', async(req, res) => {
+    
+    try{
+        const {imageId, dislikes} = req.body;
+        const updateImage = await Image.findOneAndUpdate(imageId, {dislikes}, {new: true});
+        res.status(200).json(updateImage);
+    } catch (error){
+        console.log(error);
+        res.status(400).json({error: error.message});
+    }
+})
 
 app.listen(PORT, () => {console.log(`Server running on port ${PORT}`)});
 

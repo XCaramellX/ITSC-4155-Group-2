@@ -57,12 +57,18 @@ export default function Mainfeedpage2({ route, navigation }) {
     const [comments, setComments] = useState(initialComments);
     const [userPrompt, setUserPrompt] = useState(null);
     const [state, setState] = useContext(AuthContext);
+    const [likeCount, setLikeCount] = useState(0);
+    const [dislikeCount, setDislikeCount] = useState(0);
+
+    const [activeBtn, setActiveBtn] = useState("none");
 
     useEffect(() => {
         const userImages = async () => {
             if(imageId) {
             const res = await axios.get(`http://172.16.9.28:8000/api/showImages/${imageId}`)
             setUserPrompt(res.data);
+            setLikeCount(res.data.likes);
+            setDislikeCount(res.data.dislikes);
             }
         };
 
@@ -71,27 +77,56 @@ export default function Mainfeedpage2({ route, navigation }) {
         
     }, [imageId]);
 
+    const updateLikes = async(likeCount) => {
+        try{
+            const likeResponse = await axios.put('http://172.16.9.28:8000/api/likes', {
+                imageId: userPrompt._id,
+                likes: likeCount
+            });
+    
+            console.log("like saved")
+            return likeResponse.data;
+        } catch (err){
+            console.log(err)
+        }
+    }
+
+    const updateDislikes = async(dislikeCount) => {
+        try{
+            const dislikeResponse = await axios.put('http://172.16.9.28:8000/api/dislikes', {
+                imageId: userPrompt._id,
+                dislikes: dislikeCount
+            });
+    
+            console.log("dislike saved")
+            return dislikeResponse.data;
+        } catch (err){
+            console.log(err)
+        }
+    }
+
     //Show and hide Commentt Box
 
     const [shouldShow, setShouldShow] = useState(true);
 
 
     // Like Dislike
-    const [likeCount, setLikeCount] = useState(50);
-    const [dislikeCount, setDislikeCount] = useState(25);
+  
 
-    const [activeBtn, setActiveBtn] = useState("none");
-
-    const handleLikeClick = () => {
+    const handleLikeClick = async () => {
         if (activeBtn === "none") {
             setLikeCount(likeCount + 1);
             setActiveBtn("like");
+            const updateImage = await updateLikes(likeCount + 1);
+            setUserPrompt(updateImage);
             return;
         }
 
         if (activeBtn === 'like') {
             setLikeCount(likeCount - 1);
             setActiveBtn("none");
+            const updateImage = await updateLikes(likeCount - 1);
+            setUserPrompt(updateImage);
             return;
         }
 
@@ -99,19 +134,26 @@ export default function Mainfeedpage2({ route, navigation }) {
             setLikeCount(likeCount + 1);
             setDislikeCount(dislikeCount - 1);
             setActiveBtn("like");
+            await updateLikes(likeCount + 1)
+            const updateImage = await updateLikes(likeCount + 1);
+            setUserPrompt(updateImage);
         }
     };
 
-    const handleDisikeClick = () => {
+    const handleDisikeClick = async () => {
         if (activeBtn === "none") {
             setDislikeCount(dislikeCount + 1);
             setActiveBtn("dislike");
+            const updateImage = await updateDislikes(dislikeCount - 1);
+            setUserPrompt(updateImage);
             return;
         }
 
         if (activeBtn === 'dislike') {
             setDislikeCount(dislikeCount - 1);
             setActiveBtn("none");
+            const updateImage = await updateDislikes(dislikeCount - 1);
+            setUserPrompt(updateImage);
             return;
         }
 
@@ -119,6 +161,8 @@ export default function Mainfeedpage2({ route, navigation }) {
             setDislikeCount(dislikeCount + 1);
             setLikeCount(likeCount - 1);
             setActiveBtn("dislike");
+            const updateImage = await updateDislikes(dislikeCount + 1);
+            setUserPrompt(updateImage);
         }
     };
 
