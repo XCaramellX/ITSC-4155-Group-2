@@ -1,7 +1,9 @@
 
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity, Platform } from 'react-native'
 import { Button as PaperButton } from 'react-native-paper'
+
+
 
 export default function UploadButton({ mode, style, ...props }) {
     return (
@@ -20,7 +22,14 @@ export default function UploadButton({ mode, style, ...props }) {
 
   const styles = StyleSheet.create({
     button: {
-      width: '100%',
+      ...Platform.select({
+        android: {
+          width: '45%'
+        },
+        ios: {
+          width: '100%'
+        }
+      }),
       marginVertical: 10,
       height: 50
     },

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, SafeAreaView, } from 'react-native'
+import {StyleSheet, Text, View, SafeAreaView, Platform } from 'react-native'
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Prompt, MainFeedScreen, Upload } from '../screens';
@@ -52,6 +52,14 @@ export default function MenuBar() {
 const styles = StyleSheet.create({
     tabBar: {
         backgroundColor: 'black',
-        height: 70
+        ...Platform.select({
+            android: {
+                height: 40
+            },
+            ios: {
+                height: 70
+            }
+        })
+        
     }
 })

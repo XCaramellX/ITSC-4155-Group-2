@@ -8,7 +8,7 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import * as ImagePicker from "expo-image-picker";
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
+import { IP } from '../components/IP';
 import { Text } from 'react-native-paper'
 import { StyleSheet, TouchableOpacity, View, Image, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 
@@ -55,7 +55,7 @@ export default function Upload({ navigation }) {
         let storedData = await AsyncStorage.getItem("auth-rn");
         const parsed = JSON.parse(storedData);
 
-        const { data } = await axios.post(`http://172.16.9.28:8000/api/upload-image`, {
+        const { data } = await axios.post(`http://${IP}:8000/api/upload-image`, {
             image: base64Image,
             user: parsed.user,
         });

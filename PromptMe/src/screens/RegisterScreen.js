@@ -12,7 +12,7 @@ import TextInput from '../components/TextInput';
 import BackButton from '../components/BackButton';
 import { theme } from '../themes/sign-in-theme';
 import { AuthContext } from '../../context/auth';
-
+import { IP } from '../components/IP';
 
 
 
@@ -45,7 +45,7 @@ export default function RegisterScreen({ navigation }) {
       return
     }
 
-    const resp = await axios.post("http://172.16.9.28:8000/api/signup", { name, email, password, category, experience });
+    const resp = await axios.post(`http://${IP}:8000/api/signup`, { name, email, password, category, experience });
     if (resp.data.error) {
       alert(resp.data.error);
     } else {

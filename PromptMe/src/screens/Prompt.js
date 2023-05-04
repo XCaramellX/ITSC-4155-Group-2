@@ -19,6 +19,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import user from "../../PromptMeDB/Models/user";
 import { Card, Button, Avatar } from 'react-native-paper';
+import { IP } from '../components/IP';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT_MODAL = 150;
@@ -47,7 +48,7 @@ export default function Prompt({ navigation }) {
 
 
   const prompts = async (req, res) => {
-    res = await axios.get("http://172.16.9.28:8000/api/prompts");
+    res = await axios.get(`http://${IP}:8000/api/prompts`);
     setPromptSelection(
       res.data
         .filter(promptFilter => promptFilter.category === state.user.category && promptFilter.experience === state.user.experience)
@@ -77,7 +78,7 @@ export default function Prompt({ navigation }) {
 
   const promptSelected = async () => {
     setisModalVisible(false);
-    const resp = await axios.post("http://172.16.9.28:8000/api/prompts", { email, prompt, category, experience });
+    const resp = await axios.post(`http://${IP}:8000/api/prompts`, { email, prompt, category, experience });
 
     if (resp.data.error) {
       alert(resp.data.error)

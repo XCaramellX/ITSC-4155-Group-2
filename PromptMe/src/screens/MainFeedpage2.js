@@ -14,6 +14,8 @@ import {
     Image,
     KeyboardAvoidingView,
     Button,
+    Platform,
+    StatusBar
 } from 'react-native';
 import { Avatar, Title, Caption } from 'react-native-paper';
 import { TextInput as Input } from 'react-native-paper';
@@ -22,13 +24,13 @@ import { theme } from '../themes/sign-in-theme';
 import BackButton from '../components/BackButton';
 import MainFeedPage2BackButton from '../components/MainFeedPage2BackButton'
 // import EditButton from '../components/EditButton'
-import { StatusBar } from 'expo-status-bar';
 import CommentList from '../components/CommentList';
 import CommentInput from '../components/CommentInput';
 import TextInput from '../components/TextInput';
 import User from '../../PromptMeDB/Models/user';
 import Images from '../../PromptMeDB/Models/images';
-import CommentIcon from '../assets/comment_icon.png'
+import CommentIcon from '../assets/comment_icon.png';
+import { IP } from '../components/IP';
 
 
 const initialComments = [
@@ -65,7 +67,7 @@ export default function Mainfeedpage2({ route, navigation }) {
     useEffect(() => {
         const userImages = async () => {
             if(imageId) {
-            const res = await axios.get(`http://172.16.9.28:8000/api/showImages/${imageId}`)
+            const res = await axios.get(`http://${IP}:8000/api/showImages/${imageId}`, { imageId })
             setUserPrompt(res.data);
             setLikeCount(res.data.likes);
             setDislikeCount(res.data.dislikes);
@@ -79,7 +81,7 @@ export default function Mainfeedpage2({ route, navigation }) {
 
     const updateLikes = async(likeCount) => {
         try{
-            const likeResponse = await axios.put('http://172.16.9.28:8000/api/likes', {
+            const likeResponse = await axios.put(`http://${IP}:8000/api/likes`, {
                 imageId: userPrompt._id,
                 likes: likeCount
             });
@@ -93,7 +95,7 @@ export default function Mainfeedpage2({ route, navigation }) {
 
     const updateDislikes = async(dislikeCount) => {
         try{
-            const dislikeResponse = await axios.put('http://172.16.9.28:8000/api/dislikes', {
+            const dislikeResponse = await axios.put(`http://${IP}:8000/api/dislikes`, {
                 imageId: userPrompt._id,
                 dislikes: dislikeCount
             });
@@ -311,7 +313,7 @@ export default function Mainfeedpage2({ route, navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight: 0,
     },
     userInfoSection: {
         justifyContent: 'center',

@@ -10,6 +10,7 @@ import { theme } from '../themes/sign-in-theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios';
 import { AuthContext } from '../../context/auth';
+import { IP } from '../components/IP'
 
 
 export default function LoginScreen({ navigation }) {
@@ -23,7 +24,7 @@ export default function LoginScreen({ navigation }) {
       return;
     }
 
-    const resp = await axios.post(`http://172.16.9.28:8000/api/signin`, { email, password });
+    const resp = await axios.post(`http://${IP}:8000/api/signin`, { email, password });
     if(resp.data.error){
       alert(resp.data.error)
     } else {
