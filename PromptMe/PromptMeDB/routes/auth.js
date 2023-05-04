@@ -7,6 +7,7 @@ const router = express.Router();
 import { signup, signin, forgotPassword, resetPassword, promptSelected, uploadImage} from "../API/auth.js";
 import Prompts from "../Models/prompts.js";
 import Image from "../Models/images.js";
+import User from "../Models/user.js"
 
 
 router.get("/", (req, res) => {
@@ -60,6 +61,18 @@ router.get('/showImages/:imageId', (req, res) => {
     });
     
 }) 
+
+router.get('/userprompt', (req, res) => {
+    const {user} = req.params
+    User.findOne({user})
+    .then((data) => {
+        console.log('Data: ', data.prompt);
+        return res.json(data.prompt);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+})
 
 router.put('/likes', async(req, res) => {
     

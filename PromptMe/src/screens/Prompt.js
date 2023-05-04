@@ -78,7 +78,7 @@ export default function Prompt({ navigation }) {
 
   const promptSelected = async () => {
     setisModalVisible(false);
-    const resp = await axios.post(`http://${IP}:8000/api/prompts`, { email, prompt, category, experience });
+    const resp = await axios.post(`http://${IP}:8000/api/prompts`, { email, prompt });
 
     if (resp.data.error) {
       alert(resp.data.error)
@@ -154,7 +154,7 @@ export default function Prompt({ navigation }) {
                 <Text style={styles.text}>Confirm prompt selection</Text>
               </View>
               <View style={styles.viewButton}>
-                <TouchableOpacity style={styles.button} onPress={() => { promptSelected(), navigation.navigate('MainFeedScreen', { screen: 'Home' }), alert("Prompt selection saved!") }}>
+                <TouchableOpacity style={styles.button} onPress={() => { promptSelected(), navigation.reset({ index: 0, routes: [{ name: 'MainFeedScreen' }] }), alert("Prompt selection saved!") }}>
                   <Text style={[styles.text, { color: 'blue' }]}>Confirm</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => setisModalVisible(false)}>

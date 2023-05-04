@@ -19,19 +19,33 @@ export default function Upload({ navigation }) {
 
     const [prompt, setPrompt] = useState("");
     const [state, setState] = useContext(AuthContext);
-
+    const [user, setUser] = useState("");
     const [image, setImage] = useState({ url: '', id: '' });
     const [uploadImage, setUploadImage] = useState("");
 
     useEffect(() => {
         if (state) {
-            const { prompt } = state.user;
-            setPrompt(prompt);
-            // console.log(prompt);
+            const { name } = state.user;
+            setUser(name);
         };
     }, [state]);
 
+    console.log(user);
 
+    const getPrompt = async (res, req) => { 
+        res = await axios.get(`http://${IP}:8000/api/userprompt`, { user })
+        if (res.data.error) {
+            console.log(error);
+        } else {
+            setPrompt(res.data);
+        }
+    }
+
+    useEffect(() => {
+        getPrompt()
+    }, [])
+
+    console.log(prompt);
 
     const handleUpload = async () => {
         let permResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -58,6 +72,7 @@ export default function Upload({ navigation }) {
         const { data } = await axios.post(`http://${IP}:8000/api/upload-image`, {
             image: base64Image,
             user: parsed.user,
+            caption
         });
 
     }
@@ -97,14 +112,20 @@ export default function Upload({ navigation }) {
                 <View style={pageStyles.row}>
                     <UploadButton
                         mode="contained"
-                        onPress={() => navigation.navigate('MainFeedScreen', { screen: 'Home' })}
+                        onPress={() => navigation.reset({
+                            index: 0,
+                            routes: [{name: 'MainFeedScreen'}]
+                            })}
                     >
                         Post
                     </UploadButton>
 
                     <UploadButton
                         mode="contained"
-                        onPress={() => navigation.navigate('MainFeedScreen', { screen: 'Home' })}
+                        onPress={() => navigation.reset({
+                            index: 0,
+                            routes: [{name: 'MainFeedScreen'}]
+                            })}
                     >
                         Back
                     </UploadButton>
