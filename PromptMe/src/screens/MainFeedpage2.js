@@ -33,21 +33,7 @@ import CommentIcon from '../assets/comment_icon.png';
 import { IP } from '../components/IP';
 
 
-const initialComments = [
-    { author: 'User1', content: 'Great post!', timestamp: '5 minutes ago' },
-    {
-        author: 'User2',
-        content: 'Interesting perspective.',
-        timestamp: '10 minutes ago',
-    },
-];
 
-const postDetails = {
-    title: 'Sample Post',
-    author: 'Author1',
-    content: 'This is a sample post.',
-    imageURL: 'https://via.placeholder.com/300',
-};
 
 export default function Mainfeedpage2({ route, navigation }) {
     const onGoBack = () => navigation.reset({
@@ -56,7 +42,7 @@ export default function Mainfeedpage2({ route, navigation }) {
     })
     const { imageId } = route.params;
 
-    const [comments, setComments] = useState(initialComments);
+    const [comments, setComments] = useState([]);
     const [userPrompt, setUserPrompt] = useState(null);
     const [state, setState] = useContext(AuthContext);
     const [likeCount, setLikeCount] = useState(0);
@@ -90,8 +76,35 @@ export default function Mainfeedpage2({ route, navigation }) {
         
         userImages();
         
-    }, [imageId]);
+    }, [imageId], userId);
 
+    useEffect(() => {
+        const getComments = async () => {
+            try {
+                const commentResponse = await axios.get(`http://${IP}:8000/api/comments/${imageId}`, {
+                    params: { userId },
+                });
+                setComments(commentResponse.data)
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        
+        getComments();
+    }, [imageId, userId])
+
+    const submitComment = async (commentText) => {
+        try {
+            const commentResponse = await axios.post(`http://${IP}:8000/api/comments`, {
+                userId,
+                imageId,
+                commentText,
+            });
+            return commentResponse.data;
+        } catch(error){
+            console.error(error);
+        }
+    }
     const updateLikes = async() => {
         try{
             const likeResponse = await axios.put(`http://${IP}:8000/api/likes`, {
@@ -136,14 +149,8 @@ export default function Mainfeedpage2({ route, navigation }) {
 
     const handleLikeClick = async () => {
         if(activeBtn !== "like") {
-            if(activeBtn === "dislike") {
-                setDislikeCount(dislikeCount - 1);
-                
-            }
-            setLikeCount(likeCount + 1);
             setActiveBtn("like");
-            const updateImage = await updateLikes();
-            setUserPrompt(updateImage);
+            await updateLikes();  
         }
     };
        
@@ -151,14 +158,8 @@ export default function Mainfeedpage2({ route, navigation }) {
 
     const handleDisikeClick = async () => {
         if(activeBtn !== "dislike") {
-            if(activeBtn === "like") {
-                setLikeCount(likeCount - 1);
-                
-            }
-            setDislikeCount(dislikeCount + 1);
             setActiveBtn("dislike");
-            const updateImage = await updateDislikes();
-            setUserPrompt(updateImage);
+            await updateDislikes();
         }
     };
        
@@ -169,13 +170,11 @@ export default function Mainfeedpage2({ route, navigation }) {
 
 
 
-    const handleCommentSubmit = (text) => {
-        const newComment = {
-            author: 'CurrentUser',
-            content: text,
-            timestamp: 'Just now',
-        };
+    const handleCommentSubmit = async (text) => {
+        const newComment = await submitComment(text);
+        if(newComment) {
         setComments([newComment, ...comments]);
+        }
     };
 
 
@@ -294,7 +293,7 @@ export default function Mainfeedpage2({ route, navigation }) {
 
                 <ScrollView>
                     <View>
-                        <CommentList comments={comments} />
+                        <CommentList comments={comments.map(comment => ({author: comment.user.name, content: comment.commentText, _id: comment._id}))} />
                     </View>
                 </ScrollView>
             </ScrollView>

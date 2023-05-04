@@ -1,10 +1,12 @@
 import User from "../Models/user.js";
 import Image from "../Models/images.js";
+import Comments from "../Models/comments.js";
 import { hashPassword, comparePassword } from "../BcryptHash/auth.js";
 import jwt from "jsonwebtoken";
 import { nanoid } from "nanoid";
 import dotenv from "dotenv";
 import { v2 as cloudinary } from "cloudinary";
+
 
 dotenv.config();
 
@@ -233,3 +235,20 @@ export const uploadImage = async (req, res) => {
     }
 }; 
 
+export const comment = async(req, res) => {
+    try {
+        const {userId, imageId, commentText} = req.body
+
+        const newComment = new Comments({
+            user: userId,
+            image: imageId,
+            commentText: commentText
+        });
+
+        await newComment.save();
+        res.status(201).json(newComment);
+    } catch(error) {
+        console.log(error);
+        res.status(400).json({error: error.message});
+    }
+};

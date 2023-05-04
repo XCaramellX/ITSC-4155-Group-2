@@ -4,11 +4,11 @@ const router = express.Router();
 
 
 // Controllers
-import { signup, signin, forgotPassword, resetPassword, promptSelected, uploadImage} from "../API/auth.js";
+import { signup, signin, forgotPassword, resetPassword, promptSelected, uploadImage, comment} from "../API/auth.js";
 import Prompts from "../Models/prompts.js";
 import Image from "../Models/images.js";
 import User from "../Models/user.js"
-
+import Comment from  "../Models/comments.js";
 
 router.get("/", (req, res) => {
     return res.json({
@@ -46,8 +46,7 @@ router.get("/showImages", (req, res) =>{
 }) 
 
 
-router.post("/prompts", promptSelected);
-router.post("/upload-image", uploadImage);
+
 
 router.get('/showImages/:imageId', (req, res) => {
     const {imageId} = req.params;
@@ -87,13 +86,17 @@ router.put('/likes', async(req, res) => {
     
     try{
         const {imageId,  userId} = req.body;
+        const image = await Image.findById(imageId);
+        const userHasLiked = image.likedBy.includes(userId);
+        const userHasDisliked = image.dislikedBy.includes(userId);
+
         const updateImage = await Image.findOneAndUpdate(
             {_id: imageId}, 
             {
                 
                 $addToSet: {likedBy: userId},
                 $pull: {dislikedBy: userId},
-                $inc: {likes: 1, dislikes: -1},
+                $inc: {likes: userHasLiked ? 0 : 1, dislikes: userHasDisliked ? -1 : 0},
             }, 
             {new: true}
             
@@ -113,13 +116,17 @@ router.put('/dislikes', async(req, res) => {
     
     try{
         const {imageId,  userId} = req.body;
+        const image = await Image.findById(imageId);
+        const userHasLiked = image.likedBy.includes(userId);
+        const userHasDisliked = image.dislikedBy.includes(userId);
+
         const updateImage = await Image.findOneAndUpdate(
             {_id: imageId},
             {
                
                 $addToSet: {dislikedBy: userId},
                 $pull: {likedBy: userId},
-                $inc: {likes: -1, dislikes: 1},
+                $inc: {likes: userHasLiked ? -1 : 0, dislikes: userHasDisliked ? 0 : 1},
             }, 
             {new: true}
             
@@ -136,5 +143,20 @@ router.put('/dislikes', async(req, res) => {
         res.status(400).json({error: error.message});
     }
 })
+
+router.get('/comments/:imageId', async (req,res) => {
+    try {
+        const {imageId} = req.params;
+        const comments = await Comment.find({image: imageId}).populate('user', 'name');
+        res.status(200).json(comments);
+    }catch(error){
+        console.log(error);
+        res.status(400).json({error: error.message});
+    }
+});
+
+router.post("/prompts", promptSelected);
+router.post("/upload-image", uploadImage);
+router.post("/comments", comment);
 
 export default router;
