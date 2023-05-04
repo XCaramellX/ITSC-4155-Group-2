@@ -41,7 +41,7 @@ export default function Mainfeedpage2({ route, navigation }) {
         routes: [{ name: 'MainFeedScreen' }]
     })
     const { imageId } = route.params;
-
+    const [userDetails, setUserDetails] = useState(null);
     const [comments, setComments] = useState([]);
     const [userPrompt, setUserPrompt] = useState(null);
     const [state, setState] = useContext(AuthContext);
@@ -61,6 +61,10 @@ export default function Mainfeedpage2({ route, navigation }) {
             setLikeCount(res.data.likes);
             setDislikeCount(res.data.dislikes);
 
+            const userPostRes = await axios.get(`http://${IP}:8000/api/users/${res.data.user}`);
+            setUserDetails(userPostRes.data);
+       ;
+
             if(res.data.userLiked) {
                 setActiveBtn("like");
 
@@ -76,7 +80,7 @@ export default function Mainfeedpage2({ route, navigation }) {
         
         userImages();
         
-    }, [imageId], userId);
+    }, [imageId]);
 
     useEffect(() => {
         const getComments = async () => {
@@ -198,9 +202,9 @@ export default function Mainfeedpage2({ route, navigation }) {
                                         marginBottom: 5,
                                     },
                                 ]}>
-                                johnDoeXXXX
+                                {userDetails && userDetails.name}
                             </Title>
-                            <Caption style={styles.caption}>@j_doe</Caption>
+                            <Caption style={styles.caption}>@{userDetails && userDetails.name}</Caption>
                         </View>
                     </View>
 
