@@ -44,6 +44,7 @@ router.get("/showImages", (req, res) =>{
         });
 }) 
 
+
 router.post("/prompts", promptSelected);
 router.post("/upload-image", uploadImage);
 
@@ -60,11 +61,11 @@ router.get('/showImages/:imageId', (req, res) => {
     
 }) 
 
-router.put('/api/likes', async(req, res) => {
+router.put('/likes', async(req, res) => {
     
     try{
         const {imageId, likes} = req.body;
-        const updateImage = await Image.findOneAndUpdate(imageId, {likes}, {new: true});
+        const updateImage = await Image.findOneAndUpdate({_id: imageId}, {likes}, {new: true});
         
         res.status(200).json(updateImage);
     } catch (error){
@@ -72,11 +73,11 @@ router.put('/api/likes', async(req, res) => {
     }
 })
 
-router.put('/api/dislikes', async(req, res) => {
+router.put('/dislikes', async(req, res) => {
     
     try{
         const {imageId, dislikes} = req.body;
-        const updateImage = await Image.findOneAndUpdate(imageId, {dislikes}, {new: true});
+        const updateImage = await Image.findOneAndUpdate({_id: imageId}, {dislikes}, {new: true});
         res.status(200).json(updateImage);
     } catch (error){
         console.log(error);
