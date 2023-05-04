@@ -50,17 +50,26 @@ router.post("/prompts", promptSelected);
 router.post("/upload-image", uploadImage);
 
 router.get('/showImages/:imageId', (req, res) => {
-    const {imageId} = req.params
+    const {imageId} = req.params;
+    const userId = req.query.userId;
+
     Image.findById(imageId)
-    .then((data) => {
-        console.log('Data: ', data);
-        return res.json(data);
+    .then((image) => {
+        if(!image){
+            res.status(404).json({error: "Image not found"});
+        } else {
+            const userLiked = image.likedBy.includes(userId);
+            const userDisliked = image.dislikedBy.includes(userId);
+
+            res.status(200).json({...image._doc, userLiked, userDisliked})
+        }
     })
     .catch((error) => {
         console.log(error);
+        res.status(400).json({error: error.message});
     });
     
-}) 
+});
 
 router.get('/userprompt', (req, res) => {
     const {user} = req.params
@@ -77,10 +86,24 @@ router.get('/userprompt', (req, res) => {
 router.put('/likes', async(req, res) => {
     
     try{
-        const {imageId, likes} = req.body;
-        const updateImage = await Image.findOneAndUpdate({_id: imageId}, {likes}, {new: true});
+        const {imageId,  userId} = req.body;
+        const updateImage = await Image.findOneAndUpdate(
+            {_id: imageId}, 
+            {
+                
+                $addToSet: {likedBy: userId},
+                $pull: {dislikedBy: userId},
+                $inc: {likes: 1, dislikes: -1},
+            }, 
+            {new: true}
+            
+            );
+
+            const userLiked = updateImage.likedBy.includes(userId);
+            const userDisliked = updateImage.dislikedBy.includes(userId);
+
         
-        res.status(200).json(updateImage);
+        res.status(200).json({...updateImage._doc, userLiked, userDisliked});
     } catch (error){
         res.status(400).json({error: error.message});
     }
@@ -89,9 +112,25 @@ router.put('/likes', async(req, res) => {
 router.put('/dislikes', async(req, res) => {
     
     try{
-        const {imageId, dislikes} = req.body;
-        const updateImage = await Image.findOneAndUpdate({_id: imageId}, {dislikes}, {new: true});
-        res.status(200).json(updateImage);
+        const {imageId,  userId} = req.body;
+        const updateImage = await Image.findOneAndUpdate(
+            {_id: imageId},
+            {
+               
+                $addToSet: {dislikedBy: userId},
+                $pull: {likedBy: userId},
+                $inc: {likes: -1, dislikes: 1},
+            }, 
+            {new: true}
+            
+            );
+
+            const userLiked = updateImage.likedBy.includes(userId);
+            const userDisliked = updateImage.dislikedBy.includes(userId);
+
+        
+        res.status(200).json({...updateImage._doc, userLiked, userDisliked});
+         
     } catch (error){
         console.log(error);
         res.status(400).json({error: error.message});

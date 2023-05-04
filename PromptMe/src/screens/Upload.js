@@ -72,7 +72,7 @@ export default function Upload({ navigation }) {
         const { data } = await axios.post(`http://${IP}:8000/api/upload-image`, {
             image: base64Image,
             user: parsed.user,
-            caption
+            //caption
         });
 
     }

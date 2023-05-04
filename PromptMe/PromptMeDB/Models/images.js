@@ -32,6 +32,18 @@ const images = new Schema(
           type: Number,
           default: 0
        },
+
+       likedBy: [
+         {
+            type: Schema.Types.ObjectId, ref: "User"
+         }
+      ],
+
+       dislikedBy: [
+         {
+            type: Schema.Types.ObjectId, ref: "User"
+         }
+      ],
      
        comments: [
           {

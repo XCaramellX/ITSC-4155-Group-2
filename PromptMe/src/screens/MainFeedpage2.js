@@ -63,14 +63,27 @@ export default function Mainfeedpage2({ route, navigation }) {
     const [dislikeCount, setDislikeCount] = useState(0);
 
     const [activeBtn, setActiveBtn] = useState("none");
+    const {user} = state;
+    const userId = user ? user._id : null;
+    
 
     useEffect(() => {
         const userImages = async () => {
             if(imageId) {
-            const res = await axios.get(`http://${IP}:8000/api/showImages/${imageId}`, { imageId })
+            const res = await axios.get(`http://${IP}:8000/api/showImages/${imageId}?userId=${userId}`, imageId)
             setUserPrompt(res.data);
             setLikeCount(res.data.likes);
             setDislikeCount(res.data.dislikes);
+
+            if(res.data.userLiked) {
+                setActiveBtn("like");
+
+            } else if(res.data.userDisliked){
+                setActiveBtn("dislike");
+
+            } else {
+                setActiveBtn("none");
+            }
             }
         };
 
@@ -79,13 +92,16 @@ export default function Mainfeedpage2({ route, navigation }) {
         
     }, [imageId]);
 
-    const updateLikes = async(likeCount) => {
+    const updateLikes = async() => {
         try{
             const likeResponse = await axios.put(`http://${IP}:8000/api/likes`, {
                 imageId: userPrompt._id,
-                likes: likeCount
+                userId: user._id,
             });
     
+            setUserPrompt(likeResponse.data);
+            setLikeCount(likeResponse.data.likes);
+            setDislikeCount(likeResponse.data.dislikes);
             console.log("like saved")
             return likeResponse.data;
         } catch (err){
@@ -93,13 +109,16 @@ export default function Mainfeedpage2({ route, navigation }) {
         }
     }
 
-    const updateDislikes = async(dislikeCount) => {
+    const updateDislikes = async() => {
         try{
             const dislikeResponse = await axios.put(`http://${IP}:8000/api/dislikes`, {
                 imageId: userPrompt._id,
-                dislikes: dislikeCount
+                userId: user._id,
             });
-    
+            
+            setUserPrompt(dislikeResponse.data);
+            setLikeCount(dislikeResponse.data.likes);
+            setDislikeCount(dislikeResponse.data.dislikes);
             console.log("dislike saved")
             return dislikeResponse.data;
         } catch (err){
@@ -116,56 +135,34 @@ export default function Mainfeedpage2({ route, navigation }) {
   
 
     const handleLikeClick = async () => {
-        if (activeBtn === "none") {
-            setLikeCount(likeCount + 1);
-            setActiveBtn("like");
-            const updateImage = await updateLikes(likeCount + 1);
-            setUserPrompt(updateImage);
-            return;
-        } else if (activeBtn === 'like') {
-        if(likeCount > 0) {
-            setLikeCount(likeCount - 1);
-            setActiveBtn("none");
-            const updateImage = await updateLikes(likeCount - 1);
-            setUserPrompt(updateImage);
+        if(activeBtn !== "like") {
+            if(activeBtn === "dislike") {
+                setDislikeCount(dislikeCount - 1);
+                
             }
-        } else if (activeBtn === "dislike") {
-        if(dislikeCount > 0) {
             setLikeCount(likeCount + 1);
-            setDislikeCount(dislikeCount - 1);
             setActiveBtn("like");
-            await updateDislikes(dislikeCount - 1)
-            const updateImage = await updateLikes(likeCount + 1);
+            const updateImage = await updateLikes();
             setUserPrompt(updateImage);
-        }
         }
     };
+       
+    
 
     const handleDisikeClick = async () => {
-        if (activeBtn === "none") {
+        if(activeBtn !== "dislike") {
+            if(activeBtn === "like") {
+                setLikeCount(likeCount - 1);
+                
+            }
             setDislikeCount(dislikeCount + 1);
             setActiveBtn("dislike");
-            const updateImage = await updateDislikes(dislikeCount + 1);
+            const updateImage = await updateDislikes();
             setUserPrompt(updateImage);
-            return;
-        }else if (activeBtn === 'dislike') {
-        if(dislikeCount > 0) {
-            setDislikeCount(dislikeCount - 1);
-            setActiveBtn("none");
-            const updateImage = await updateDislikes(dislikeCount - 1);
-            setUserPrompt(updateImage);
-            }
-        }else if (activeBtn === "like") {
-        if(likeCount > 0) {
-            setDislikeCount(dislikeCount + 1);
-            setLikeCount(likeCount - 1);
-            setActiveBtn("dislike");
-            await updateLikes(likeCount - 1)
-            const updateImage = await updateDislikes(dislikeCount + 1);
-            setUserPrompt(updateImage);
-            }
         }
     };
+       
+   
 
     // Like Dislike
 
