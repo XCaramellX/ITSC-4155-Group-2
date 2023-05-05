@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import {
     View,
     StyleSheet,
@@ -31,10 +31,14 @@ import { emailValidator } from '../validators/emailValidator';
 import { passwordValidator } from '../validators/passwordValidator';
 import { nameValidator } from '../validators/nameValidator';
 import { TabView, SceneMap } from 'react-native-tab-view';
-
+import { AuthContext } from '../../context/auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import SignOut from '../components/Sign-out';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RegisterScreen({ navigation }) {
+    const [state, setState] = useContext(AuthContext);
+
     const [user, setUser] = useState([
         {
             name: 'John Doe',
@@ -120,6 +124,19 @@ export default function RegisterScreen({ navigation }) {
         second: SecondRoute,
         third: ThirdRoute,
     });
+
+    const logOut = async() => {
+        try {
+            await AsyncStorage.clear();
+
+            navigation.reset({
+                index: 0,
+                routes: [{name: 'StartScreen'}]
+            })
+        } catch(error) {
+            console.log(error)
+        }
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -236,6 +253,13 @@ export default function RegisterScreen({ navigation }) {
                         </Card.Content>
                     </Card>
                 </View>
+
+                <TouchableOpacity onPress={() => logOut()}>
+                    <SignOut
+                        mode='contained'
+                        style={{ width: '75%', color: theme.colors.primary, alignSelf: 'center' }}
+                    >Logout</SignOut>
+                </TouchableOpacity>
 
                 {/* 
             <TabView

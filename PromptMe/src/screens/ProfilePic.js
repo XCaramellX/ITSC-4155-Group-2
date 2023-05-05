@@ -10,6 +10,7 @@ import Background from '../components/Background';
 import { AuthContext } from "../../context/auth";
 import { IP } from "../components/IP";
 import axios from "axios";
+import { theme } from "../themes/sign-in-theme";
 
 export default function ProfilePic({ navigation }) {
 
@@ -92,7 +93,7 @@ export default function ProfilePic({ navigation }) {
                 <TouchableOpacity onPress={() => onHandleSubmit()}>
                     <UploadButton
                         mode="contained"
-                        style={{ width: "75%", backgroundColor: 'darkmagenta', alignSelf: 'center' }}>
+                        style={{ width: "75%", backgroundColor: theme.colors.primary, alignSelf: 'center' }}>
                         Upload Profile Picture
                     </UploadButton>
                 </TouchableOpacity>

@@ -114,7 +114,7 @@ export default function Upload({ navigation }) {
                         mode="contained"
                         onPress={() => navigation.reset({
                             index: 0,
-                            routes: [{name: 'MainFeedScreen'}]
+                            routes: [{name: 'Prompt'}]
                             })}
                     >
                         Post

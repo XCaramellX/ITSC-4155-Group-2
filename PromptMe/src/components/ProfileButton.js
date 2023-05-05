@@ -20,7 +20,7 @@ export default function BackButton() {
 }, [state]);
 
   return (
-    <TouchableOpacity onPress={() => { navigation.navigate('ProfileScreen') }} style={styles.container}>
+    <TouchableOpacity onPress={() => { navigation.navigate('MainFeedScreen', { screen: 'Profile' }) }} style={styles.container}>
       <Image
         style={styles.image}
         source={{ uri: currUser }}
