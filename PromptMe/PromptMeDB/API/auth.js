@@ -203,6 +203,8 @@ export const uploadImage = async (req, res) => {
 
         const userImage = new Image({
             user: userId,
+            user_image: req.body.user.image_url,
+            user_name: req.body.user.name,
             id: result.public_id,
             url: result.secure_url,
             prompt: userPrompt.prompt,

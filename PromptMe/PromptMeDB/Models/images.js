@@ -8,6 +8,14 @@ const images = new Schema(
         ref: 'User'
        },
 
+       user_image: {
+         type: String,
+       },
+
+       user_name: {
+         type: String,
+       },
+
        id: {
             type: String,
             required: true,
@@ -44,19 +52,14 @@ const images = new Schema(
             type: Schema.Types.ObjectId, ref: "User"
          }
       ],
-
-       createdAt: {
-         type: Date,
-         createdAt: Date.now
-       },
-     
        comments: [
           {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Comment'
           }
-       ] 
+       ],
      
-    }
+    },
+    {timestamps: true}
 )
 export default mongoose.model("Image", images);
