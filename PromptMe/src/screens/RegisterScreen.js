@@ -52,7 +52,10 @@ export default function RegisterScreen({ navigation }) {
       setState(resp.data);
       await AsyncStorage.setItem('auth-rn', JSON.stringify(resp.data));
       alert("Sign up Successful");
-      navigation.navigate('Prompt');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'ProfilePic' }]
+      });
     }
 
     console.log(resp.data);

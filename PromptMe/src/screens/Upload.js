@@ -33,11 +33,11 @@ export default function Upload({ navigation }) {
     console.log(user);
 
     const getPrompt = async (res, req) => { 
-        res = await axios.get(`http://${IP}:8000/api/userprompt`, { user })
+        res = await axios.get(`http://${IP}:8000/api/user`, { user })
         if (res.data.error) {
             console.log(error);
         } else {
-            setPrompt(res.data);
+            setPrompt(res.data.prompt);
         }
     }
 

@@ -33,6 +33,14 @@ const userSchema = new Schema({
     prompt: {
         type: String,
         default: "default prompt"
+    },
+    image_url: {
+        type: String,
+        default:""
+    },
+    image_public_id: {
+        type: String,
+        default: " "
     }
 },
 { timestamps: true }

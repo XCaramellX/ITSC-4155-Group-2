@@ -44,6 +44,11 @@ const images = new Schema(
             type: Schema.Types.ObjectId, ref: "User"
          }
       ],
+
+       createdAt: {
+         type: Date,
+         createdAt: Date.now
+       },
      
        comments: [
           {

@@ -4,11 +4,12 @@ const router = express.Router();
 
 
 // Controllers
-import { signup, signin, forgotPassword, resetPassword, promptSelected, uploadImage, comment} from "../API/auth.js";
+import { signup, signin, forgotPassword, resetPassword, promptSelected, uploadImage, comment, uploadProfilePic} from "../API/auth.js";
 import Prompts from "../Models/prompts.js";
 import Image from "../Models/images.js";
 import User from "../Models/user.js"
 import Comment from  "../Models/comments.js";
+
 
 router.get("/", (req, res) => {
     return res.json({
@@ -82,12 +83,12 @@ router.get('/showImages/:imageId', (req, res) => {
     
 });
 
-router.get('/userprompt', (req, res) => {
+router.get('/user', (req, res) => {
     const {user} = req.params
     User.findOne({user})
     .then((data) => {
-        console.log('Data: ', data.prompt);
-        return res.json(data.prompt);
+        console.log('Data: ', data);
+        return res.json(data);
     })
     .catch((error) => {
         console.log(error);
@@ -170,5 +171,6 @@ router.get('/comments/:imageId', async (req,res) => {
 router.post("/prompts", promptSelected);
 router.post("/upload-image", uploadImage);
 router.post("/comments", comment);
+router.post('/profilepic', uploadProfilePic);
 
 export default router;

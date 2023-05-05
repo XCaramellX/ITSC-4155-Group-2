@@ -167,7 +167,7 @@ export const resetPassword = async (req, res) => {
     }
 };
 export const promptSelected = async (req, res) => {
-    
+
     const { prompt, email } = req.body;
 
     try {
@@ -188,7 +188,7 @@ export const promptSelected = async (req, res) => {
 }
 
 export const uploadImage = async (req, res) => {
-    try{
+    try {
         const result = await cloudinary.uploader.upload(req.body.image, {
             public_id: nanoid(),
             resource_type: 'image',
@@ -196,10 +196,10 @@ export const uploadImage = async (req, res) => {
         });
 
         console.log(req.body.user);
-        
+
         const userId = req.body.user._id;
         const userPrompt = await User.findById(userId);
-     
+
 
         const userImage = new Image({
             user: userId,
@@ -213,31 +213,14 @@ export const uploadImage = async (req, res) => {
 
 
         await userImage.save();
-
-        const user = await User.findByIdAndUpdate(
-            userId,
-            {
-                image: {
-                    user: userId,
-                    id: result.public_id,
-                    url: result.secure_url,
-                },
-            },
-            {new: true}
-        );
-        return res.json({
-            name: user.name,
-            email: user.email,
-            image: user.image,
-        });
-    }catch (err){
-        console.log(err);
+    } catch (error) {
+        console.log(error);
     }
-}; 
+};
 
-export const comment = async(req, res) => {
+export const comment = async (req, res) => {
     try {
-        const {userId, imageId, commentText} = req.body
+        const { userId, imageId, commentText } = req.body
 
         const newComment = new Comments({
             user: userId,
@@ -247,8 +230,34 @@ export const comment = async(req, res) => {
 
         await newComment.save();
         res.status(201).json(newComment);
-    } catch(error) {
+    } catch (error) {
         console.log(error);
-        res.status(400).json({error: error.message});
+        res.status(400).json({ error: error.message });
     }
 };
+
+export const uploadProfilePic = async (req, res) => {
+    try {
+
+        const result = await cloudinary.uploader.upload(req.body.image, {
+            public_id: nanoid(),
+            resource_type: 'image',
+            format: 'jpg'
+        });
+        console.log(req.body.name);
+
+        const user = await User.findOneAndUpdate(
+            req.body.name,
+            {
+                image_url: result.secure_url,
+                image_public_id: result.public_id,
+            },
+        );
+        
+        return res.json(user.image_url);
+
+    } catch (error) {
+        console.log(error);
+        return res.json(error);
+    }
+}

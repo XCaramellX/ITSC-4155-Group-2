@@ -17,7 +17,8 @@ import {
     ScrollView,
     Dimensions,
     TouchableOpacity,
-    Image
+    Image,
+    Platform
 } from "react-native";
 import { theme } from '../themes/sign-in-theme';
 import { IP } from '../components/IP'
@@ -47,6 +48,8 @@ export default function MainFeed({ navigation}) {
         const getImageResponse = await axios.get(`http://${IP}:8000/api/showImages`);
         setImages(getImageResponse.data);
     }
+
+    console.log(images);
   
     useFocusEffect(
         React.useCallback(() => {
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
         marginTop: "5%",
         marginLeft: "5%",
         marginBottom: "5%",
-        shadowOpacity: "0.7",
+        shadowOpacity: 0.7,
         shadowOffset: { width: -2, height: 2 },
     },
 
@@ -125,8 +128,13 @@ const styles = StyleSheet.create({
         marginLeft: "5%",
         marginBottom: "5%",
         shadowColor: "grey",
-        shadowOpacity: "0.7",
+        shadowOpacity: 0.7,
         shadowOffset: { width: -2, height: 2 },
+        ...Platform.select({
+            android: {
+                elevation: 3,
+            }
+        })
     },
 
     imagesStyle: {
