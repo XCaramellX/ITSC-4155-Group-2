@@ -66,7 +66,7 @@ export default function RegisterScreen({ navigation }) {
       <BackButton goBack={navigation.goBack} />
       <Header>Create Account</Header>
       <TextInput
-        label="Name"
+        label="User Name"
         returnKeyType="next"
         // value={name.value}
         onChangeText={(text) => setName(text)}
