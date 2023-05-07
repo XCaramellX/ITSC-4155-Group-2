@@ -65,7 +65,7 @@ export default function MainFeed({ navigation }) {
 
         let y = moment(images[x].createdAt)
 
-        const formattedDate = y.format('MM-DD-YYYY HH:mm a');
+        const formattedDate = y.format('MM-DD-YYYY hh:mm a');
 
 
         const item = {

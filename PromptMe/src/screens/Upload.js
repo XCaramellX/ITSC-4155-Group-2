@@ -54,6 +54,8 @@ export default function Upload({ navigation }) {
         let storedData = await AsyncStorage.getItem("auth-rn");
         const parsed = JSON.parse(storedData);
 
+        console.log(parsed.user._id)
+
         const { data } = await axios.post(`http://${IP}:8000/api/upload-image`, {
             image: base64Image,
             user: parsed.user,

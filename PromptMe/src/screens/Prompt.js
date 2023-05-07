@@ -113,7 +113,7 @@ export default function Prompt({ navigation }) {
 
   }
 
-
+  console.log(pSelected);
 
 
   return (

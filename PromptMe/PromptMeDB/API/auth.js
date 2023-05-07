@@ -176,13 +176,12 @@ export const resetPassword = async (req, res) => {
 export const promptSelected = async (req, res) => {
 
     try {
-        const user = await User.findOneAndUpdate(
-            req.body.user.name,
-            {
-                prompt: req.body.prompt
-            },
-            {new: true}
-        );
+        console.log(req.body.prompt);
+        console.log(req.body.user._id)
+
+        const user = await User.findByIdAndUpdate(req.body.user._id);
+        user.prompt = req.body.prompt;
+        user.save();
 
         console.log(user.name)
 
