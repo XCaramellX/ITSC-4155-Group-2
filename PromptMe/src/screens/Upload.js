@@ -25,25 +25,10 @@ export default function Upload({ navigation }) {
 
     useEffect(() => {
         if (state) {
-            const { name } = state.user;
-            setUser(name);
+            const { prompt } = state.user;
+            setPrompt(prompt);
         };
     }, [state]);
-
-    console.log(user);
-
-    const getPrompt = async (res, req) => { 
-        res = await axios.get(`http://${IP}:8000/api/user`, { user })
-        if (res.data.error) {
-            console.log(error);
-        } else {
-            setPrompt(res.data.prompt);
-        }
-    }
-
-    useEffect(() => {
-        getPrompt()
-    }, [])
 
     console.log(prompt);
 

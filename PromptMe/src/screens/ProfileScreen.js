@@ -127,8 +127,9 @@ export default function RegisterScreen({ navigation }) {
 
     const logOut = async() => {
         try {
-            await AsyncStorage.clear();
+            await AsyncStorage.removeItem('auth-rn');
 
+            console.log
             navigation.reset({
                 index: 0,
                 routes: [{name: 'StartScreen'}]

@@ -60,6 +60,13 @@ export const signup = async (req, res) => {
                 error: "Email is taken",
             });
         }
+        const name_exist = await User.findOne({ name });
+        if (name_exist) {
+            return res.json({
+                error: "User Name is taken",
+            });
+        }
+
         // hash password
         const hashedPassword = await hashPassword(password);
 
@@ -168,20 +175,27 @@ export const resetPassword = async (req, res) => {
 };
 export const promptSelected = async (req, res) => {
 
-    const { prompt, email } = req.body;
-
     try {
-        if (!(prompt == '') && !(email == '')) {
-            const user = await User.findOne({ email });
-            user.prompt = prompt;
-            user.save();
-            console.log('Save successful!');
-            console.log(prompt);
-        } else {
-            return res.json({
-                error: 'Save unsuccessful'
-            })
-        }
+        const user = await User.findOneAndUpdate(
+            req.body.user.name,
+            {
+                prompt: req.body.prompt
+            },
+            {new: true}
+        );
+
+        console.log(user.name)
+
+        return res.json({
+            name: user.name,
+            email: user.email,
+            category: user.category,
+            experience: user.experience,
+            prompt: user.prompt,
+            public_id: user.public_id,
+            url: user.url,
+        })
+        
     } catch (err) {
         console.log(err)
     }
@@ -197,17 +211,12 @@ export const uploadImage = async (req, res) => {
 
         console.log(req.body.user);
 
-        const userId = req.body.user._id;
-        const userPrompt = await User.findById(userId);
-
-
         const userImage = new Image({
-            user: userId,
-            user_image: req.body.user.image_url,
-            user_name: req.body.user.name,
+            user: req.body.user.name,
+            user_image: req.body.user.url,
             id: result.public_id,
             url: result.secure_url,
-            prompt: userPrompt.prompt,
+            prompt: req.body.user.prompt,
             likes: 0,
             dislikes: 0,
             comments: [],
@@ -246,17 +255,28 @@ export const uploadProfilePic = async (req, res) => {
             resource_type: 'image',
             format: 'jpg'
         });
-        console.log(req.body.name);
+        console.log(req.body.user);
 
-        const user = await User.findOneAndUpdate(
-            req.body.name,
+        const user = await User.findByIdAndUpdate(
+            req.body.user._id,
             {
-                image_url: result.secure_url,
-                image_public_id: result.public_id,
+                public_id: result.public_id,
+                url: result.secure_url,
             },
+            {new: true}   
         );
-        
-        return res.json(user.image_url);
+
+        console.log(user.url);
+        return res.json({
+            name: user.name,
+            email: user.email,
+            category: user.category,
+            experience: user.experience,
+            prompt: user.prompt,
+            public_id: user.public_id,
+            url: user.url,
+        });
+
 
     } catch (error) {
         console.log(error);

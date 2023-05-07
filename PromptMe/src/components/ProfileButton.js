@@ -14,8 +14,8 @@ export default function BackButton() {
 
   useEffect(() => {
     if (state) {
-        const { image_url } = state.user;
-        setCurrUser(image_url);
+        const { url } = state.user;
+        setCurrUser(url);
     };
 }, [state]);
 

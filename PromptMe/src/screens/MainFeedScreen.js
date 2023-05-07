@@ -71,7 +71,7 @@ export default function MainFeed({ navigation }) {
         const item = {
             key: x,
             userImage: images[x].user_image,
-            userName: images[x].user_name,
+            userName: images[x].user,
             url: images[x].url,
             dateAndTime: formattedDate,
             likes: images[x].likes,

@@ -28,24 +28,30 @@ const HEIGHT_MODAL = 150;
 export default function Prompt({ navigation }) {
 
   const [promptSelection, setPromptSelection] = useState("");
-  const [prompt, setPrompt] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  // const [category, setCategory] = useState("");
-  // const [experience, setExperience] = useState("");
+  const [category, setCategory] = useState("");
+  const [experience, setExperience] = useState("");
+  const [prompt, setPrompt] = useState("");
+  const [url, setUrl] = useState("");
+  const [public_id, setPublic_ID] = useState("");
+  const [pSelected, setPSelected] = useState("");
   const [isModalVisible, setisModalVisible] = useState(false);
   const [state, setState] = useContext(AuthContext);
   const promptData = [];
 
   useEffect(() => {
     if (state) {
-      const { email, prompt } = state.user;
+      const { name, email, category, experience, prompt, public_id, url } = state.user;
+      setName(name);
       setEmail(email);
       setPrompt(prompt);
-      console.log(email);
-      console.log(prompt);
+      setCategory(category);
+      setExperience(experience);
+      setPublic_ID(public_id);
+      setUrl(url);
     };
   }, [state]);
-
 
 
   const prompts = async (req, res) => {
@@ -78,14 +84,29 @@ export default function Prompt({ navigation }) {
 
 
   const promptSelected = async () => {
-    setisModalVisible(false);
-    const resp = await axios.post(`http://${IP}:8000/api/prompts`, { email, prompt });
+    
+    let storedData = await AsyncStorage.getItem('auth-rn');
+    let parsed = JSON.parse(storedData);
 
-    if (resp.data.error) {
-      alert(resp.data.error)
+    console.log(parsed.user.name);
+
+    const { data } = await axios.post(`http://${IP}:8000/api/prompts`, { user: parsed.user, prompt: pSelected });
+    if (data.error) {
+      console.log(data.error)
     } else {
-      setState(resp.data);
-      await AsyncStorage.setItem('auth-rn', JSON.stringify(resp.data));
+    console.log("Prompt change Successful:", data);
+
+    const stored = JSON.parse(await AsyncStorage.getItem("auth-rn"));
+    stored.user = data;
+    await AsyncStorage.setItem("auth-rn", JSON.stringify(stored));
+
+    setState({ ...state, user: data });
+
+    navigation.navigate('MainFeedScreen', { screen: 'Home'});
+
+    alert('Prompt save successful');
+
+    setisModalVisible(false);
     }
 
   }
@@ -97,22 +118,22 @@ export default function Prompt({ navigation }) {
 
 
     <View>
-        <ScrollView contentContainerStyle={styles.promptHolder} showsVerticalScrollIndicator={false}>
-          <Header />
-          <StatusBar></StatusBar>
-          {promptData.map((item) => {
-            return (
-              <TouchableOpacity style={styles.promptOutterContainer} key={item.key} onPress={() => { setPrompt(item.data), setisModalVisible(true) }}>
-                <Card style={styles.card}>
-                  <Card.Content>
-                    <Text style={styles.title}>"{item.data}"</Text>
-                    <View style={styles.divider} />
-                    {/* <Text style={styles.subtitle}>
+      <ScrollView contentContainerStyle={styles.promptHolder} showsVerticalScrollIndicator={false}>
+        <Header />
+        <StatusBar></StatusBar>
+        {promptData.map((item) => {
+          return (
+            <TouchableOpacity style={styles.promptOutterContainer} key={item.key} onPress={() => { setPSelected(item.data), setisModalVisible(true) }}>
+              <Card style={styles.card}>
+                <Card.Content>
+                  <Text style={styles.title}>"{item.data}"</Text>
+                  <View style={styles.divider} />
+                  {/* <Text style={styles.subtitle}>
                     <Avatar.Icon size={24} icon="star" />
                     {' '}
                     Created by <Text style={styles.author}>{item.experience}</Text> on 11 April , 2021
                   </Text> */}
-                    {/* <View style={styles.divider} />
+                  {/* <View style={styles.divider} />
                   <View style={styles.actions}>
                     <Button icon="cog" mode="text" color="#6c757d" compact>
                       Settings
@@ -132,41 +153,41 @@ export default function Prompt({ navigation }) {
                       Add
                     </Button>
                   </View> */}
-                  </Card.Content>
-                </Card>
-                {/* <View style={styles.promptDesign}></View>
+                </Card.Content>
+              </Card>
+              {/* <View style={styles.promptDesign}></View>
               <Text style={styles.item}>{item.data}</Text> */}
 
-              </TouchableOpacity>
-            );
-          })}
-          <Modal
-            transparent={true}
-            animationType='fade'
-            visible={isModalVisible}
-            onRequestClose={() => { setisModalVisible(false) }}
-          >
-            <TouchableOpacity
-              disabled={true}
-              style={styles.container}
-            >
-              <View style={styles.modal}>
-                <View style={styles.textView}>
-                  <Text style={styles.text}>Confirm prompt selection</Text>
-                </View>
-                <View style={styles.viewButton}>
-                  <TouchableOpacity style={styles.button} onPress={() => { promptSelected(), navigation.reset({ index: 0, routes: [{ name: 'MainFeedScreen' }] }), alert("Prompt selection saved!") }}>
-                    <Text style={[styles.text, { color: 'blue' }]}>Confirm</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.button} onPress={() => setisModalVisible(false)}>
-                    <Text style={[styles.text, { color: 'blue' }]}>Cancel</Text>
-                  </TouchableOpacity>
-
-                </View>
-              </View>
             </TouchableOpacity>
-          </Modal>
-        </ScrollView>
+          );
+        })}
+        <Modal
+          transparent={true}
+          animationType='fade'
+          visible={isModalVisible}
+          onRequestClose={() => { setisModalVisible(false) }}
+        >
+          <TouchableOpacity
+            disabled={true}
+            style={styles.container}
+          >
+            <View style={styles.modal}>
+              <View style={styles.textView}>
+                <Text style={styles.text}>Confirm prompt selection</Text>
+              </View>
+              <View style={styles.viewButton}>
+                <TouchableOpacity style={styles.button} onPress={() => promptSelected()}>
+                  <Text style={[styles.text, { color: 'blue' }]}>Confirm</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => setisModalVisible(false)}>
+                  <Text style={[styles.text, { color: 'blue' }]}>Cancel</Text>
+                </TouchableOpacity>
+
+              </View>
+            </View>
+          </TouchableOpacity>
+        </Modal>
+      </ScrollView>
     </View>
 
 

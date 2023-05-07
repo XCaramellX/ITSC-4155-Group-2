@@ -8,13 +8,13 @@ import {
   LoginScreen,
   RegisterScreen,
   ResetPasswordScreen,
-  ProfileScreen,
   MainFeedpage2,
-  Prompt
+  Prompt,
+  ProfilePic
 } from './src/screens';
 import { AuthProvider } from './context/auth.js';
 import MenuBar from './src/components/MenuBar';
-import ProfilePic from './src/screens/ProfilePic';
+
 
 
 const Stack = createStackNavigator();
@@ -38,7 +38,6 @@ export default function App() {
               name="ResetPasswordScreen"
               component={ResetPasswordScreen}
             />
-            <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
             <Stack.Screen name="MainFeedpage2" component={MainFeedpage2} />
 
 

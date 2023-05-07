@@ -4,15 +4,11 @@ const { Schema } = mongoose;
 const images = new Schema(
     {
        user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'User'
        },
 
        user_image: {
-         type: String,
-       },
-
-       user_name: {
          type: String,
        },
 

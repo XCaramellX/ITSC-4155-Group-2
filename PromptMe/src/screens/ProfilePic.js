@@ -15,21 +15,29 @@ import { theme } from "../themes/sign-in-theme";
 export default function ProfilePic({ navigation }) {
 
     const [image, setImage] = useState({ url: '' });
+    const [url, setUrl] = useState("");
+    const [public_id, setPublic_ID] = useState("");
     const [imageChoosen, setImageChoosen] = useState(false);
     const [toUpload, setToUpload] = useState("");
     const [state, setState] = useContext(AuthContext);
-    const [pExist, setPExist] = useState("")
-    const [u_name, setName] = useState("");
+    const [prompt, setPrompt] = useState("");
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [category, setCategory] = useState("");
+    const [experience, setExperience] = useState("");
 
     useEffect(() => {
         if (state) {
-            const { name, prompt } = state.user;
+            const { name, email, category, experience, prompt, public_id, url } = state.user;
             setName(name);
-            setPExist(prompt);
+            setEmail(email);
+            setPrompt(prompt);
+            setCategory(category);
+            setExperience(experience);
+            setPublic_ID(public_id);
+            setUrl(url);
         };
     }, [state]);
-
-    console.log(u_name);
 
     const openPicker = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -64,14 +72,24 @@ export default function ProfilePic({ navigation }) {
     };
 
     const onHandleSubmit = async () => {
-        const res = await axios.post(`http://${IP}:8000/api/profilepic`, { name: u_name, image: toUpload });
-        console.log(res.data);
+
+        let storedData = await AsyncStorage.getItem("auth-rn");
+        const parsed = JSON.parse(storedData);
+
+        const { data } = await axios.post(`http://${IP}:8000/api/profilepic`, { user: parsed.user, image: toUpload });
+        console.log("Upload Successful:", data);
+
+        const stored = JSON.parse(await AsyncStorage.getItem("auth-rn"));
+        stored.user = data;
+        await AsyncStorage.setItem("auth-rn", JSON.stringify(stored));
+
+        setState({...state, user: data});
 
         //Navigate To next page
-        if (pExist !== "default prompt") {
-            navigation.naigate('MainFeedScreen', { screen: 'Home'});
+        if (prompt !== "default prompt") {
+            navigation.navigate('MainFeedScreen', { screen: 'Home' })
         } else {
-            navigation.navigate('Prompt');
+            navigation.navigate('Prompt')
         }
     }
 
