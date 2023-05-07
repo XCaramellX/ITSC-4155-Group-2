@@ -187,7 +187,7 @@ export const promptSelected = async (req, res) => {
         console.log(user.name)
 
         return res.json({
-            id:user._id,
+            _id:user._id,
             name: user.name,
             email: user.email,
             category: user.category,
@@ -272,7 +272,7 @@ export const uploadProfilePic = async (req, res) => {
 
         console.log(user.url);
         return res.json({
-            id: user._id,
+            _id: user._id,
             name: user.name,
             email: user.email,
             category: user.category,

@@ -50,7 +50,7 @@ export default function Mainfeedpage2({ route, navigation }) {
 
     const [activeBtn, setActiveBtn] = useState("none");
     const {user} = state;
-    const userId = user ? user.id : null;
+    const userId = user ? user._id : null;
     
     console.log(userId);
 
