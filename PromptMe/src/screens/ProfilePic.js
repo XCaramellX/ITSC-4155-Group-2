@@ -21,6 +21,7 @@ export default function ProfilePic({ navigation }) {
     const [toUpload, setToUpload] = useState("");
     const [state, setState] = useContext(AuthContext);
     const [prompt, setPrompt] = useState("");
+    const [_id, setID] = useState("")
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [category, setCategory] = useState("");
@@ -28,7 +29,8 @@ export default function ProfilePic({ navigation }) {
 
     useEffect(() => {
         if (state) {
-            const { name, email, category, experience, prompt, public_id, url } = state.user;
+            const { _id ,name, email, category, experience, prompt, public_id, url } = state.user;
+            setID(_id)
             setName(name);
             setEmail(email);
             setPrompt(prompt);

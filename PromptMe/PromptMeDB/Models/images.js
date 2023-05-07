@@ -3,6 +3,11 @@ const { Schema } = mongoose;
 
 const images = new Schema(
     {
+      user_id: {
+         type: Schema.Types.ObjectId,
+         ref: 'User'
+      },
+
        user: {
         type: String,
         ref: 'User'

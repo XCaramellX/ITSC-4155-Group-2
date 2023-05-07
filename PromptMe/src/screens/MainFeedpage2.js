@@ -50,8 +50,9 @@ export default function Mainfeedpage2({ route, navigation }) {
 
     const [activeBtn, setActiveBtn] = useState("none");
     const {user} = state;
-    const userId = user ? user._id : null;
+    const userId = user ? user.id : null;
     
+    console.log(userId);
 
     useEffect(() => {
         const userImages = async () => {
@@ -61,7 +62,7 @@ export default function Mainfeedpage2({ route, navigation }) {
             setLikeCount(res.data.likes);
             setDislikeCount(res.data.dislikes);
 
-            const userPostRes = await axios.get(`http://${IP}:8000/api/users/${res.data.user}`);
+            const userPostRes = await axios.get(`http://${IP}:8000/api/users/${res.data.user_id}`);
             setUserDetails(userPostRes.data);
        ;
 

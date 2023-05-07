@@ -187,6 +187,7 @@ export const promptSelected = async (req, res) => {
         console.log(user.name)
 
         return res.json({
+            id:user._id,
             name: user.name,
             email: user.email,
             category: user.category,
@@ -211,7 +212,10 @@ export const uploadImage = async (req, res) => {
 
         console.log(req.body.user);
 
+        const id = await User.findOne(req.body.user);
+
         const userImage = new Image({
+            user_id: id._id,
             user: req.body.user.name,
             user_image: req.body.user.url,
             id: result.public_id,
@@ -268,6 +272,7 @@ export const uploadProfilePic = async (req, res) => {
 
         console.log(user.url);
         return res.json({
+            id: user._id,
             name: user.name,
             email: user.email,
             category: user.category,
