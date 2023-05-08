@@ -39,16 +39,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function RegisterScreen({ navigation }) {
     const [state, setState] = useContext(AuthContext);
 
-    const [user, setUser] = useState([
-        {
-            name: 'John Doe',
-            email: 'jDoe34@uncc.edu',
-            category: 'Music',
-            experience: 'Beginner',
-            prompt: 'Hello from the back end, We are connected',
-            key: 1,
-        },
-    ]);
+    const { user } = state;
 
     const [prompts, setPrompts] = useState([
         {
@@ -208,13 +199,13 @@ export default function RegisterScreen({ navigation }) {
                         <Card.Content style={styles.cardContent}>
                             <View style={styles.profilePictureContainer}>
                                 <Image
-                                    source={require('../assets/default_profile_picture.png')}
+                                    source={{ uri: user.url }}
                                     style={styles.profilePicture}
                                 />
                             </View>
-                            <Text style={styles.name}>johnDoeXXXX</Text>
+                            <Text style={styles.name}>{user.name}</Text>
                             <Text style={styles.subtitle}>
-                                @j_doe<Text style={styles.separator}></Text>{' '}
+                                @{user.name}<Text style={styles.separator}></Text>{' '}
                                 {/* <Text style={styles.link}>mdbootstrap.com</Text> */}
                             </Text>
                             {/* <View style={styles.socialMediaButtonsContainer}>
@@ -229,27 +220,27 @@ export default function RegisterScreen({ navigation }) {
                         <Card.Content>
                             <View style={styles.row}>
                                 <Text style={styles.label}>Full Name</Text>
-                                <Text style={styles.value}>Johnatan Smith</Text>
+                                <Text style={styles.value}>{user.name}</Text>
                             </View>
                             <View style={styles.separator} />
                             <View style={styles.row}>
                                 <Text style={styles.label}>Email</Text>
-                                <Text style={styles.value}>example@example.com</Text>
+                                <Text style={styles.value}>{user.email}</Text>
                             </View>
                             <View style={styles.separator} />
                             <View style={styles.row}>
                                 <Text style={styles.label}>Category</Text>
-                                <Text style={styles.value}>Art</Text>
+                                <Text style={styles.value}>{user.category}</Text>
                             </View>
                             <View style={styles.separator} />
                             <View style={styles.row}>
                                 <Text style={styles.label}>Experience</Text>
-                                <Text style={styles.value}>Expert</Text>
+                                <Text style={styles.value}>{user.experience}</Text>
                             </View>
                             <View style={styles.separator} />
                             <View style={styles.rowPrompt}>
                                 <Text style={styles.label}>Prompt</Text>
-                                <Text style={styles.value}>Create an original character. Any art style but maybe try a new one. Be detailed.</Text>
+                                <Text style={styles.value}>{user.prompt}</Text>
                             </View>
                         </Card.Content>
                     </Card>
